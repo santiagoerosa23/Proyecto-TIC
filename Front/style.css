@@ -6,9 +6,55 @@
     display: block;
 }
 
-p {
+/* Container needed to position the dropdown content */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Style the trigger button */
+  .dropbtn {
     background-color: grey;
-}
+    color: white;
+    padding: 12px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  /* Hide the dropdown menu by default and position it */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  /* Style the links inside the dropdown */
+  .dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  /* Show the dropdown menu when the user hovers over the button */
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  /* Change the button color when the dropdown is open */
+  .dropdown:hover .dropbtn {
+    background-color: rgb(197, 197, 197);
+  }
+  
+
 
 .busqueda {
     width: 200px;
@@ -24,9 +70,7 @@ nav {
 .cuadricula {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* Crea 3 columnas iguales */
     gap: 15px;
-    /* Espacio entre los elementos */
     justify-items: center;
 }
 
@@ -38,7 +82,10 @@ nav {
     justify-content: flex-end;
     align-items: flex-end;
     padding: 10px;
+}
 
+.proyecto:hover{
+    background-color: rgb(103, 103, 255);
 }
 
 .etiqueta {
