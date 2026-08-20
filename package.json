@@ -1,0 +1,27 @@
+{
+  "name": "proyecto-tic",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsx backend/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/santiagoerosa23/Proyecto-TIC.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/santiagoerosa23/Proyecto-TIC/issues"
+  },
+  "homepage": "https://github.com/santiagoerosa23/Proyecto-TIC#readme",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^26.2.0"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
