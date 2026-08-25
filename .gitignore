@@ -57,7 +57,6 @@ Thumbs.db
 
 # IDEs and text editors
 .idea/
-.vscode/
 *.suo
 *.ntvs*
 *.njsproj
