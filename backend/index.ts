@@ -16,6 +16,7 @@ app.use('/api/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // 404
 app.use((req: Request,res: Response) => {
+    res.status(404);
     res.sendFile(path.join(__dirname, '..', 'frontend', '404.html'));
 });
 
