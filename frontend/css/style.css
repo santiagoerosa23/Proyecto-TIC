@@ -102,3 +102,35 @@ nav {
   height: 50px;
   margin-left: 10px;
 }
+
+.center{
+background-color: grey;
+display: flex;
+justify-content: center;
+align-items: center;
+margin-left: 400px;
+margin-right: 400px;
+padding: 50px;
+}
+
+.circulo{
+  border-radius: 50%;
+  background-color: rgb(37, 35, 35);
+  width: 40px;
+  height: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.info{
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.infoleft{
+  display: flex;
+}
+
+.inforight{
+  display: flex;
+}
