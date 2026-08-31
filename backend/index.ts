@@ -6,7 +6,7 @@ import { Request, Response } from 'express';
 const app = express();
 
 // API Simple
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (req: Request, res: Response) => {
     res.json({ message: "Ok" });
 });
 
@@ -19,7 +19,6 @@ app.use((req: Request,res: Response) => {
     res.status(404);
     res.sendFile(path.join(__dirname, '..', 'frontend', '404.html'));
 });
-
 
 // Iniciamos el servidor en el puerto 3000
 app.listen(3000, () => {
