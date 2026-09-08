@@ -110,3 +110,69 @@ nav {
   height: 3rem;
   margin-left: .5rem;
 }
+
+.center {
+  background-color: grey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 25rem;
+  margin-right: 25rem;
+  padding: 3rem;
+}
+
+.circulo {
+  border-radius: 50%;
+  background-color: rgb(37, 35, 35);
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: .5rem;
+  margin-right: .5rem;
+}
+
+.info {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.infoleft {
+  display: flex;
+}
+
+.inforight {
+  display: flex;
+}
+
+.foto {
+  width: 20rem;
+  aspect-ratio: 1/1;
+  background-color: darkgrey;
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+
+}
+
+.texto {
+  text-align: center;
+}
+
+footer {
+  background-color: rgb(61, 57, 57);
+  width: 100vw;
+  height: 7rem;
+  margin-top: 5rem;
+  justify-content: right;
+  display: flex;
+  align-items: center;
+  padding: 2%;
+}
+
+.boton {
+  background-color: grey;
+height: 2.5rem;
+aspect-ratio: 3/1;
+
+}
