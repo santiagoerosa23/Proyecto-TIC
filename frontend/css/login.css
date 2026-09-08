@@ -1,0 +1,124 @@
+body {
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.wf-container {
+    background-color: #000000;
+    width: 750px;
+    height: 420px;
+    display: flex;
+    padding: 15px;
+    box-sizing: border-box;
+    gap: 15px;
+}
+
+.wf-logo {
+    flex: 1;
+    background-color: #333333;
+    border: 2px dashed #666;  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wf-placeholder-text {
+    color: #888;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.wf-derecha {
+    flex: 1;
+    background-color: #cccccc; 
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.wf-usuario {
+    background-color: #ffffff;
+    border: 2px solid #555;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+
+.wf-ingresar {
+    color: #999;
+    font-size: 0.85rem;
+}
+
+.wf-continuar {
+    background-color: #555555;
+    color: #ffffff;
+    border: none;
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto; 
+    font-weight: bold;
+}
+
+.wf-divider {
+    border-top: 1px dashed #777;
+    margin: 5px 0;
+}
+
+.wf-formas {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.wf-google {
+    background-color: #ffffff;
+    border: 1px solid #777;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    font-size: 0.8rem;
+}
+.wf-apple {
+    background-color: #ffffff;
+    border: 1px solid #777;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    font-size: 0.8rem;
+}
+.wf-github {
+    background-color: #ffffff;
+    border: 1px solid #777;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #555;
+    font-size: 0.8rem;
+}
+
+.wf-volver {
+    text-align: center;
+    font-size: 0.75rem;
+    color: #333;
+    text-decoration: none;
+    margin-top: 5px;
+}
+
+.wf-volver:hover {
+    text-decoration: underline;
+}
