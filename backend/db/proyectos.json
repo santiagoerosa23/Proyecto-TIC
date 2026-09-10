@@ -1,0 +1,34 @@
+[
+    {
+        "id":0,
+        "idCreador":-1,
+        "colaboradores": 
+        [
+            {
+                "id":-1,
+                "rol":"Placeholder"
+            },
+            {
+                "id":-1,
+                "rol":"Placeholder"
+            },
+            {
+                "id":-1,
+                "rol":"Placeholder"
+            }
+        ]
+        ,
+        "titulo":"Hola Mundo",
+        "descripcion":"Lorem ipsum dolor sit amet.",
+        "revision": {
+            "aprobado": true,
+            "revisando": false,
+            "razon":"Aprobaste bien",
+            "publico": true,
+            "publicadoEn": 1725900000000
+        },
+        "archivoDiseño":"aDefinir.json",
+        "diseñoPrerenderizadoHTML":"<article class=\"instagram-post\">\n  <header class=\"post-header\">\n    <div class=\"user-info\">\n      <img src=\"https://picsum.photos\" alt=\"Avatar del usuario\" class=\"avatar\">\n      <span class=\"username\"><strong>@viajes_visuales</strong></span>\n    </div>\n    <button class=\"btn-more\">•••</button>\n  </header>\n\n  <div class=\"post-media\">\n    <img src=\"https://picsum.photos\" alt=\"Atardecer en los Alpes\" class=\"main-image\">\n  </div>\n\n  <div class=\"post-actions\">\n    <div class=\"interaction-icons\">\n      <button class=\"icon-heart\">❤️</button>\n      <button class=\"icon-comment\">💬</button>\n      <button class=\"icon-share\">✈️</button>\n    </div>\n    <button class=\"icon-bookmark\">🔖</button>\n  </header>\n\n  <section class=\"post-body\">\n    <p class=\"likes-count\">Le gusta a <strong>marcos_dev</strong> y a <strong>1,245 personas más</strong></p>\n    \n    <div class=\"caption\">\n      <p><strong>@viajes_visuales</strong> Perdido en la inmensidad de los Alpes suizos. 🏔️✨ La luz de este atardecer superó cualquier expectativa. ¿Con quién vendrías a perderte acá?</p>\n    </div>\n\n    <div class=\"hashtags\">\n      <a href=\"#\">#TravelPhotography</a> \n      <a href=\"#\">#Alps</a> \n      <a href=\"#\">#Wanderlust</a> \n      <a href=\"#\">#VisualArt</a>\n    </div>\n\n    <div class=\"comments-section\">\n      <p class=\"view-all\">Ver los 42 comentarios</p>\n      <p class=\"comment\"><strong>@lucia_art:</strong> ¡Qué locura de colores! 😍</p>\n      <p class=\"comment\"><strong>@gaston.viaja:</strong> Agregado a mi lista de pendientes ya mismo.</p>\n    </div>\n\n    <time class=\"post-date\" datetime=\"2026-09-10\">Hace 2 horas</time>\n  </section>\n</article>",
+        "assets": ["https://picsum.photos"]
+    }
+]
