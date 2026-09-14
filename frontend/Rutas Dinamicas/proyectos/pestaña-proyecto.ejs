@@ -63,20 +63,19 @@
         </div>
 
         <div class="inforight">
-            <div class="circulo">
+            <% proyecto.colaboradores.forEach(colaborador => { %>
+            <div class="circulo" title="<%= colaborador.alias%>">
             </div>
-            <div class="circulo">
-            </div>
+            <% }); %>
         </div>
 
     </div>
+    <p class="texto"><%= proyecto.descripcion %></p>
 
 
     <div class="center">
         <div class="vertical">
-            <div class="foto"></div>
-            <p class="texto"><%= proyecto.descripcion %></p>
-            <div class="foto"></div>
+            <%- proyecto.contenidoHtml %>
         </div>
     </div>
 
