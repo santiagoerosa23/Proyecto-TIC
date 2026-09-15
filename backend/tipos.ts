@@ -1,6 +1,7 @@
 export type Colaborador = {
   id: number;
   rol: string;
+  alias: string;
 };
 
 export type Revision = {
