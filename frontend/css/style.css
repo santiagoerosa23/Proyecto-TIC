@@ -111,23 +111,25 @@ nav {
   margin-left: .5rem;
 }
 
-.center {
+.center{
+  justify-content: center;
+  align-items: center;
+}
+
+.caja{
   background-color: grey;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 25rem;
-  margin-right: 25rem;
-  padding: 3rem;
+  width: 20rem;
+  height: fit-content;
+  padding: 1rem;
 }
 
 .circulo {
   border-radius: 50%;
   background-color: rgb(37, 35, 35);
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-left: .5rem;
-  margin-right: .5rem;
+
 }
 
 .info {
