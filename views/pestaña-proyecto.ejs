@@ -10,40 +10,43 @@
 
 <body>
     <%- include('partials/nav') %>
+        <main>
+            <div class="info">
+                <div class="infoleft">
+                    <div class="tituloProyecto">
+                        <p>
+                            <%= proyecto.titulo %>
+                        </p>
+                    </div>
+                </div>
 
-    <div class="info">
-        <div class="infoleft">
-            <div class="circulo">
+                <div class="inforight">
+                    <% proyecto.colaboradores.forEach(colaborador=> { %>
+                        <div class="circulo" title="<%= colaborador.alias%>">
+                        </div>
+                    <% }); %>
+                </div>
             </div>
-            <div class="tituloProyecto">
-                <p><%= proyecto.titulo %></p>
+            
+            <div class="caja center">
+                <p class="texto">
+                    <%= proyecto.descripcion %>
+                </p>
             </div>
-        </div>
 
-        <div class="inforight">
-            <% proyecto.colaboradores.forEach(colaborador => { %>
-            <div class="circulo" title="<%= colaborador.alias%>">
+
+            <div class="center">
+                <div class="vertical">
+                    <%- proyecto.contenidoHtml %>
+                </div>
             </div>
-            <% }); %>
-        </div>
-
-    </div>
-    <div class="caja center">
-    <p class="texto"><%= proyecto.descripcion %></p>
-</div>
+        </main>
 
 
-    <div class="center">
-        <div class="vertical">
-            <%- proyecto.contenidoHtml %>
-        </div>
-    </div>
-
-
-    <footer>
-        <div class="horizontal">
-            <div class="boton"></div>
-    </footer>
+            <footer>
+                <div class="horizontal">
+                    <div class="boton"></div>
+            </footer>
 </body>
 
 
