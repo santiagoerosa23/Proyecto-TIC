@@ -11,7 +11,7 @@ import sanitizeHtml from 'sanitize-html';
 const app = express();
 app.use(express.json()); 
 
-app.set('views', path.join(import.meta.dirname, '../frontend/Rutas Dinamicas'));
+app.set('views', path.join(import.meta.dirname, '../views'));
 app.set('view engine', 'ejs');
 
 // Cargar la "base de datos"
@@ -32,7 +32,7 @@ app.get("/proyectos/:id", (req:Request, res:Response) => {
           explicacion: "El proyecto no existe, fue borrado, o no es publico."
       }});
     } else {
-    res.render('proyectos/pestaña-proyecto', {proyecto:{
+    res.render('pestaña-proyecto', {proyecto:{
       titulo: infoProyecto.titulo,
       descripcion: infoProyecto.descripcion,
       colaboradores: infoProyecto.colaboradores,

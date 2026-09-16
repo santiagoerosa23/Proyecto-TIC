@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>TIC EXPERIENCE: SHOWCASE</title>
+</head>
+
+<body>
+    <%- include('partials/nav') %>
+
+    <div class="info">
+        <div class="infoleft">
+            <div class="circulo">
+            </div>
+            <div class="tituloProyecto">
+                <p><%= proyecto.titulo %></p>
+            </div>
+        </div>
+
+        <div class="inforight">
+            <% proyecto.colaboradores.forEach(colaborador => { %>
+            <div class="circulo" title="<%= colaborador.alias%>">
+            </div>
+            <% }); %>
+        </div>
+
+    </div>
+    <div class="caja center">
+    <p class="texto"><%= proyecto.descripcion %></p>
+</div>
+
+
+    <div class="center">
+        <div class="vertical">
+            <%- proyecto.contenidoHtml %>
+        </div>
+    </div>
+
+
+    <footer>
+        <div class="horizontal">
+            <div class="boton"></div>
+    </footer>
+</body>
+
+
+
+
+</html>
