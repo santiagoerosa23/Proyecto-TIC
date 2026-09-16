@@ -1,3 +1,6 @@
 {
-    "liveServer.settings.root": "/frontend"
+  "liveServer.settings.root": "/frontend",
+  "files.associations": {
+    "*.ejs": "html"
   }
+}
