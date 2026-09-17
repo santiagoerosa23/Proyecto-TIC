@@ -9,7 +9,7 @@ import sanitizeHtml from 'sanitize-html';
 
 // const fs = require('node:fs');
 const app = express();
-app.use(express.json()); 
+app.use(express.json());
 
 app.set('views', path.join(import.meta.dirname, '../views'));
 app.set('view engine', 'ejs');
@@ -22,55 +22,74 @@ app.get("/api/health", (req: Request, res: Response) => {
   res.json({ message: "Ok" });
 });
 
-app.get("/proyectos/:id", (req:Request, res:Response) => {
+app.get("/proyectos/:id", (req: Request, res: Response) => {
   try {
     const infoProyecto: Tipos.PlantillaProyecto | undefined = proyectos.find(proyecto => proyecto.id === Number(req.params.id));
     if (typeof infoProyecto === "undefined") {
       res.status(404)
-      res.render('errorSitio', {error:{
+      res.render('errorSitio', {
+        error: {
           codigo: 404,
           explicacion: "El proyecto no existe, fue borrado, o no es publico."
-      }});
+        }
+      });
     } else {
-    res.render('pestaña-proyecto', {proyecto:{
-      titulo: infoProyecto.titulo,
-      descripcion: infoProyecto.descripcion,
-      colaboradores: infoProyecto.colaboradores,
-      contenidoHtml: sanitizeHtml(infoProyecto.diseñoPrerenderizadoHTML, {
-        allowedAttributes: {
-          '*': ['style', 'class'],
-          'a': ['href', 'name', 'target', 'rel']
-        },
-      
-        allowedStyles: {
-          '*': {
-            '*': [
-              /**
-               * 1. ^(?!.*url\s*\().*$ -> Cualquier string SIN url() en el css
-               * 2. ^(?!.*?\/\/[^\/]+).*url\s*\(\s*['"]?\/api\/uploads\/.*$ -> No permite carga de assets fuera de la api de uploads
-               */
-              /^(?!.*url\s*\().*$|^(?!.*?\/\/[^\/]+).*url\s*\(\s*['"]?\/api\/uploads\/.*$/i
-            ]
-          }
-        },
-      
-        transformTags: {
-          'a': (tagName, attribs) => {
-            attribs.rel = 'nofollow';
-            return { tagName, attribs };
-          }
+      infoProyecto as Tipos.PlantillaProyecto
+      function validarUrlAsset(valor: string): boolean {
+        if (!valor.includes('url(')) {
+          return true;
+        }
+        const rutasPermitidas: string[] = ['/api/uploads/'];
+
+        if (infoProyecto && infoProyecto.assets) {
+          rutasPermitidas.push(...(infoProyecto.assets as string[]));
+        }
+
+        return rutasPermitidas.some((ruta) => valor.includes(ruta));
+      }
+      res.render('pestaña-proyecto', {
+        proyecto: {
+          titulo: infoProyecto.titulo,
+          descripcion: infoProyecto.descripcion,
+          colaboradores: infoProyecto.colaboradores,
+          contenidoHtml: sanitizeHtml(infoProyecto.diseñoPrerenderizadoHTML, {
+            allowedAttributes: {
+              '*': ['style', 'class'],
+              'a': ['href', 'name', 'target', 'rel']
+            },
+
+            allowedStyles: {
+              '*': {
+                '*': [
+                  /**
+                   * 1. ^(?!.*url\s*\().*$ -> Cualquier string SIN url() en el css
+                   * 2. ^(?!.*?\/\/[^\/]+).*url\s*\(\s*['"]?\/api\/uploads\/.*$ -> No permite carga de assets fuera de la api de uploads
+                   */
+                  /^(?!.*url\s*\().*$|^(?!.*?\/\/[^\/]+).*url\s*\(\s*['"]?\/api\/uploads\/.*$/i
+                ]
+              }
+            },
+
+            transformTags: {
+              'a': (tagName, attribs) => {
+                attribs.rel = 'nofollow';
+                return { tagName, attribs };
+              }
+            }
+          })
+
         }
       })
-      
-    }})
     }
   } catch (error) {
     console.log(error.message);
     res.status(500)
-    res.render('errorSitio', {error:{
+    res.render('errorSitio', {
+      error: {
         codigo: 500,
         explicacion: "Hubo un error en nuestra parte."
-    }});
+      }
+    });
   }
 });
 
