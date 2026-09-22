@@ -10,46 +10,62 @@
 
 <body>
     <%- include('partials/nav') %>
-        <main>
-            <div class="info">
-                <div class="infoleft">
-                    <div class="tituloProyecto">
-                        <p>
-                            <%= proyecto.titulo %>
-                        </p>
-                    </div>
-                </div>
-
-                <div class="inforight">
-                    <% proyecto.colaboradores.forEach(colaborador=> { %>
-                        <div class="circulo" title="<%= colaborador.alias%>">
-                        </div>
-                    <% }); %>
+    <main>
+        <div class="info">
+            <div class="infoleft">
+                <div class="tituloProyecto">
+                    <p>
+                        <%= proyecto.titulo %>
+                    </p>
                 </div>
             </div>
-            
-            <div class="caja center">
-                <p class="texto">
-                    <%= proyecto.descripcion %>
-                </p>
-            </div>
 
-
-            <div class="center">
-                <div class="vertical">
-                    <%- proyecto.contenidoHtml %>
+            <div class="inforight">
+                <% proyecto.colaboradores.forEach(colaborador => { %>
+                <div class="circulo"
+                    title="<%= colaborador.alias %>">
                 </div>
+                <% }); %>
             </div>
-        </main>
+        </div>
+
+        <div class="caja center">
+            <p class="texto">
+                <%= proyecto.descripcion %>
+            </p>
+        </div>
 
 
-            <footer>
-                <div class="horizontal">
-                    <div class="boton"></div>
-            </footer>
+        <div class="center">
+            <div class="vertical">
+                <iframe id="viewerProyecto"
+                    data-html="<%= proyecto.contenidoHtml %>"
+                    style="border:none;" width="100%" scrolling="no">
+                </iframe>
+            </div>
+        </div>
+    </main>
+
+
+    <footer>
+        <div class="horizontal">
+            <div class="boton"></div>
+    </footer>
+    <script>
+        const viewerProyecto = document.getElementById("viewerProyecto")
+        viewerProyecto.sandbox = 'allow-same-origin';
+        const htmlContenido = viewerProyecto.dataset.html;
+
+        viewerProyecto.srcdoc = htmlContenido;
+
+        viewerProyecto.addEventListener('load', function() {
+            const alturaContenido = viewerProyecto.contentWindow
+                .document.body.scrollHeight + 25;
+
+            viewerProyecto.style.height = alturaContenido + 'px';
+        });
+    </script>
+
 </body>
-
-
-
 
 </html>
