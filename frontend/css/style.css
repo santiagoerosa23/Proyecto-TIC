@@ -69,17 +69,17 @@
 
 
 
-.busqueda {
+.logo {
   width: 10rem;
-  background-color: rgb(187, 183, 183);
-  margin-right: 45%;
+  margin-right: 5%;
 }
 
 nav {
-
+  background-color: black;
   justify-content: space-evenly;
-  margin-bottom: 2rem;
-  margin-top: 1rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+  align-items: center;
 }
 
 .cuadricula {
@@ -111,12 +111,12 @@ nav {
   margin-left: .5rem;
 }
 
-.center{
+.center {
   justify-content: center;
   align-items: center;
 }
 
-.caja{
+.caja {
   background-color: grey;
   display: flex;
   justify-content: center;
@@ -177,8 +177,8 @@ footer {
 
 .boton {
   background-color: grey;
-height: 2.5rem;
-aspect-ratio: 3/1;
+  height: 2.5rem;
+  aspect-ratio: 3/1;
 
 }
 
@@ -187,3 +187,30 @@ main {
   padding-right: 2rem;
 }
 
+.search-input {
+  border-radius: .5rem;
+  width: 38rem;
+  height: 2.5rem;
+  background-color: #d9d9d9;
+  border-width: 0.05rem;
+  border-color:#e9e9e9;
+  border-style: solid;
+  padding:.5rem;
+  padding-left: 3rem;
+  margin-right: 1rem;
+}
+
+.login{
+  background-color: white;
+  border-radius: .5rem;
+  width: 8.5rem;
+  height: 2.5rem;
+}
+
+.search-icon{
+height: 2rem;
+aspect-ratio: 1/1;
+position: absolute;
+left: 26.5rem;
+top: 2rem;
+}
