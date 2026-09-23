@@ -173,6 +173,7 @@ footer {
   display: flex;
   align-items: center;
   padding: 2%;
+  margin-top: auto;
 }
 
 .boton {
