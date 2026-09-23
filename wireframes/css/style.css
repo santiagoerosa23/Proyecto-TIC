@@ -71,10 +71,12 @@
 
 .logo {
   width: 10rem;
+  margin-right: 5%;
 }
 
 nav {
   background-color: black;
+  justify-content: space-evenly;
   padding-bottom: 1rem;
   padding-top: 1rem;
   align-items: center;
@@ -203,19 +205,12 @@ main {
   border-radius: .5rem;
   width: 8.5rem;
   height: 2.5rem;
-  justify-content: flex-end;
 }
 
 .search-icon{
 height: 2rem;
 aspect-ratio: 1/1;
-position: relative;
-
-}
-
-.nav-izquierda{
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: flex-start;
+position: absolute;
+left: 26.5rem;
+top: 2rem;
 }
