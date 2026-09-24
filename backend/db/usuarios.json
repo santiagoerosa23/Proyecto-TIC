@@ -1,0 +1,17 @@
+[
+      {
+        "userId": 1,
+        "username": "Alejo",
+        "linkPfp": "/cdn/usuarios/1/dbiWBYBD.webp",
+        "Admin": false,
+        "DNI": "51067001"
+      },
+      {
+        "userId": 2,
+        "username": "Dario",
+        "linkPfp": "/cdn/usuarios/2/uhsXUWBI.webp",
+        "Admin": true,
+        "DNI": "48271020"
+      }
+]
+  
