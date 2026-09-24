@@ -20,4 +20,4 @@
   <li>Comunicación Serial 🔴</li> 
 </ul> 
 
-<u><i>BONUS: Crear un simple backend funcionando mediante Express, base de datos JSON y <b>usar templates .ejs porque el back fan del prerenderizado. (¿Talvez sera revertido?)</b></i></u>
+<u><i><b>Nota: El backend es un repositorio separado ahora.</b></i></u>
