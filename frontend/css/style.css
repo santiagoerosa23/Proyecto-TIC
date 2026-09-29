@@ -4,6 +4,12 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .centrado {
   text-align: center;
   width: 100%;
@@ -134,7 +140,7 @@ nav {
   width: 2.5rem;
   aspect-ratio: 1/1;
   margin: .3rem;
-
+background-color: white;
 }
 
 .info {
@@ -145,6 +151,7 @@ nav {
 
 .infoleft {
   display: flex;
+  align-items: center;
 }
 
 .inforight {
@@ -178,9 +185,10 @@ footer {
 }
 
 body{
-  width: 100%;
-  height: 100vh;
-  
+  min-height: 100vh;
+  background: linear-gradient(180deg,rgba(0, 0, 0, 1),rgba(109, 69, 131, 1));
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 .boton {
@@ -237,4 +245,27 @@ top: 5px;
   align-items: center;
   gap: 1rem;
   justify-content: flex-end;
+}
+
+.circulo.left {
+margin-right: 1rem;
+}
+
+.contenido{
+  width: 70%;
+}
+
+.caja-proyecto{
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.tituloProyecto{
+color: white;
+}
+
+.texto{
+  color: white;
 }
