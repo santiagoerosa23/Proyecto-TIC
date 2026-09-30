@@ -269,3 +269,5 @@ color: white;
 .texto{
   color: white;
 }
+.proyecto{text-decoration:none;color:inherit;cursor:pointer}
+.proyecto:focus-visible{outline:3px solid white;outline-offset:4px}
