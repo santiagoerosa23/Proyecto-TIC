@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Publicar proyecto</title>
+<link rel="stylesheet" href="/css/publicar.css">
+</head>
+<body>
+<main class="wireframe">
+<section class="panel">
+<h1>Publicar proyecto</h1>
+<label for="titulo">Título del proyecto</label>
+<input id="titulo" type="text" placeholder="Título">
+<label for="descripcion">Descripción</label>
+<textarea id="descripcion" placeholder="Descripción"></textarea>
+<label for="integrantes">Integrantes</label>
+<input id="integrantes" type="text" placeholder="Integrantes">
+<div class="acciones"><a href="/Index.html">Volver</a><button type="button">Publicar</button></div>
+</section>
+<section class="preview">
+<div id="previewTitulo">Título del proyecto</div>
+<p id="previewDescripcion">Descripción</p>
+</section>
+</main>
+<script>
+const t=document.getElementById("titulo"),d=document.getElementById("descripcion");
+t.addEventListener("input",()=>document.getElementById("previewTitulo").textContent=t.value||"Título del proyecto");
+d.addEventListener("input",()=>document.getElementById("previewDescripcion").textContent=d.value||"Descripción");
+</script>
+</body>
+</html>
