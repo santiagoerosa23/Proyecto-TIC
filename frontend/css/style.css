@@ -98,25 +98,43 @@ nav {
 }
 
 .proyecto {
-  background-color: blue;
+  background-color: #d9d9d9;
   width: 25rem;
   aspect-ratio: 2/1;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
   padding: 10px;
+  border-radius: 10px;
 }
 
 .proyecto:hover {
-  background-color: rgb(103, 103, 255);
+  background-color: #A8A6A6;
 }
-
-.etiqueta {
+.corazon-vacio-img{
+  width: 25px; 
+  height: 25px;
+  border-radius: 50%;
+  object-fit: cover;  
+}
+.guardar-img{
+width: 25px; 
+height: 25px;
+border-radius: 50%;
+object-fit: cover;  
+}
+.perfil-img {
+  width: 40px; 
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;  
+}
+.perfil {
   border-radius: 50%;
   background-color: black;
-  width: 3rem;
-  height: 3rem;
-  margin-left: .5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: auto;
 }
 
 .center {
