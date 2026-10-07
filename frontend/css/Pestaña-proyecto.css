@@ -31,12 +31,14 @@ html, body {
 .logo {
   width: 10rem;
   margin-left: 2rem;
-  transition: all .2s ease-in-out;
+  transition: transform 0.3s ease, filter 0.3s ease;
 }
 
 .logo:hover {
   transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7)); 
 }
+
 
 nav {
   background-color: black;
@@ -140,8 +142,10 @@ background-color: white;
   align-items: center;
 }
 
-.inforight {
+.inforight{
   display: flex;
+  align-items: center;
+  gap: .5rem;
 }
 
 .foto {
@@ -275,6 +279,12 @@ color: white;
 .logo-footer {
   width: 15rem;
   height: auto;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.logo-footer:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
 }
 
 .footer-right {
@@ -292,11 +302,21 @@ color: white;
 .Instagram-logo {
   width: 5rem; 
   height: auto;
+  transition: all .2s ease-in-out;
 }
+.Instagram-logo:hover{
+  transform: scale(1.1);
+}
+
 
 .ort-logo{
   width: 7rem; 
   height: auto;
+  transition: all .2s ease-in-out;
+}
+
+.ort-logo:hover{
+  transform: scale(1.1);
 }
 
 footer .horizontal {
@@ -325,4 +345,8 @@ footer .horizontal {
   display: flex;
   align-items: center;
   padding-right: 2rem;
+}
+
+.icono{
+  filter: invert(96%) sepia(2%) saturate(2525%) hue-rotate(179deg) brightness(82%) contrast(87%);
 }
