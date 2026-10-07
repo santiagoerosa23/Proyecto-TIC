@@ -38,3 +38,20 @@ height: 80px;
 border-radius: 50%;
 
 }
+.informacion-usuario {
+    display: flex;
+    align-items: center;
+
+    gap: 25px;
+
+    padding-bottom: 30px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.foto-usuario img {
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+}
