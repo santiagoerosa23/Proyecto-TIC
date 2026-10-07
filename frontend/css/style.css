@@ -76,11 +76,17 @@ display: flex;
 .proyecto{
   display: flex;
   flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor:pointer;
+  border-radius: 1rem;
 }
 
-.proyecto-miniatura:hover {
-  background-color: #A8A6A6;
+.proyecto:hover{
+  transform: translateY(-10px); 
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  background-color: rgba(255, 255, 255, 0.05);
 }
+
 .corazon-vacio-img{
   width: 1.5rem; 
   height: 1.5rem;
@@ -110,12 +116,7 @@ aspect-ratio: 1/1;
   border-radius: 50%;
   object-fit: cover;  
 }
-.perfil {
-  border-radius: 50%;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: auto;
-}
+
 
 .center {
   justify-content: center;
@@ -130,15 +131,6 @@ aspect-ratio: 1/1;
   width: 20rem;
   height: fit-content;
   padding: 1rem;
-}
-
-.circulo {
-  border-radius: 50%;
-  background-color: rgb(37, 35, 35);
-  width: 2.5rem;
-  aspect-ratio: 1/1;
-  margin: .3rem;
-background-color: white;
 }
 
 .info {
@@ -276,7 +268,16 @@ color: white;
 .texto{
   color: white;
 }
-.proyecto-miniatura{text-decoration:none;color:inherit;cursor:pointer}
+.proyecto-miniatura{
+  text-decoration:none;
+  color:inherit;
+  transition: transform 0.3s ease
+}
+
+.proyecto:hover .proyecto-miniatura {
+  transform: scale(1.02);
+}
+
 .proyecto-miniatura:focus-visible{outline:3px solid white;outline-offset:4px}
 
 .footer-left {
@@ -289,12 +290,11 @@ color: white;
 .logo-footer {
   width: 15rem;
   height: auto;
-  transition: transform 0.3s ease, filter 0.3s ease;
+  transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease;
 }
 
 .logo-footer:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
+  transform: scale(1.05) rotate(3deg);
 }
 .footer-right {
   display: flex;
@@ -362,7 +362,7 @@ footer .horizontal {
 }
 
 .icono{
-  filter: invert(96%) sepia(2%) saturate(2525%) hue-rotate(179deg) brightness(82%) contrast(87%);
+  filter: brightness(0) saturate(100%) invert(49%) sepia(10%) saturate(28%) hue-rotate(314deg) brightness(92%) contrast(97%);
 }
 
 .perfil-creador{
@@ -378,4 +378,27 @@ footer .horizontal {
 margin-right: auto;
 align-items: center;
 gap: 0.5rem;
+  }
+
+  .perfil{
+    position: relative;
+    border-radius: 50%;
+    width: 2.5rem;
+aspect-ratio: 1/1;
+    background-color: #D9D9D9;
+    height: 2.5rem;
+  }
+
+  .fotodeperfil {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 2.3rem;
+    aspect-ratio: 1/1;
+    margin: .3rem;
+    display: flex;
+    align-items: center;
+    object-fit: cover;
+    overflow: hidden;
   }
