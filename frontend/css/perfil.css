@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+background-color: #0F052B;
+
+}
+.barra-superior{
+
+    width: 100%;
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 30px;
+
+    border-bottom: 1px solid #ddd;
+}
+.logo img {
+    width: 150px;
+}
+.buscador input {
+    width: 350px;
+    height: 35px;
+
+    border: 1px solid #aaa;
+    border-radius: 5px;
+
+    padding: 0 10px;
+}
+.perfil{
+width: 80px;
+height: 80px;
+border-radius: 50%;
+
+}
