@@ -1,45 +1,171 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil</title>
-    <link rel="stylesheet" href=".//css/perfil.css">
+    <title>Perfil de usuario</title>
+
+    <link rel="stylesheet" href="/CSS/perfil.css">
 </head>
+
 <body>
+
     <header class="barra-superior">
-<div class="logo">
-<a href="Index.html">
-<img src="Assets/logo.png" alt="logo1">
-</a>
-</div>
-<div class="buscador">
-    <input type="text" placeholder="Buscar...">
-</div>
-<div class="mis-proyectos">
 
-</div>
-<div class="perfil">
-<a href="login.html">
-    <img src="Assets/perfil.webp" alt="perfil" class="icono perfil">
-</a> <!--Cambiar por pestaña de perfil(andy)-->
-</div>
+        <div class="logo">
+            <a href="/index.html">
+                <img src="/Assets/logo.png" alt="Logo">
+            </a>
+        </div>
+
+        <div class="buscador">
+            <input type="text" placeholder="Buscar...">
+        </div>
+
+        <div class="perfil">
+            <img src="/Assets/perfil.webp" alt="Perfil" class="icono-perfil">
+        </div>
+
     </header>
-<section class="inf-usuario">
-<div class="foto-perfil" >
-<img src="Assets/perfil.webp" alt="Foto-de-perfil">
-</div>
-<div class="datos-usuario">
-    <h1>Nombre de usuario</h1>
-
-    <p class="descripcion">
-        Descripción del usuario
-    </p>
-    
 
 
+    <main class="perfil-container">
+
+        <!-- INFORMACIÓN DEL USUARIO -->
+        <section class="informacion-usuario">
+
+            <div class="foto-usuario">
+                <img src="/Assets/perfil.webp" alt="Foto de perfil">
+            </div>
+
+            <div class="datos-usuario">
+                <h1>Nombre de usuario</h1>
+
+                <p class="descripcion">
+                    Descripción del usuario
+                </p>
+
+                <div class="estadisticas">
+                    <div>
+                        <strong>0</strong>
+                        <span>Proyectos</span>
+                    </div>
+
+                    <div>
+                        <strong>0</strong>
+                        <span>Seguidores</span>
+                    </div>
+
+                    <div>
+                        <strong>0</strong>
+                        <span>Siguiendo</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="boton-seguir">
+                Seguir
+            </button>
+
+        </section>
 
 
-</section>
+        <!-- PROYECTOS -->
+        <section class="proyectos">
+
+            <h2>Proyectos publicados</h2>
+
+            <div class="proyectos-grid">
+
+                <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-1">
+                        <img src="/Assets/proyecto1.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+
+                    <h3>Nombre del proyecto</h3>
+                </a>
+
+
+                <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-2">
+                        <img src="/Assets/proyecto2.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>
+
+
+                <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-3">
+                        <img src="/Assets/proyecto3.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>               <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-1">
+                        <img src="/Assets/proyecto1.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>
+
+
+                <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-2">
+                        <img src="/Assets/proyecto2.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>
+
+
+                <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-3">
+                        <img src="/Assets/proyecto3.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>               <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-1">
+                        <img src="/Assets/proyecto1.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>
+
+
+                <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-2">
+                        <img src="/Assets/proyecto2.png" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>
+
+
+                <a href="/publicar.html" class="proyecto">
+                    <div class="imagen-proyecto-3">
+                        <img src="/Assets/proyecto3.jpg" alt="Proyecto">
+                    </div>
+                    <div class="barra-negra">
+                    </div>
+                    <h3>Nombre del proyecto</h3>
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
 </body>
 </html>
