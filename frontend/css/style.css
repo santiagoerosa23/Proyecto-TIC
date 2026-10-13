@@ -68,7 +68,8 @@ nav {
 display: flex;
   justify-content: flex-end;
   align-items: flex-end;
-  padding: 10px;
+padding: 1rem;
+padding-top: 1.5rem;
   border-radius: 10px;
   align-items: center;
 }
@@ -88,8 +89,8 @@ display: flex;
 }
 
 .corazon-vacio-img{
-  width: 1.5rem; 
-  height: 1.5rem;
+  width: 1.75rem; 
+  height: 1.75rem;
   object-fit: cover;
   transition: all .1s ease-in-out;
 }
@@ -142,6 +143,7 @@ transform: scale(1.15);
 .infoleft {
   display: flex;
   align-items: center;
+  gap: .5rem;
 }
 
 .inforight{
@@ -250,8 +252,8 @@ margin-right: 1rem;
 
 .tituloProyecto{
 color: white;
-margin-left: 1.5rem;
-font-size: 2rem;
+margin-left: .5rem;
+font-size: 1.5rem;
 }
 
 .texto{
@@ -418,3 +420,12 @@ gap: 0.5rem;
 
   }
 
+.corazon-vacio-img .pestaña-proyecto{
+  width: 2rem;
+  height: 2rem;
+}
+
+.guardar-img .pestaña-proyecto{
+  width: 1.75rem;
+  height: 1.75rem;
+}
