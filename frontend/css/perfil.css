@@ -152,43 +152,46 @@ body {
 
 
 /* TARJETA DEL PROYECTO */
-
+a {
+    display: inline-block;
+    margin-right: 10px; 
+  }
+  h3{
+    color: whitesmoke;
+    font-weight: 300;
+  }
 .proyecto {
     text-decoration: none;
     color: #222;
 }
 
 .imagen-proyecto-1 {
-    width: 220px;
-    height: 65px;
+    width: 300px;
+    height: 80px;
 background-color: #4C1FB8;
     overflow: hidden;
 
     border-radius: 8px 8px 0 0;
 }
 .imagen-proyecto-2 {
-    width: 220px;
-    height: 65px;
+    width: 300px;
+    height: 80px;
 background-color: #731F8C;
-    overflow: hidden;
-    
-        width: 40px;
-        height: 20px;
-    
+    overflow: hidden;   
 
     border-radius: 8px 8px 0 0;
 }
 .imagen-proyecto-3 {
-    width: 220px;
-    height: 65px;
+    width: 300px;
+    height: 80px;
 background-color: #BF0F8C;
     overflow: hidden;
 
     border-radius: 8px 8px 0 0;
 }
 .barra-negra{
-    width: 220px;
-    height: 100px;
+    width: 300px;
+    height: 160px;
 background-color: #0A0517;
     overflow: hidden;
 
