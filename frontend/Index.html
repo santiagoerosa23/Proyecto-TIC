@@ -226,24 +226,6 @@
             </a>
         </section>
     </footer>
-
-    <script>
-        function router() {
-            const hash = window.location.hash || '#/';
-            const app = document.getElementById('app');
-
-            if (hash === '#/') {
-                app.innerHTML = '<h1>Home Page</h1>';
-            } else if (hash === '#/about') {
-                app.innerHTML = '<h1>About Page</h1>';
-            } else {
-                app.innerHTML = '<h1>404 - Not Found</h1><p>This local page does not exist!</p>';
-            }
-        }
-
-        window.addEventListener('hashchange', router);
-        window.addEventListener('load', router);
-    </script>
 </body>
 
 </html>
