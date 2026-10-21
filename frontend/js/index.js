@@ -1,17 +1,36 @@
 let proyectos = [];
 const container = document.querySelector('.cuadricula');
+const inputBusqueda = document.querySelector('.search-input');
 
+// Si llegamos al Index desde otra pagina (apretando Enter en la barra del navbar),
+// la busqueda viene en la URL como ?busqueda=... y la dejamos escrita en la barra
+const parametros = new URLSearchParams(window.location.search);
+inputBusqueda.value = parametros.get('busqueda') ? parametros.get('busqueda') : '';
+
+// Cargar proyectos públicos desde el backend
 fetch(`${API_BASE_URL}/proyectos/publicos`)
   .then(response => response.json())
   .then(data => {
     console.log('Proyectos cargados desde la API:', data);
     proyectos = data;
-    mostrarProyectos(proyectos);
+    filtrarProyectos();
   })
   .catch(error => {
     console.error('Error al cargar los proyectos:', error);
     container.innerHTML = '<p class="texto estado-proyectos">No se pudieron cargar los proyectos.</p>';
   });
+
+function filtrarProyectos() {
+  const texto = inputBusqueda.value.trim().toLowerCase();
+  const filtrados = proyectos.filter(proyecto => proyecto.titulo.toLowerCase().includes(texto));
+  mostrarProyectos(filtrados);
+
+  if (filtrados.length === 0) {
+    container.innerHTML = '<p class="texto estado-proyectos">No hay proyectos que coincidan con la búsqueda.</p>';
+  }
+}
+
+inputBusqueda.addEventListener('input', filtrarProyectos);
 
 function mostrarProyectos(lista) {
   container.innerHTML = '';

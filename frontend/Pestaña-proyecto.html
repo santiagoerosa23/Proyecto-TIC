@@ -38,27 +38,16 @@
         </section>
     </nav>
     <div class="info">
-        <h1 class="tituloProyecto-pestaña">lorem ipsum dolor sit amet</h1>
-        <div class="colaboradores">
-            <div class="perfil">
-                <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono">
-            </div>
-            <div class="perfil">
-                <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono">
-            </div>
+        <h1 class="tituloProyecto-pestaña" id="tituloProyecto">Cargando proyecto…</h1>
+        <div class="colaboradores" id="colaboradores">
         </div>
     </div>
     <div class="caja-proyecto">
         <div class="contenido">
             <div class="center">
                 <div class="vertical">
-                    <div class="foto"></div>
-                    <p class="texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus earum sequi natus
-                        sed
-                        placeat consequuntur sit minus rerum nihil nulla animi ratione recusandae, necessitatibus vero
-                        molestias
-                        sapiente autem? Nobis, fugiat.</p>
-                    <div class="foto"></div>
+                    <p class="texto" id="descripcion"></p>
+                    <div id="contenidoProyecto"></div>
                 </div>
             </div>
         </div>
@@ -67,30 +56,23 @@
     <section class="caja-comentarios">
 
         <h3 class="comentarios-titulo">Comentarios</h3>
-        <div class="comentario">
-            <p class="nombredeusuario">Nombre de usuario</p>
-            <p class="comentario-texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus earum sequi natus
-                sed
-                placeat consequuntur sit minus rerum nihil nulla animi ratione recusandae, necessitatibus vero
-                molestias
-                sapiente autem? Nobis, fugiat.</p>
-        </div>
+        <div id="listaComentarios"></div>
 
         <h3 class="comentarios-titulo">Comparte tu opinion</h3>
-        <form class="formulario-opinion">
+        <form class="formulario-opinion" id="formularioOpinion">
             <div class="form-row">
                 <div class="form-group">
                     <label for="nombre">Nombre/Alias</label>
-                    <input type="text" id="nombre" name="nombre">
+                    <input type="text" id="nombre" name="nombre" required maxlength="20">
                 </div>
                 <div class="form-group">
                     <label for="mail">Mail</label>
-                    <input type="email" id="mail" name="mail">
+                    <input type="email" id="mail" name="mail" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="contenido">Contenido</label>
-                <textarea id="contenido" name="contenido" rows="4"></textarea>
+                <textarea id="contenido" name="contenido" rows="4" required minlength="5" maxlength="500"></textarea>
             </div>
             <div class="form-boton-container">
                 <button type="submit" class="boton enviar">Enviar a revisión</button>
@@ -112,6 +94,9 @@
             </a>
         </section>
     </footer>
+    <script src="/js/config.js"></script>
+    <script src="/js/proyecto.js"></script>
+    <script src="/js/busqueda.js"></script>
 </body>
 
 </html>
