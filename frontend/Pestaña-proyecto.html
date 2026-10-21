@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -13,7 +13,7 @@
         <section class="nav-izquierda">
             <a href="index.html" class="inicio-link">
                 <img src="/Assets/logo.png" alt="Logo" class="logo">
-                </a>
+            </a>
             <section class="search-container horizontal">
                 <img src="/Assets/search.png" alt="Search Icon" class="search-icon">
                 <input type="text" placeholder="Busca un proyecto" class="search-input">
@@ -38,18 +38,14 @@
         </section>
     </nav>
     <div class="info">
-            
-                <h1 class="tituloProyecto-pestaña">lorem ipsum dolor sit amet</h1>
-                
-                <div class="colaboradores">
-                    <div class="perfil">
-                <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono ">
-                </div>
-                <div class="perfil">
-                    <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono ">
-                    </div>
+        <h1 class="tituloProyecto-pestaña">lorem ipsum dolor sit amet</h1>
+        <div class="colaboradores">
+            <div class="perfil">
+                <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono">
             </div>
-            
+            <div class="perfil">
+                <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono">
+            </div>
         </div>
     </div>
     <div class="caja-proyecto">
@@ -69,7 +65,37 @@
     </div>
 
     <section class="caja-comentarios">
+
         <h3 class="comentarios-titulo">Comentarios</h3>
+        <div class="comentario">
+            <p class="nombredeusuario">Nombre de usuario</p>
+            <p class="comentario-texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus earum sequi natus
+                sed
+                placeat consequuntur sit minus rerum nihil nulla animi ratione recusandae, necessitatibus vero
+                molestias
+                sapiente autem? Nobis, fugiat.</p>
+        </div>
+
+        <h3 class="comentarios-titulo">Comparte tu opinion</h3>
+        <form class="formulario-opinion">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre">Nombre/Alias</label>
+                    <input type="text" id="nombre" name="nombre">
+                </div>
+                <div class="form-group">
+                    <label for="mail">Mail</label>
+                    <input type="email" id="mail" name="mail">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contenido">Contenido</label>
+                <textarea id="contenido" name="contenido" rows="4"></textarea>
+            </div>
+            <div class="form-boton-container">
+                <button type="submit" class="boton enviar">Enviar a revisión</button>
+            </div>
+        </form>
 
     </section>
     <footer>

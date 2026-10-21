@@ -1,81 +1,38 @@
-const RUTA_PROYECTOS_PUBLICOS = `${API_BASE_URL}/proyectos/publicos`;
-const contenedorProyectos = document.querySelector('.cuadricula');
-const estadoProyectos = document.getElementById('estado-proyectos');
-const plantillaProyecto = document.getElementById('plantilla-proyecto');
+let proyectos = [];
+const container = document.querySelector('.cuadricula');
 
-
-function mostrarEstado(mensaje) {
-  estadoProyectos.textContent = mensaje;
-  estadoProyectos.hidden = false;
-}
-
-function ocultarEstado() {
-  estadoProyectos.hidden = true;
-}
-
-function urlMiniatura(miniatura) {
-  if (!miniatura) {
-    return '';
-  }
-  return `${API_BASE_URL}/media/${encodeURIComponent(miniatura)}`;
-}
-
-
-function crearTarjetaProyecto(proyecto) {
-  const tarjeta = plantillaProyecto.content.cloneNode(true);
-
-
-  tarjeta.querySelector('.tituloProyecto').textContent = proyecto.titulo;
-
-
-  const miniatura = tarjeta.querySelector('.proyecto-miniatura');
-  const url = urlMiniatura(proyecto.miniatura);
-  if (url) {
-    miniatura.style.backgroundImage = `url("${url}")`;
-  }
-
-
-  const aliases = (proyecto.colaboradores ?? []).map((c) => c.alias).join(', ');
-  const perfilImg = tarjeta.querySelector('.perfil-img');
-  if (aliases) {
-    perfilImg.title = `Por ${aliases}`;
-    perfilImg.alt = `Perfil de ${aliases}`;
-  }
-
-
-  const link = tarjeta.querySelector('.proyecto-link');
-  link.href = `Pestaña-proyecto.html?id=${proyecto.id}`;
-
-  return tarjeta;
-}
-
-
-async function cargarProyectos() {
-  mostrarEstado('Cargando proyectos…');
-  try {
-    const respuesta = await fetch(RUTA_PROYECTOS_PUBLICOS);
-
-    if (!respuesta.ok) {
-      throw new Error(`El servidor respondió con estado ${respuesta.status}`);
-    }
-
-    const proyectos = await respuesta.json();
-
-    if (!Array.isArray(proyectos) || proyectos.length === 0) {
-      mostrarEstado('Todavía no hay proyectos públicos para mostrar.');
-      return;
-    }
-
-    ocultarEstado();
-    for (const proyecto of proyectos) {
-      contenedorProyectos.appendChild(crearTarjetaProyecto(proyecto));
-    }
-  } catch (error) {
+fetch(`${API_BASE_URL}/proyectos/publicos`)
+  .then(response => response.json())
+  .then(data => {
+    console.log('Proyectos cargados desde la API:', data);
+    proyectos = data;
+    mostrarProyectos(proyectos);
+  })
+  .catch(error => {
     console.error('Error al cargar los proyectos:', error);
-    mostrarEstado(
-      'No se pudieron cargar los proyectos.'
-    );
-  }
-}
+    container.innerHTML = '<p class="texto estado-proyectos">No se pudieron cargar los proyectos.</p>';
+  });
 
-cargarProyectos();
+function mostrarProyectos(lista) {
+  container.innerHTML = '';
+  lista.forEach(proyecto => {
+    const colaboradores = proyecto.colaboradores ? proyecto.colaboradores : [];
+    container.innerHTML += `
+    <section class="proyecto">
+      <a href="Pestaña-proyecto.html?id=${proyecto.id}" class="proyecto-link">
+        <section class="proyecto-miniatura" style="background-image: url('${API_BASE_URL}/media/${proyecto.miniatura}')"></section>
+        <div class="informacion">
+          <div class="perfilytitulo">
+            <div class="perfil">
+              <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono" title="Por ${colaboradores.map(c => c.alias).join(', ')}">
+            </div>
+            <div class="titulo">
+              <p class="tituloProyecto">${proyecto.titulo}</p>
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+    `;
+  });
+}
