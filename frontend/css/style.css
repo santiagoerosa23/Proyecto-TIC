@@ -124,7 +124,7 @@ a {
   flex-direction: column;
   gap: 1rem;
   justify-content: flex-start;
-  margin-left: 25rem;
+  margin-left: 25%;
 }
 
 .inforight {
@@ -444,6 +444,7 @@ footer .horizontal {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  margin-bottom: 2rem;
 }
 
 .caja-comentarios {

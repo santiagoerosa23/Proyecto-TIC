@@ -1,7 +1,7 @@
 let idProyecto = new URLSearchParams(window.location.search).get('id');
 
 const titulo = document.getElementById('tituloProyecto');
-const descripcion = document.getElementById('descripcion');
+// const descripcion = document.getElementById('descripcion');
 const contenidoProyecto = document.getElementById('contenidoProyecto');
 const colaboradores = document.getElementById('colaboradores');
 const listaComentarios = document.getElementById('listaComentarios');
@@ -36,7 +36,7 @@ fetch(`${API_BASE_URL}/proyectos/${idProyecto}/comentarios`)
 
 function mostrarProyecto(proyecto) {
   titulo.textContent = proyecto.titulo;
-  descripcion.textContent = proyecto.descripcion;
+  // descripcion.textContent = proyecto.descripcion;
   contenidoProyecto.innerHTML = proyecto.contenidoHtml;
 
   const colabs = proyecto.colaboradores ? proyecto.colaboradores : [];
