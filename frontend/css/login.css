@@ -21,12 +21,13 @@ body {
 
 .wf-logo {
     width: 400px;
-    height: 550px;
     flex-direction: column;
     background-color: #66205C;
-    justify-content: flex-start;
-    align-items: flex-end;
     border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;     
 }
 
 .wf-placeholder-text {
@@ -35,6 +36,11 @@ body {
     font-size: 0.9rem;
 }
 
+.img-logo {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
 .wf-derecha {
     flex: 1;
     background-color: #2B2B2B; 
@@ -75,6 +81,7 @@ label {
 
 
   }
+
 .usuario {
 color: #66205C;
 }
@@ -122,46 +129,12 @@ h2{
     flex-direction: column;
     gap: 6px;
 }
-.wf-google {
-    background-color: #ffffff;
-    border: 1px solid #777;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #555;
-    font-size: 0.8rem;
-    border-radius: 15px;
-}
-.wf-apple {
-    background-color: #ffffff;
-    border: 1px solid #777;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #555;
-    font-size: 0.8rem;
-    border-radius: 15px;
-}
-.wf-github {
-    background-color: #ffffff;
-    border: 1px solid #777;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #555;
-    font-size: 0.8rem;
-    border-radius: 15px;
-}
-
 .wf-volver {
     text-align: center;
     font-size: 0.75rem;
-    color: #333;
+    color: #ffffff;
     text-decoration: none;
-    margin-top: 5px;
+    margin-top: 120px;
 }
 
 .wf-volver:hover {
