@@ -18,21 +18,27 @@
             </section>
         </section>
         <section class="nav-derecha">
-          <div class="dropdown">
-            <button type="boton" class="login-btn">
-                <img src="Assets/perfil.webp" alt="Iniciar sesion" class="login-img">
-            </button>
-            <div class="contenido-dropdown">
-                <a href="/frontend/login.html">Iniciar Sesion</a>
-                <a href="/frontend/perfil.html">Perfil</a>
-                <a href="/frontend/Pestaña-proyecto.html">Publicar</a>
+            <div class="dropdown">
+                <button type="button" class="login-btn">
+                    <img src="Assets/perfil.webp" alt="Iniciar sesión" class="login-img">
+                </button>
+                <div class="dropdown-content">
+                    <div class="dropdown-header">
+                        <div class="usuario-icono-drpdw"></div>
+                        <div class="info-drpdw">
+                            <span class="nombre-usuario">Nombre de usuario</span>
+                            <span class="uduario-@">@nombredeusuario</span>
+                        </div>
+                    </div>
+                    <hr class="divisor-dropdown">
+                    <a href="/perfil.html" class="perfil-dropdown">Ver perfil</a>
+                    <a href="/logout.html" class="cerrar-sesion-dropdown">Cerrar sesión</a>
+                </div>
             </div>
-          </div>
         </section>
     </nav>
 
     <div class="cuadricula">
-           <!-- proyecto 1-->
            <div class="proyecto" onclick="window.location.href='/publicar.html'">
 
             <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
@@ -40,7 +46,6 @@
             </div>
         
         </div>
-        <!-- proyecto 2-->
         <div class="proyecto" onclick="window.location.href='/publicar.html'">
 
             <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
@@ -48,7 +53,6 @@
             </div>
     
         </div>
-              <!-- proyecto 3-->
               <div class="proyecto" onclick="window.location.href='/publicar.html'">
 
                 <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
@@ -56,7 +60,6 @@
                 </div>
  
             </div>     
-         <!-- proyecto 4--> 
          <div class="proyecto" onclick="window.location.href='/publicar.html'">
 
             <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
@@ -65,7 +68,6 @@
  
         
         </div>
-             <!-- proyecto 5-->     
              <div class="proyecto" onclick="window.location.href='/publicar.html'">
 
                 <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
@@ -74,7 +76,6 @@
             
 
             </div>
-           <!-- proyecto 6-->
            <div class="proyecto" onclick="window.location.href='/publicar.html'">
 
             <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">

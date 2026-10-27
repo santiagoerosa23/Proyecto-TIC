@@ -25,13 +25,12 @@ html, body {
   display: block;
 }
 
-/* Container needed to position the dropdown content */
 .dropdown {
   position: relative;
   display: inline-block;
+  margin-right: 2rem;
 }
 
-/* Style the trigger button */
 .dropbtn {
   background-color: grey;
   color: white;
@@ -40,40 +39,6 @@ html, body {
   border: none;
   cursor: pointer;
 }
-
-/* Hide the dropdown menu by default and position it */
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  width: 100%;
-  z-index: 1;
-}
-
-/* Style the links inside the dropdown */
-.dropdown-content a {
-  color: #333;
-  padding: 1rem 1.5rem;
-  text-decoration: none;
-  display: block;
-}
-
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {
-  background-color: #ddd;
-}
-
-/* Show the dropdown menu when the user hovers over the button */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-/* Change the button color when the dropdown is open */
-.dropdown:hover .dropbtn {
-  background-color: rgb(197, 197, 197);
-}
-
-
 
 .logo {
   width: 10rem;
@@ -281,8 +246,6 @@ margin-right: 1rem;
   justify-content: center;
 }
 
-
-
 .tituloProyecto{
 color: white;
 }
@@ -292,3 +255,97 @@ color: white;
 }
 .proyecto{text-decoration:none;color:inherit;cursor:pointer}
 .proyecto:focus-visible{outline:3px solid white;outline-offset:4px}
+
+.dropdown-content {
+  display: block !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  position: absolute;
+  right: 0 !important;
+  top: 100% !important;
+  margin-top: 0.5rem !important;
+  background-color: #121131 !important;
+  width: auto !important;
+  min-width: 280px !important;
+  box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.4) !important;
+  border-radius: 16px !important;
+  padding: 1.2rem 0rem !important;
+  overflow: hidden !important;
+  z-index: 10 !important;
+  transition: opacity 0.3s ease, visibility 0.3s ease !important;
+  transition-delay: 0.5s !important;
+}
+
+.dropdown:hover .dropdown-content {
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition-delay: 0s !important;
+}
+
+.dropdown-header {
+  display: flex !important;
+  align-items: center !important;
+  padding: 0 1.5rem 0.8rem 1.5rem !important;
+  gap: 1rem !important;
+}
+
+.usuario-icono-drpdw {
+  width: 50px;
+  height: 50px;
+  background-color: #b942f5;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.info-drpdw {
+  display: flex;
+  flex-direction: column;
+}
+
+.nombre-usuario {
+  color: #ffffff !important;
+  font-family: sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.uduario-\@ {
+  color: #727193 !important;
+  font-family: sans-serif;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.divisor-dropdown {
+  border: none !important;
+  border-top: 1px solid #1c1a42 !important;
+  margin: 0.5rem 0 0.8rem 0 !important;
+}
+
+.perfil-dropdown, .cerrar-sesion-dropdown {
+  color: #ffffff !important;
+  font-family: sans-serif;
+  font-size: 15px;
+  padding: 0.8rem 1.5rem !important;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s ease;
+}
+
+.perfil-dropdown:hover, .cerrar-sesion-dropdown:hover {
+  background-color: #1a1942 !important;
+}
+
+.cerrar-sesion-dropdown {
+  color: #cc3b41 !important;
+}
+
+.login-btn {
+  background: none !important;       
+  border: none !important;      
+  padding: 0 !important;   
+  cursor: pointer !important;  
+  outline: none !important;
+  display: flex !important;
+  align-items: center !important;
+}
