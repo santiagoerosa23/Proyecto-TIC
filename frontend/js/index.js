@@ -2,12 +2,9 @@ let proyectos = [];
 const container = document.querySelector('.cuadricula');
 const inputBusqueda = document.querySelector('.search-input');
 
-// Si llegamos al Index desde otra pagina (apretando Enter en la barra del navbar),
-// la busqueda viene en la URL como ?busqueda=... y la dejamos escrita en la barra
 const parametros = new URLSearchParams(window.location.search);
 inputBusqueda.value = parametros.get('busqueda') ? parametros.get('busqueda') : '';
 
-// Cargar proyectos públicos desde el backend
 fetch(`${API_BASE_URL}/proyectos/publicos`)
   .then(response => response.json())
   .then(data => {

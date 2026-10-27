@@ -68,7 +68,8 @@ nav {
   background-color: #d9d9d9;
   width: 25rem;
   aspect-ratio: 2/1;
-  border-radius: 1rem;
+  text-decoration: none;
+  color: inherit;
 }
 
 .informacion {
@@ -89,7 +90,9 @@ a {
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
-  border-radius: 1rem;
+  border-radius: 1.3rem;
+  background-color: #0e0738;
+  overflow: hidden;
 }
 
 .proyecto:hover {
@@ -248,20 +251,10 @@ main {
   color: white;
 }
 
-.proyecto-miniatura {
-  text-decoration: none;
-  color: inherit;
-  transition: transform 0.3s ease;
-}
 
-.proyecto:hover .proyecto-miniatura {
-  transform: scale(1.02);
-}
 
-.proyecto-miniatura:focus-visible {
-  outline: 3px solid white;
-  outline-offset: 4px;
-}
+
+
 
 .footer-left {
   display: flex;
