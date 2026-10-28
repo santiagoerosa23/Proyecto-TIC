@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-
 * {
   margin: 0px;
   padding: 0px;
@@ -50,6 +49,9 @@ html, body {
   aspect-ratio: 2/1;
   text-decoration: none;
   color: inherit;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .informacion {
@@ -76,7 +78,7 @@ a {
 }
 
 .proyecto:hover {
-  transform: translateY(-10px); 
+  transform: translateY(-10px);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
   background-color: rgba(255, 255, 255, 0.05);
 }
@@ -128,6 +130,7 @@ a {
 
 .texto {
   text-align: center;
+  color: white;
 }
 
 footer {
@@ -180,15 +183,6 @@ main {
   font-size: 1.5rem;
 }
 
-.texto {
-  color: white;
-}
-
-
-
-
-
-
 .footer-left {
   display: flex;
   align-items: center;
@@ -218,7 +212,7 @@ main {
 }
 
 .Instagram-logo {
-  width: 5rem; 
+  width: 5rem;
   height: auto;
   transition: all .2s ease-in-out;
 }
@@ -228,7 +222,7 @@ main {
 }
 
 .ort-logo {
-  width: 7rem; 
+  width: 7rem;
   height: auto;
   transition: all .2s ease-in-out;
 }
@@ -291,9 +285,9 @@ footer .horizontal {
 }
 
 .perfil-creador {
-  width: 3rem; 
+  width: 3rem;
   aspect-ratio: 1/1;
-  object-fit: cover;  
+  object-fit: cover;
   margin-right: .5rem;
 }
 
@@ -343,7 +337,6 @@ footer .horizontal {
   transition: color 0.3s ease;
 }
 
-
 .error {
   display: flex;
   flex-direction: column;
@@ -352,12 +345,6 @@ footer .horizontal {
   height: 100vh;
   color: white;
   gap: .5rem;
-}
-
-.proyecto-miniatura {
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
 }
 
 .estado-proyectos {
@@ -448,21 +435,33 @@ footer .horizontal {
   cursor: pointer;
 }
 
+.form-group input:disabled {
+  opacity: .6;
+}
+
+.form-group input[type="color"] {
+  padding: .25rem;
+  width: 100%;
+  height: 2.5rem;
+  cursor: pointer;
+}
+
 .form-boton-container {
   display: flex;
   justify-content: flex-end;
 }
 
 .enviar {
-width: 60rem;
+  width: 60rem;
 }
+
+/* ---------- EDITOR ---------- */
 
 .editor {
   flex: 1;
   display: flex;
   gap: 1rem;
   padding-bottom: 2rem;
-
 }
 
 .panel {
@@ -482,12 +481,19 @@ width: 60rem;
 .panel-derecha {
   width: 17.5rem;
   flex-shrink: 0;
+  padding: .75rem;
+  gap: .5rem;
+  overflow-y: auto;
 }
 
 .panel-titulo {
   color: white;
   font-size: 1.5rem;
   font-weight: bold;
+}
+
+.panel-derecha .panel-titulo {
+  font-size: 1.15rem;
 }
 
 .etiqueta {
@@ -529,6 +535,14 @@ width: 60rem;
   border-color: #4D1FB8;
 }
 
+.herramienta[draggable="true"] {
+  cursor: grab;
+}
+
+.herramienta[draggable="true"]:active {
+  cursor: grabbing;
+}
+
 .herramienta-icono {
   font-size: 1.1rem;
   font-weight: bold;
@@ -552,14 +566,15 @@ width: 60rem;
   border: 1px solid #4D1FB8;
   border-radius: 1rem;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   padding: 1rem;
 }
 
 .caja-lienzo {
-  width: 22rem;
-  padding: 1rem;
+  width: 100%;
+  min-height: 100%;
+  padding: 1.5rem;
   background-color: #1B1244;
   border-radius: .75rem;
   display: flex;
@@ -573,20 +588,234 @@ width: 60rem;
   font-weight: bold;
 }
 
+.texto-editor {
+  color: white;
+  line-height: 1.4;
+}
+
 .texto-lienzo {
   color: #B8B2C7;
   line-height: 1.4;
 }
 
-.botones-alinear {
+.imagen-editor {
+  width: 100%;
+  border-radius: .5rem;
+}
+
+.divisor-editor {
+  border: none;
+  border-top: 2px solid #B8B2C7;
+  width: 100%;
+}
+
+.video-editor {
+  background-color: #241858;
+  color: #B8B2C7;
+  border-radius: .5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* Contenedores: se adaptan al contenido */
+
+.fila-editor {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: .5rem;
+  width: 100%;
+  min-height: 3rem;
+  border: 1px dashed #4D1FB8;
+  border-radius: .5rem;
+  padding: .5rem;
+}
+
+.columna-editor {
+  display: flex !important;
+  flex-direction: row !important;
+  gap: .5rem;
+  width: 100%;
+  min-height: 3rem;
+  border: 1px dashed #4D1FB8;
+  border-radius: .5rem;
+  padding: .5rem;
+}
+
+.contenedor-editor {
+  background-color: #241858;
+  border: 1px dashed #4D1FB8;
+  border-radius: .5rem;
+  padding: 1rem;
+  min-height: 3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
   gap: .5rem;
 }
 
+.fila-editor > * {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.columna-editor > * {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 0;
+}
+
+.fila-editor:empty::after,
+.columna-editor:empty::after,
+.contenedor-editor:empty::after {
+  content: "Soltá elementos acá";
+  color: #B8B2C7;
+  font-size: .8rem;
+  margin: auto;
+}
+
+/* Selección y arrastre */
+
+.elemento {
+  cursor: pointer;
+}
+
+.elemento:hover {
+  outline: 1px dashed #B8B2C7;
+}
+
+.elemento.seleccionado {
+  outline: 2px solid #BF0F8C;
+  outline-offset: 2px;
+}
+
+.arrastrando {
+  opacity: .5;
+}
+
+.arrastrando-encima {
+  outline: 2px solid #4D1FB8;
+  outline-offset: -4px;
+}
+
+.soltar-antes {
+  box-shadow: 0 -3px 0 0 #BF0F8C;
+}
+
+.soltar-despues {
+  box-shadow: 0 3px 0 0 #BF0F8C;
+}
+
+.soltar-dentro {
+  outline: 2px dashed #BF0F8C;
+  outline-offset: -4px;
+}
+
+.soltar-archivo {
+  outline: 2px dashed #BF0F8C;
+  outline-offset: -8px;
+}
+
+/* Placeholders de imagen/video sin archivo */
+
+.imagen-editor.sin-archivo,
+.video-editor.sin-archivo {
+  width: 100%;
+  min-height: 5rem;
+  background-color: #241858;
+  border: 2px dashed #4D1FB8;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.imagen-editor.sin-archivo::after {
+  content: "Tocá para subir una imagen";
+  color: #B8B2C7;
+  font-size: .85rem;
+}
+
+.video-editor.sin-archivo::after {
+  content: "Tocá para subir un video";
+  color: #B8B2C7;
+  font-size: .85rem;
+}
+
+.imagen-editor img,
+.video-editor video {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: .5rem;
+}
+
+/* ---------- EDITOR: panel de propiedades ---------- */
+
+.panel-derecha {
+  width: 17.5rem;
+  flex-shrink: 0;
+  padding: .75rem;
+  gap: .25rem;
+  overflow-y: auto;
+}
+
+.panel-derecha .panel-titulo {
+  font-size: 1.15rem;
+  margin-bottom: .25rem;
+}
+
+.mensaje-seleccion {
+  color: #B8B2C7;
+  font-size: .85rem;
+  line-height: 1.4;
+  text-align: center;
+  padding: .75rem .5rem;
+  border: 1px dashed #4D1FB8;
+  border-radius: .5rem;
+  margin-bottom: .25rem;
+}
+
+.panel-derecha .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+  margin-bottom: .6rem;
+}
+
+.panel-derecha .form-group label {
+  font-size: .75rem;
+  color: #B8B2C7;
+  font-weight: 600;
+}
+
+.panel-derecha .form-group input,
+.panel-derecha .form-group select {
+  padding: .25rem .5rem;
+  font-size: .85rem;
+  margin-top: 0;
+  height: 2rem;
+  border-radius: .4rem;
+}
+
+.panel-derecha .form-group input[type="color"] {
+  height: 2rem;
+  padding: .1rem;
+  cursor: pointer;
+}
+
+/* Alinear: en fila, compacto */
+
+.botones-alinear {
+  display: flex;
+  gap: .4rem;
+}
+
 .boton-alinear {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2rem;
+  height: 2rem;
   background-color: #1B1244;
-  border: 1px solid transparent;
+  border: 1px solid #4D1FB8;
   border-radius: .5rem;
   display: flex;
   align-items: center;
@@ -597,16 +826,89 @@ width: 60rem;
 
 .boton-alinear:hover,
 .boton-alinear.activo {
-  background-color: #241858;
-  border-color: #4D1FB8;
+  background-color: #4D1FB8;
+  border-color: #6a3ae0;
 }
 
 .alinear-icono {
-  width: 1.1rem;
+  width: 1rem;
   height: auto;
 }
 
-.boton.revision{
+.botones-formato {
+  display: flex;
+  gap: .4rem;
+}
+
+.boton-formato {
+  width: 2rem;
+  height: 2rem;
+  background-color: #1B1244;
+  border: 1px solid #4D1FB8;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  font-size: .95rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.boton-formato:hover,
+.boton-formato.activo {
+  background-color: #4D1FB8;
+  border-color: #6a3ae0;
+}
+
+.formato-icono.italica {
+  font-style: italic;
+}
+
+.formato-icono.subrayado {
+  text-decoration: underline;
+}
+
+/* Botones del panel derecho (pisan el .boton blanco base) */
+
+.panel-derecha .boton.subir-archivo,
+.panel-derecha .boton.subir {
+  width: 100%;
+  height: 2.1rem;
+  margin: 0;
+  background-color: #1B1244;
+  color: #B8B2C7;
+  border: 1px solid #4D1FB8;
+  border-radius: .5rem;
+  font-size: .8rem;
+  font-weight: 500;
+  font-family: inherit;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.panel-derecha .boton.subir-archivo:hover,
+.panel-derecha .boton.subir:hover {
+  background-color: #241858;
+  color: white;
+}
+
+.panel-derecha .boton.borrar {
+  width: 100%;
+  height: 2.25rem;
+  margin-top: auto;
+  background-color: #FF0004;
+  border: none;
+  color: white;
+  font-size: .85rem;
+}
+
+.panel-derecha .boton.borrar:hover {
+  background-color: #d90004;
+}
+
+.boton.revision {
   width: 10rem;
   font-size: 0.9rem;
   background-color: #3927AF;
@@ -614,38 +916,161 @@ width: 60rem;
   border: solid 1px #2f1f92;
 }
 
-.boton.revision:hover{
+.boton.revision:hover {
   background-color: #2f1f92;
 }
 
-.boton.guardar{
+.boton.guardar {
   margin-right: 1rem;
   font-size: 0.9rem;
 }
-.boton.borrar {
+
+.propiedadTipografia {
+  background-color: #dfd9d9;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  outline: none;
+  resize: vertical;
+}
+
+/* Botones del panel derecho (pisan el .boton blanco base) */
+
+.panel-derecha .boton.subir-archivo {
   width: 100%;
+  height: 2.25rem;
+  background-color: #1B1244;
+  color: #B8B2C7;
+  border: 1px solid #4D1FB8;
+  border-radius: .5rem;
+  font-size: .8rem;
+  font-weight: 500;
+  font-family: inherit;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.panel-derecha .boton.subir-archivo:hover {
+  background-color: #241858;
+  color: white;
+}
+
+.panel-derecha .boton.borrar {
+  width: 100%;
+  height: 2.25rem;
   margin-top: auto;
   background-color: #FF0004;
   border: none;
   color: white;
-  margin-top: 1rem;
+  font-size: .85rem;
 }
 
-.boton.borrar:hover {
+.panel-derecha .boton.borrar:hover {
   background-color: #d90004;
 }
 
-.propiedadTipografia{
-background-color: #dfd9d9;
-border: none;
-border-radius: 0.5rem;
-padding: 0.5rem 0.75rem;
-font-size: 1rem;
-outline: none;
-resize: vertical;
+.boton.revision {
+  width: 10rem;
+  font-size: 0.9rem;
+  background-color: #3927AF;
+  color: white;
+  border: solid 1px #2f1f92;
 }
 
-/* Header */
+.boton.revision:hover {
+  background-color: #2f1f92;
+}
+
+.boton.guardar {
+  margin-right: 1rem;
+  font-size: 0.9rem;
+}
+
+.propiedadTipografia {
+  background-color: #dfd9d9;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  outline: none;
+  resize: vertical;
+}
+
+/* ---------- EDITOR: ventana de confirmación ---------- */
+
+.ventana-fondo {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 3, 20, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.ventana-confirmacion {
+  background: #211A5E;
+  color: #FFFFFF;
+  border-radius: .75rem;
+  padding: 1.25rem 1.5rem;
+  width: 26rem;
+  max-width: 90%;
+  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.5);
+  text-align: left;
+}
+
+.ventana-titulo {
+  color: #FFFFFF;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1.4;
+  margin: 0 0 .15rem;
+}
+
+.ventana-texto {
+  color: #B8B2C7;
+  font-size: .85rem;
+  margin: 0 0 1.25rem;
+}
+
+.ventana-botones {
+  display: flex;
+  gap: .75rem;
+  justify-content: flex-end;
+}
+
+.ventana-botones .boton {
+  width: auto;
+  height: 2.25rem;
+  padding: 0 1.25rem;
+  border-radius: .4rem;
+  border: none;
+  font-size: .85rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ventana-aceptar {
+  background: #4132C9;
+  color: #FFFFFF;
+}
+
+.ventana-aceptar:hover {
+  background: #4d3ad9;
+}
+
+.ventana-rechazar {
+  background: #322a80;
+  color: #FFFFFF;
+}
+
+.ventana-rechazar:hover {
+  background: #3b3194;
+}
+/* ---------- NAV ---------- */
 
 nav.horizontal {
   display: flex;

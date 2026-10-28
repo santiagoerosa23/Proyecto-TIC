@@ -16,12 +16,8 @@
             </a>
         </section>
         <section class="nav-derecha">
-            <button class="boton revision">
-                Enviar a revisión
-            </button>
-            <button class="boton guardar">
-                Guardar
-            </button>
+            <button class="boton revision" id="botonRevision">Enviar a revisión</button>
+            <button class="boton guardar" id="botonGuardar">Guardar</button>
         </section>
     </nav>
 
@@ -30,19 +26,19 @@
             <h2 class="panel-titulo">Contenido</h2>
 
             <div class="cuadricula-herramientas">
-                <button class="herramienta">
+                <button class="herramienta" draggable="true" data-tipo="texto">
                     <span class="herramienta-icono">Aa</span>
                     <span class="herramienta-texto">Texto</span>
                 </button>
-                <button class="herramienta">
+                <button class="herramienta" draggable="true" data-tipo="imagen">
                     <span class="herramienta-icono">IMG</span>
                     <span class="herramienta-texto">Imagen</span>
                 </button>
-                <button class="herramienta">
+                <button class="herramienta" draggable="true" data-tipo="divisor">
                     <span class="herramienta-icono">—</span>
                     <span class="herramienta-texto">Divisor</span>
                 </button>
-                <button class="herramienta">
+                <button class="herramienta" draggable="true" data-tipo="video">
                     <span class="herramienta-icono">▶</span>
                     <span class="herramienta-texto">Video</span>
                 </button>
@@ -51,15 +47,15 @@
             <span class="etiqueta">Layout</span>
 
             <div class="lista-layout">
-                <button class="herramienta">
+                <button class="herramienta" draggable="true" data-tipo="contenedor">
                     <span class="herramienta-icono">▢</span>
                     <span class="herramienta-texto">Contenedor</span>
                 </button>
-                <button class="herramienta">
+                <button class="herramienta" draggable="true" data-tipo="fila">
                     <span class="herramienta-icono">≡</span>
                     <span class="herramienta-texto">Fila</span>
                 </button>
-                <button class="herramienta">
+                <button class="herramienta" draggable="true" data-tipo="columna">
                     <span class="herramienta-icono girado-90">≡</span>
                     <span class="herramienta-texto">Columna</span>
                 </button>
@@ -67,59 +63,103 @@
         </aside>
 
         <section class="lienzo">
-            <div class="caja-lienzo">
-                <h1 class="tituloProyecto-lienzo">Título de ejemplo</h1>
-                <p class="texto-lienzo">Así se ve el contenido que se edita en el lienzo.</p>
+            <div class="caja-lienzo" id="cajaLienzo">
+                <h1 class="tituloProyecto-lienzo elemento" data-tipo="texto">Título de ejemplo</h1>
+                <p class="texto-editor elemento" data-tipo="texto">Así se ve el contenido que se edita en el lienzo.</p>
             </div>
         </section>
 
         <aside class="panel panel-derecha">
             <h2 class="panel-titulo">Propiedades</h2>
 
-            <div class="form-group">
+            <p id="mensajeSeleccion" class="mensaje-seleccion">Seleccioná un elemento para ver sus propiedades.</p>
+
+            <div class="form-group" data-grupo="subir" hidden>
+                <label>Archivo</label>
+                <button class="boton subir-archivo" id="botonSubirArchivo">Subir archivo</button>
+                <input type="file" id="subirPropiedad" accept="image/*,video/*" hidden>
+            </div>
+
+            <div class="form-group" data-grupo="contenido" hidden>
                 <label for="propiedadContenido">Contenido</label>
-                <input type="text" id="propiedadContenido" name="propiedadContenido" value="Texto de ejemplo">
+                <input type="text" id="propiedadContenido" name="propiedadContenido">
             </div>
 
-            <div class="form-group">
-                <label for="propiedadTamano">Tamaño (px)</label>
-                <input type="number" id="propiedadTamano" name="propiedadTamano" value="16">
+            <div class="form-group" data-grupo="tamano" hidden>
+                <label for="propiedadTamano" id="etiquetaTamano">Tamaño (px)</label>
+                <input type="number" id="propiedadTamano" name="propiedadTamano" min="20" max="2000">
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-grupo="tipografia" hidden>
                 <label for="propiedadTipografia">Tipografía</label>
                 <select id="propiedadTipografia" name="propiedadTipografia">
-                    <option value="arial">Arial</option>
-                    <option value="verdana">Verdana</option>
-                    <option value="times">Times New Roman</option>
-                    <option value="courier">Courier New</option>
-                    </select>
+                    <option value="Inter Regular">Inter Regular</option>
+                    <option value="Inter Bold">Inter Bold</option>
+                    <option value="Arial">Arial</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Courier New">Courier New</option>
+                </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" data-grupo="grosor" hidden>
+                <label for="propiedadGrosor">Grosor</label>
+                <select id="propiedadGrosor" name="propiedadGrosor">
+                    <option value="normal">Normal</option>
+                    <option value="bold">Negrita</option>
+                </select>
+            </div>
+
+            <div class="form-group" data-grupo="color" hidden>
+                <label for="propiedadColor">Color</label>
+                <input type="color" id="propiedadColor" name="propiedadColor" value="#ffffff">
+            </div>
+
+            <div class="form-group" data-grupo="formato" hidden>
+                <label>Formato</label>
+                <div class="botones-formato">
+                    <button class="boton-formato" data-formato="italica" title="Itálica">
+                        <span class="formato-icono italica">I</span>
+                    </button>
+                    <button class="boton-formato" data-formato="subrayado" title="Subrayado">
+                        <span class="formato-icono subrayado">U</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group" data-grupo="alinear" hidden>
                 <label>Alinear</label>
-                <div class="botones-alinear horizontal">
-                    <button class="boton-alinear activo" title="Izquierda">
-                        <img src="/Assets/alinear-izquierda.svg" alt="Alinear a la izquierda" class="alinear-icono">
+                <div class="botones-alinear">
+                    <button class="boton-alinear" data-alinear="izquierda" title="Izquierda">
+                        <img src="/Assets/alinear-izquierda.svg" alt="Izquierda" class="alinear-icono">
                     </button>
-                    <button class="boton-alinear" title="Centro">
-                        <img src="/Assets/alinear-centro.svg" alt="Alinear al centro" class="alinear-icono">
+                    <button class="boton-alinear" data-alinear="centro" title="Centro">
+                        <img src="/Assets/alinear-centro.svg" alt="Centro" class="alinear-icono">
                     </button>
-                    <button class="boton-alinear" title="Derecha">
-                        <img src="/Assets/alinear-derecha.svg" alt="Alinear a la derecha" class="alinear-icono">
+                    <button class="boton-alinear" data-alinear="derecha" title="Derecha">
+                        <img src="/Assets/alinear-derecha.svg" alt="Derecha" class="alinear-icono">
                     </button>
-                    <button class="boton-alinear" title="Justificar">
+                    <button class="boton-alinear" data-alinear="justificar" title="Justificar">
                         <img src="/Assets/alinear-justificar.svg" alt="Justificar" class="alinear-icono">
                     </button>
                 </div>
             </div>
 
-            <button class="boton borrar">
-                Borrar
-            </button>
+            <button class="boton borrar" id="botonBorrar" hidden>Borrar</button>
         </aside>
     </main>
 
+    <div class="ventana-fondo" id="ventanaConfirmacion" hidden>
+        <div class="ventana-confirmacion">
+            <h3 class="ventana-titulo" id="ventanaTitulo">¿Confirmar?</h3>
+            <p class="ventana-texto" id="ventanaTexto"></p>
+            <div class="ventana-botones">
+                <button class="boton ventana-rechazar" id="ventanaRechazar">Cancelar</button>
+                <button class="boton ventana-aceptar" id="ventanaAceptar">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/editor.js"></script>
 </body>
 
 </html>
