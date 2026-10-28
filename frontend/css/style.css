@@ -47,15 +47,6 @@ html, body {
   filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7)); 
 }
 
-nav {
-  background-color: black;
-  padding-bottom: 1rem;
-  padding-top: 1rem;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 3rem;
-}
-
 .cuadricula {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -710,4 +701,226 @@ padding: 0.5rem 0.75rem;
 font-size: 1rem;
 outline: none;
 resize: vertical;
+}
+
+/* Header */
+
+nav.horizontal {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1rem 0;
+  margin-bottom: 3rem;
+  background-color: #000;
+  flex-shrink: 0;
+}
+
+nav.horizontal .nav-izquierda {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+  min-width: 0;
+}
+
+nav.horizontal .logo {
+  display: block;
+  width: 10rem;
+  height: auto;
+  margin-left: 2rem;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+nav.horizontal .logo:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7));
+}
+
+nav.horizontal .search-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+nav.horizontal .search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.5rem;
+  height: 1.5rem;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+nav.horizontal .search-input {
+  width: 20rem;
+  max-width: 100%;
+  height: 2.5rem;
+  padding: 0.5rem 0.75rem 0.5rem 2.75rem;
+  margin-right: 1rem;
+  border: 1px solid #e9e9e9;
+  border-radius: 0.5rem;
+  background-color: #d9d9d9;
+  color: #111;
+  font: inherit;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+nav.horizontal .search-input:hover {
+  background-color: #e7e7e7;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+nav.horizontal .search-input:focus {
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+
+nav.horizontal .nav-derecha {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+nav.horizontal .dropdown {
+  position: relative;
+  display: inline-block;
+  margin-right: 2rem;
+}
+
+nav.horizontal .login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+nav.horizontal .login-btn:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+nav.horizontal .login-img {
+  display: block;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+nav.horizontal .dropdown-content {
+  display: block;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 1000;
+  min-width: 280px;
+  margin-top: 0.5rem;
+  padding: 1.2rem 0;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  background-color: #121131;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+nav.horizontal .dropdown:hover .dropdown-content,
+nav.horizontal .dropdown:focus-within .dropdown-content {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+nav.horizontal .dropdown-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1.5rem 0.8rem;
+}
+
+nav.horizontal .usuario-icono-drpdw {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #b942f5;
+}
+
+nav.horizontal .info-drpdw {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+nav.horizontal .nombre-usuario {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+nav.horizontal .uduario-\@ {
+  margin-top: 2px;
+  color: #a5a3c7;
+  font-size: 13px;
+}
+
+nav.horizontal .divisor-dropdown {
+  margin: 0.5rem 0 0.8rem;
+  border: none;
+  border-top: 1px solid #302d52;
+}
+
+nav.horizontal .perfil-dropdown,
+nav.horizontal .cerrar-sesion-dropdown {
+  display: block;
+  padding: 0.8rem 1.5rem;
+  color: #fff;
+  font-size: 15px;
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+}
+
+nav.horizontal .perfil-dropdown:hover,
+nav.horizontal .cerrar-sesion-dropdown:hover {
+  background-color: #1a1942;
+}
+
+nav.horizontal .cerrar-sesion-dropdown {
+  color: #ff777d;
+}
+
+@media (max-width: 700px) {
+  nav.horizontal .logo {
+    width: 7rem;
+    margin-left: 0.75rem;
+  }
+
+  nav.horizontal .nav-izquierda {
+    gap: 0.5rem;
+  }
+
+  nav.horizontal .search-input {
+    width: 35vw;
+    min-width: 7rem;
+    margin-right: 0.5rem;
+  }
+
+  nav.horizontal .dropdown {
+    margin-right: 0.75rem;
+  }
+
+  nav.horizontal .dropdown-content {
+    min-width: 240px;
+  }
 }
