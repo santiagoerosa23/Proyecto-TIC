@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -11,52 +11,92 @@
 <body>
     <nav class="horizontal">
         <section class="nav-izquierda">
-            <img src="/Assets/logo.png" alt="Logo" class="logo">
+            <a href="index.html" class="inicio-link">
+                <img src="/Assets/logo.png" alt="Logo" class="logo">
+            </a>
             <section class="search-container horizontal">
                 <img src="/Assets/search.png" alt="Search Icon" class="search-icon">
                 <input type="text" placeholder="Busca un proyecto" class="search-input">
             </section>
         </section>
         <section class="nav-derecha">
-            <button class="login">
-                Iniciar sesión
+            <button class="login boton">
+                <a href="login.html">
+                    Iniciar sesión
+                </a>
             </button>
+            <section class="logged-in">
+                <button class="boton navbar">
+                    <a href="#">
+                        Mis proyectos
+                    </a>
+                </button>
+                <div class="perfil">
+                    <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono">
+                </div>
+            </section>
         </section>
     </nav>
-
     <div class="info">
-        <div class="infoleft">
-            <div class="circulo left">
-            </div>
-                <p class="tituloProyecto">lorem ipsum</p>
-        </div>
-
-        <div class="inforight">
-            <div class="circulo">
-            </div>
-            <div class="circulo">
-            </div>
-        </div>
-
-    </div>
-<div class="caja-proyecto">
-<div class="contenido">
-    <div class="center">
-        <div class="vertical">
-            <div class="foto"></div>
-            <p class="texto">Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus earum sequi natus sed
-                placeat consequuntur sit minus rerum nihil nulla animi ratione recusandae, necessitatibus vero molestias
-                sapiente autem? Nobis, fugiat.</p>
-            <div class="foto"></div>
+        <h1 class="tituloProyecto-pestaña" id="tituloProyecto">Cargando proyecto…</h1>
+        <div class="colaboradores" id="colaboradores">
         </div>
     </div>
-</div>
-</div>
+    <div class="caja-proyecto">
+        <div class="contenido">
+            <div class="center">
+                <div class="vertical">
+                    <p class="texto" id="descripcion"></p>
+                    <div id="contenidoProyecto"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <section class="caja-comentarios">
 
+        <h3 class="comentarios-titulo">Comentarios</h3>
+        <div id="listaComentarios"></div>
+
+        <h3 class="comentarios-titulo">Comparte tu opinion</h3>
+        <form class="formulario-opinion" id="formularioOpinion">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nombre">Nombre/Alias</label>
+                    <input type="text" id="nombre" name="nombre" required maxlength="20">
+                </div>
+                <div class="form-group">
+                    <label for="mail">Mail</label>
+                    <input type="email" id="mail" name="mail" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="contenido">Contenido</label>
+                <textarea id="contenido" name="contenido" rows="4" required minlength="5" maxlength="500"></textarea>
+            </div>
+            <div class="form-boton-container">
+                <button type="submit" class="boton enviar">Enviar a revisión</button>
+            </div>
+        </form>
+
+    </section>
     <footer>
-        <div class="horizontal">
-            <div class="boton"></div>
+        <section class="footer-left">
+            <img src="/Assets/logo.png" alt="Logo" class="logo-footer">
+        </section>
+
+        <section class="footer-right">
+            <a href="https://campus.ort.edu.ar/" target="_blank" class="ort-link">
+                <img src="/Assets/ort-logo.png" alt="ORT Logo" class="ort-logo">
+            </a>
+            <a href="https://www.instagram.com/ort.tic" target="_blank" class="instagram-link">
+                <img src="/Assets/Instagram.svg" alt="Instagram Logo" class="Instagram-logo">
+            </a>
+        </section>
     </footer>
+    <script src="/js/config.js"></script>
+    <script src="/js/proyecto.js"></script>
+    <script src="/js/busqueda.js"></script>
 </body>
+
 </html>

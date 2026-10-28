@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -8,10 +8,12 @@
     <title>TIC EXPERIENCE: SHOWCASE</title>
 </head>
 
-<body>
+<body data-pagina="index">
     <nav class="horizontal">
         <section class="nav-izquierda">
-            <img src="/Assets/logo.png" alt="Logo" class="logo">
+            <a href="index.html" class="inicio-link">
+                <img src="/Assets/logo.png" alt="Logo" class="logo">
+            </a>
             <section class="search-container horizontal">
                 <img src="/Assets/search.png" alt="Search Icon" class="search-icon">
                 <input type="text" placeholder="Busca un proyecto" class="search-input">
@@ -20,7 +22,7 @@
         <section class="nav-derecha">
             <div class="dropdown">
                 <button type="button" class="login-btn">
-                    <img src="Assets/perfil.webp" alt="Iniciar sesión" class="login-img">
+                    <img src="/Assets/perfil.svg" alt="Perfil de usuario" class="login-img">
                 </button>
                 <div class="dropdown-content">
                     <div class="dropdown-header">
@@ -38,51 +40,25 @@
         </section>
     </nav>
 
-    <div class="cuadricula">
-           <div class="proyecto" onclick="window.location.href='/publicar.html'">
+    <div class="cuadricula"></div>
 
-            <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
-                <img src="/Assets/perfil.webp" alt="Perfil del creador" class="perfil-img">
-            </div>
-        
-        </div>
-        <div class="proyecto" onclick="window.location.href='/publicar.html'">
+    <footer>
+        <section class="footer-left">
+            <img src="/Assets/logo.png" alt="Logo" class="logo-footer">
+        </section>
+        <section class="footer-right">
+            <a href="https://campus.ort.edu.ar/" target="_blank" class="ort-link">
+                <img src="/Assets/ort-logo.png" alt="ORT Logo" class="ort-logo">
+            </a>
+            <a href="https://www.instagram.com/ort.tic" target="_blank" class="instagram-link">
+                <img src="/Assets/Instagram.svg" alt="Instagram Logo" class="Instagram-logo">
+            </a>
+        </section>
+    </footer>
 
-            <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
-                <img src="/Assets/perfil.webp" alt="Perfil del creador" class="perfil-img">
-            </div>
-    
-        </div>
-              <div class="proyecto" onclick="window.location.href='/publicar.html'">
-
-                <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
-                    <img src="/Assets/perfil.webp" alt="Perfil del creador" class="perfil-img">
-                </div>
- 
-            </div>     
-         <div class="proyecto" onclick="window.location.href='/publicar.html'">
-
-            <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
-                <img src="/Assets/perfil.webp" alt="Perfil del creador" class="perfil-img">
-            </div>
- 
-        
-        </div>
-             <div class="proyecto" onclick="window.location.href='/publicar.html'">
-
-                <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
-                    <img src="/Assets/perfil.webp" alt="Perfil del creador" class="perfil-img">
-                </div>
-            
-
-            </div>
-           <div class="proyecto" onclick="window.location.href='/publicar.html'">
-
-            <div class="perfil" onclick="event.stopPropagation(); window.location.href='/perfil.html'">
-                <img src="/Assets/perfil.webp" alt="Perfil del creador" class="perfil-img">
-            </div>
-
-        </div>
+    <script src="/js/config.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/busqueda.js"></script>
 </body>
 
 </html>
