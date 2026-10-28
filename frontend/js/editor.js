@@ -1,24 +1,3 @@
-/* EDITOR VISUAL - TIC EXPERIENCE */
-
-const CLAVE_GUARDADO = "proyectoTIC";
-
-const cajaLienzo = document.getElementById("cajaLienzo");
-const mensajeSeleccion = document.getElementById("mensajeSeleccion");
-const etiquetaTamano = document.getElementById("etiquetaTamano");
-const botonBorrar = document.getElementById("botonBorrar");
-const botonGuardar = document.getElementById("botonGuardar");
-const botonRevision = document.getElementById("botonRevision");
-const ventanaConfirmacion = document.getElementById("ventanaConfirmacion");
-const ventanaTitulo = document.getElementById("ventanaTitulo");
-const ventanaTexto = document.getElementById("ventanaTexto");
-const ventanaAceptar = document.getElementById("ventanaAceptar");
-const ventanaRechazar = document.getElementById("ventanaRechazar");
-const botonSubirArchivo = document.getElementById("botonSubirArchivo");
-const subirPropiedad = document.getElementById("subirPropiedad");
-
-let elementoSeleccionado = null;
-let accionPendiente = null;
-
 const PROPIEDADES_POR_TIPO = {
     texto: ["contenido", "tamano", "tipografia", "grosor", "color", "formato", "alinear"],
     imagen: ["subir", "tamano", "alinear"],
@@ -29,6 +8,8 @@ const PROPIEDADES_POR_TIPO = {
     columna: []
 };
 
+const TIPOS_VALIDOS = Object.keys(PROPIEDADES_POR_TIPO);
+
 const ALINEACIONES = {
     izquierda: "left",
     centro: "center",
@@ -38,12 +19,12 @@ const ALINEACIONES = {
 
 const ALINEACIONES_INVERSO = {
     left: "izquierda",
+    start: "izquierda",
     center: "centro",
     right: "derecha",
     justify: "justificar"
 };
 
-/* Para imagen/video: la alineación se hace con márgenes */
 const ALINEACIONES_IMAGEN = {
     izquierda: "0 auto 0 0",
     centro: "0 auto",
@@ -51,351 +32,593 @@ const ALINEACIONES_IMAGEN = {
     justificar: "0"
 };
 
-/* ---------- ARRANQUE ---------- */
+const TIPOGRAFIAS = {
+    "Inter Regular": "Inter, sans-serif",
+    "Inter Bold": "Inter, sans-serif",
+    "Arial": "Arial, sans-serif",
+    "Georgia": "Georgia, serif",
+    "Courier New": "'Courier New', monospace"
+};
 
-document.addEventListener("DOMContentLoaded", () => {
-    cargarProyecto();
-    prepararHerramientas();
-    prepararLienzo();
-    prepararPanel();
-    prepararBotonesPrincipales();
-});
+const SELECTOR_CONTENEDORES = ".caja-lienzo, .contenedor-editor, .fila-editor, .columna-editor";
+const LIMITE_HISTORIAL = 50;
 
-/* ---------- HERRAMIENTAS (panel izquierdo) ---------- */
+const cajaLienzo = document.getElementById("cajaLienzo");
+const botonGuardar = document.getElementById("botonGuardar");
+const botonRevision = document.getElementById("botonRevision");
+const ventanaConfirmacion = document.getElementById("ventanaConfirmacion");
+const ventanaTitulo = document.getElementById("ventanaTitulo");
+const ventanaTexto = document.getElementById("ventanaTexto");
+const ventanaAceptar = document.getElementById("ventanaAceptar");
+const ventanaRechazar = document.getElementById("ventanaRechazar");
+const mensajeSeleccion = document.getElementById("mensajeSeleccion");
+const propiedadContenido = document.getElementById("propiedadContenido");
+const propiedadTamano = document.getElementById("propiedadTamano");
+const etiquetaTamano = document.getElementById("etiquetaTamano");
+const propiedadTipografia = document.getElementById("propiedadTipografia");
+const propiedadGrosor = document.getElementById("propiedadGrosor");
+const propiedadColor = document.getElementById("propiedadColor");
+const botonSubirArchivo = document.getElementById("botonSubirArchivo");
+const subirPropiedad = document.getElementById("subirPropiedad");
+const botonBorrar = document.getElementById("botonBorrar");
 
-function prepararHerramientas() {
-    const herramientas = document.querySelectorAll(".herramienta[draggable='true']");
+let elementoSeleccionado = null;
+let accionPendiente = null;
+let elementoEnArrastre = null;
+let contenedorResaltado = null;
+let historial = [];
+let edicionEnCurso = false;
 
-    herramientas.forEach((herramienta) => {
-        herramienta.addEventListener("dragstart", (evento) => {
-            evento.dataTransfer.setData("text/plain", herramienta.dataset.tipo);
-            evento.dataTransfer.effectAllowed = "copy";
-        });
-    });
+function rgbAHex(color) {
+    const partes = color.match(/\d+/g);
+    if (!partes || partes.length < 3) return "#ffffff";
+    if (partes.length >= 4 && Number(partes[3]) === 0) return "#ffffff";
+
+    let hex = "#";
+    for (let i = 0; i < 3; i++) {
+        let valor = Number(partes[i]).toString(16);
+        if (valor.length < 2) valor = "0" + valor;
+        hex = hex + valor;
+    }
+    return hex;
 }
 
-/* ---------- LIENZO ---------- */
+function normalizarMargen(margen) {
+    const partes = margen.split(" ").filter(Boolean);
+    const arriba = partes[0];
+    const derecha = partes[1] !== undefined ? partes[1] : arriba;
+    const abajo = partes[2] !== undefined ? partes[2] : arriba;
+    const izquierda = partes[3] !== undefined ? partes[3] : derecha;
 
-function prepararLienzo() {
-    cajaLienzo.addEventListener("dragover", (evento) => {
-        evento.preventDefault();
-        const zona = zonaDeDrop(evento);
-        if (zona) zona.classList.add("arrastrando-encima");
-    });
-
-    cajaLienzo.addEventListener("dragleave", (evento) => {
-        const zona = zonaDeDrop(evento);
-        if (zona) zona.classList.remove("arrastrando-encima");
-    });
-
-    cajaLienzo.addEventListener("drop", (evento) => {
-        evento.preventDefault();
-        const zona = zonaDeDrop(evento);
-        if (!zona) return;
-        zona.classList.remove("arrastrando-encima");
-
-        const tipo = evento.dataTransfer.getData("text/plain");
-        if (!tipo) return;
-
-        const archivo = evento.dataTransfer.files && evento.dataTransfer.files[0];
-        const elemento = crearElemento(tipo, archivo);
-        if (!elemento) return;
-
-        zona.appendChild(elemento);
-        seleccionarElemento(elemento);
-    });
-
-    cajaLienzo.addEventListener("click", (evento) => {
-        const objetivo = evento.target.closest("[data-tipo]");
-        if (objetivo && cajaLienzo.contains(objetivo)) {
-            seleccionarElemento(objetivo);
-            if (objetivo.classList.contains("sin-archivo")) {
-                subirPropiedad.click();
-            }
-        } else {
-            deseleccionar();
-        }
-    });
+    const lados = [arriba, derecha, abajo, izquierda];
+    let resultado = "";
+    for (let i = 0; i < lados.length; i++) {
+        let lado = lados[i];
+        if (lado !== "auto") lado = parseFloat(lado) + "";
+        if (i > 0) resultado = resultado + " ";
+        resultado = resultado + lado;
+    }
+    return resultado;
 }
 
-function zonaDeDrop(evento) {
-    return evento.target.closest(".contenedor-editor, .fila-editor, .columna-editor") || cajaLienzo;
+function guardarHistorial() {
+    
+    if (elementoSeleccionado) elementoSeleccionado.classList.remove("seleccionado");
+
+    historial.push(cajaLienzo.innerHTML);
+    if (historial.length > LIMITE_HISTORIAL) historial.shift();
+
+    if (elementoSeleccionado) elementoSeleccionado.classList.add("seleccionado");
 }
 
-function crearElemento(tipo, archivo) {
-    let elemento = null;
+function deshacer() {
+    if (historial.length === 0) return;
 
-    if (tipo === "texto") {
-        elemento = document.createElement("p");
-        elemento.className = "texto-editor elemento";
-        elemento.textContent = "Nuevo texto";
+    deseleccionarElemento();
+    cajaLienzo.innerHTML = historial.pop();
+    edicionEnCurso = false;
+}
+
+function marcarEdicion() {
+    if (!edicionEnCurso) {
+        guardarHistorial();
+        edicionEnCurso = true;
     }
+}
 
-    if (tipo === "imagen") {
-        elemento = document.createElement("div");
-        elemento.className = "imagen-editor sin-archivo elemento";
-    }
+function terminarEdicion() {
+    edicionEnCurso = false;
+}
 
-    if (tipo === "video") {
-        elemento = document.createElement("div");
-        elemento.className = "video-editor sin-archivo elemento";
-    }
-
-    if (tipo === "divisor") {
-        elemento = document.createElement("hr");
-        elemento.className = "divisor-editor elemento";
-    }
-
-    if (tipo === "contenedor") {
-        elemento = document.createElement("div");
-        elemento.className = "contenedor-editor elemento";
-    }
-
-    if (tipo === "fila") {
-        elemento = document.createElement("div");
-        elemento.className = "fila-editor elemento";
-    }
-
-    if (tipo === "columna") {
-        elemento = document.createElement("div");
-        elemento.className = "columna-editor elemento";
-    }
-
-    if (!elemento) return null;
-
+function crearElemento(tipo) {
+    const elemento = document.createElement("div");
+    elemento.classList.add("elemento");
+    elemento.draggable = true;
     elemento.dataset.tipo = tipo;
 
-    if (archivo) {
-        cargarArchivoEnElemento(elemento, archivo);
+    if (tipo === "texto") {
+        elemento.classList.add("texto-editor");
+        elemento.textContent = "Nuevo texto";
+    } else if (tipo === "imagen") {
+        elemento.classList.add("imagen-editor", "sin-archivo");
+        const imagen = document.createElement("img");
+        imagen.alt = "Imagen";
+        elemento.appendChild(imagen);
+    } else if (tipo === "video") {
+        elemento.classList.add("video-editor", "sin-archivo");
+        const video = document.createElement("video");
+        video.controls = true;
+        elemento.appendChild(video);
+    } else if (tipo === "divisor") {
+        elemento.classList.add("divisor-editor");
+    } else if (tipo === "contenedor") {
+        elemento.classList.add("contenedor-editor");
+    } else if (tipo === "fila") {
+        elemento.classList.add("fila-editor");
+    } else if (tipo === "columna") {
+        elemento.classList.add("columna-editor");
     }
 
     return elemento;
 }
 
-function cargarArchivoEnElemento(elemento, archivo) {
-    if (!archivo) return;
-    const esImagen = archivo.type.startsWith("image/");
-    const esVideo = archivo.type.startsWith("video/");
-    if (!esImagen && !esVideo) return;
+function seleccionarElemento(elemento) {
+    if (elementoSeleccionado === elemento) return;
+
+    if (elementoSeleccionado) elementoSeleccionado.classList.remove("seleccionado");
+
+    elementoSeleccionado = elemento;
+    elementoSeleccionado.classList.add("seleccionado");
+    refrescarPanelPropiedades();
+}
+
+function deseleccionarElemento() {
+    if (elementoSeleccionado) elementoSeleccionado.classList.remove("seleccionado");
+
+    elementoSeleccionado = null;
+    refrescarPanelPropiedades();
+}
+
+function alineacionActual() {
+    if (!elementoSeleccionado) return null;
+    const tipo = elementoSeleccionado.dataset.tipo;
+
+    if (tipo === "texto") {
+        return ALINEACIONES_INVERSO[getComputedStyle(elementoSeleccionado).textAlign] || null;
+    }
+
+    if (tipo === "imagen" || tipo === "video") {
+        if (!elementoSeleccionado.style.margin) return "izquierda";
+
+        const margen = normalizarMargen(getComputedStyle(elementoSeleccionado).margin);
+        for (const clave in ALINEACIONES_IMAGEN) {
+            if (margen === normalizarMargen(ALINEACIONES_IMAGEN[clave])) return clave;
+        }
+    }
+
+    return null;
+}
+
+function refrescarPanelPropiedades() {
+    const grupos = document.querySelectorAll(".grupo-propiedad");
+    let lista = [];
+
+    if (elementoSeleccionado && PROPIEDADES_POR_TIPO[elementoSeleccionado.dataset.tipo]) {
+        lista = PROPIEDADES_POR_TIPO[elementoSeleccionado.dataset.tipo];
+    }
+
+    for (let i = 0; i < grupos.length; i++) {
+        grupos[i].hidden = lista.indexOf(grupos[i].dataset.grupo) === -1;
+    }
+
+    mensajeSeleccion.hidden = elementoSeleccionado !== null;
+
+    if (!elementoSeleccionado) return;
+
+    const tipo = elementoSeleccionado.dataset.tipo;
+    const estilos = getComputedStyle(elementoSeleccionado);
+
+    if (lista.indexOf("contenido") !== -1) {
+        propiedadContenido.value = elementoSeleccionado.textContent;
+    }
+
+    if (lista.indexOf("tamano") !== -1) {
+        if (tipo === "texto") {
+            etiquetaTamano.textContent = "Tamaño (px)";
+            propiedadTamano.value = parseInt(estilos.fontSize) || 16;
+        } else {
+            etiquetaTamano.textContent = "Ancho (px)";
+            propiedadTamano.value = parseInt(elementoSeleccionado.style.width) || "";
+        }
+    }
+
+    if (lista.indexOf("tipografia") !== -1) {
+        propiedadTipografia.value = elementoSeleccionado.dataset.tipografia || "Inter Regular";
+    }
+
+    if (lista.indexOf("grosor") !== -1) {
+        const peso = parseInt(estilos.fontWeight) || 400;
+        if (peso <= 350) propiedadGrosor.value = "300";
+        else if (peso <= 450) propiedadGrosor.value = "400";
+        else if (peso <= 600) propiedadGrosor.value = "500";
+        else propiedadGrosor.value = "700";
+    }
+
+    if (lista.indexOf("color") !== -1) {
+        if (tipo === "texto") {
+            propiedadColor.value = rgbAHex(estilos.color);
+        } else if (tipo === "divisor") {
+            propiedadColor.value = rgbAHex(estilos.backgroundColor);
+        }
+    }
+
+    const botonesFormato = document.querySelectorAll(".boton-formato");
+    for (let i = 0; i < botonesFormato.length; i++) {
+        const formato = botonesFormato[i].dataset.formato;
+        let activo = false;
+
+        if (formato === "negrita") activo = parseInt(estilos.fontWeight) >= 600;
+        if (formato === "cursiva") activo = estilos.fontStyle === "italic";
+        if (formato === "subrayado") activo = estilos.textDecorationLine.indexOf("underline") !== -1;
+
+        if (activo) botonesFormato[i].classList.add("activo");
+        else botonesFormato[i].classList.remove("activo");
+    }
+
+    const botonesAlinear = document.querySelectorAll(".boton-alinear");
+    for (let i = 0; i < botonesAlinear.length; i++) {
+        if (botonesAlinear[i].dataset.alinear === alineacionActual()) {
+            botonesAlinear[i].classList.add("activo");
+        } else {
+            botonesAlinear[i].classList.remove("activo");
+        }
+    }
+}
+
+function hijosOrdenables(contenedor) {
+    const hijos = [];
+    for (let i = 0; i < contenedor.children.length; i++) {
+        const hijo = contenedor.children[i];
+        if (hijo.classList.contains("elemento") && hijo !== elementoEnArrastre) {
+            hijos.push(hijo);
+        }
+    }
+    return hijos;
+}
+
+function posicionSoltado(contenedor, x, y) {
+    const horizontal = contenedor.classList.contains("columna-editor");
+    const posicion = horizontal ? x : y;
+    const hijos = hijosOrdenables(contenedor);
+
+    for (let i = 0; i < hijos.length; i++) {
+        const rect = hijos[i].getBoundingClientRect();
+        let centro;
+        if (horizontal) centro = rect.left + rect.width / 2;
+        else centro = rect.top + rect.height / 2;
+
+        if (posicion < centro) {
+            return { referencia: hijos[i], antes: true };
+        }
+    }
+
+    return { referencia: null, antes: false };
+}
+
+function soltarElemento(contenedor, elemento, x, y) {
+    const pos = posicionSoltado(contenedor, x, y);
+
+    if (pos.referencia && pos.antes) {
+        contenedor.insertBefore(elemento, pos.referencia);
+    } else if (pos.referencia) {
+        contenedor.insertBefore(elemento, pos.referencia.nextSibling);
+    } else {
+        contenedor.appendChild(elemento);
+    }
+}
+
+function limpiarMarcadores() {
+    const marcados = document.querySelectorAll(".marcador-antes, .marcador-despues");
+    for (let i = 0; i < marcados.length; i++) {
+        marcados[i].classList.remove("marcador-antes", "marcador-despues");
+    }
+}
+
+function marcarPosicion(contenedor, x, y) {
+    limpiarMarcadores();
+
+    const pos = posicionSoltado(contenedor, x, y);
+    const hijos = hijosOrdenables(contenedor);
+
+    if (pos.referencia) {
+        if (pos.antes) pos.referencia.classList.add("marcador-antes");
+        else pos.referencia.classList.add("marcador-despues");
+    } else if (hijos.length > 0) {
+        hijos[hijos.length - 1].classList.add("marcador-despues");
+    }
+}
+
+function resaltarContenedor(contenedor) {
+    if (contenedorResaltado && contenedorResaltado !== contenedor) {
+        contenedorResaltado.classList.remove("zona-activa");
+    }
+    contenedor.classList.add("zona-activa");
+    contenedorResaltado = contenedor;
+}
+
+function terminarArrastre() {
+    if (elementoEnArrastre) {
+        elementoEnArrastre.classList.remove("arrastrando");
+        elementoEnArrastre = null;
+    }
+    limpiarMarcadores();
+    if (contenedorResaltado) {
+        contenedorResaltado.classList.remove("zona-activa");
+        contenedorResaltado = null;
+    }
+}
+
+document.addEventListener("dragstart", function (evento) {
+    if (!evento.target.closest) return;
+
+    const herramienta = evento.target.closest(".herramienta");
+    if (herramienta && herramienta.dataset.tipo) {
+        evento.dataTransfer.setData("text/plain", herramienta.dataset.tipo);
+        evento.dataTransfer.effectAllowed = "copy";
+        return;
+    }
+
+    const elemento = evento.target.closest(".elemento");
+    if (elemento && cajaLienzo.contains(elemento)) {
+        elementoEnArrastre = elemento;
+        evento.dataTransfer.setData("text/mover-elemento", "true");
+        evento.dataTransfer.effectAllowed = "move";
+        elemento.classList.add("arrastrando");
+    }
+});
+
+document.addEventListener("dragover", function (evento) {
+    if (!evento.target.closest) return;
+
+    const contenedor = evento.target.closest(SELECTOR_CONTENEDORES);
+
+    if (elementoEnArrastre) {
+        if (!contenedor) {
+            limpiarMarcadores();
+            return;
+        }
+        
+        if (contenedor === elementoEnArrastre || elementoEnArrastre.contains(contenedor)) {
+            return;
+        }
+        evento.preventDefault();
+        evento.dataTransfer.dropEffect = "move";
+        marcarPosicion(contenedor, evento.clientX, evento.clientY);
+        return;
+    }
+
+    if (contenedor) {
+        evento.preventDefault();
+        evento.dataTransfer.dropEffect = "copy";
+        resaltarContenedor(contenedor);
+    }
+});
+
+document.addEventListener("dragleave", function (evento) {
+    if (!evento.target.closest) return;
+
+    const contenedor = evento.target.closest(SELECTOR_CONTENEDORES);
+    if (contenedor) contenedor.classList.remove("zona-activa");
+});
+
+document.addEventListener("drop", function (evento) {
+    if (!evento.target.closest) return;
+
+    const contenedor = evento.target.closest(SELECTOR_CONTENEDORES);
+    if (!contenedor) return;
+    evento.preventDefault();
+
+    if (elementoEnArrastre) {
+        if (contenedor !== elementoEnArrastre && !elementoEnArrastre.contains(contenedor)) {
+            guardarHistorial();
+            soltarElemento(contenedor, elementoEnArrastre, evento.clientX, evento.clientY);
+        }
+        terminarArrastre();
+        return;
+    }
+
+    const tipo = evento.dataTransfer.getData("text/plain");
+    if (TIPOS_VALIDOS.indexOf(tipo) !== -1) {
+        guardarHistorial();
+        soltarElemento(contenedor, crearElemento(tipo), evento.clientX, evento.clientY);
+    }
+
+    terminarArrastre();
+});
+
+document.addEventListener("dragend", terminarArrastre);
+
+cajaLienzo.addEventListener("click", function (evento) {
+    const elemento = evento.target.closest(".elemento");
+    if (elemento) seleccionarElemento(elemento);
+    else deseleccionarElemento();
+});
+
+propiedadContenido.addEventListener("input", function () {
+    if (!elementoSeleccionado || elementoSeleccionado.dataset.tipo !== "texto") return;
+
+    marcarEdicion();
+    elementoSeleccionado.textContent = propiedadContenido.value;
+});
+
+propiedadTamano.addEventListener("input", function () {
+    if (!elementoSeleccionado) return;
+
+    marcarEdicion();
+    const valor = parseInt(propiedadTamano.value);
+    const tipo = elementoSeleccionado.dataset.tipo;
+
+    if (tipo === "texto") {
+        elementoSeleccionado.style.fontSize = valor ? valor + "px" : "";
+    } else if (tipo === "imagen" || tipo === "video") {
+        elementoSeleccionado.style.width = valor ? valor + "px" : "";
+    }
+});
+
+propiedadTipografia.addEventListener("change", function () {
+    if (!elementoSeleccionado) return;
+
+    guardarHistorial();
+    const nombre = propiedadTipografia.value;
+    elementoSeleccionado.style.fontFamily = TIPOGRAFIAS[nombre] || nombre;
+    elementoSeleccionado.dataset.tipografia = nombre;
+});
+
+propiedadGrosor.addEventListener("change", function () {
+    if (!elementoSeleccionado) return;
+
+    guardarHistorial();
+    elementoSeleccionado.style.fontWeight = propiedadGrosor.value;
+});
+
+propiedadColor.addEventListener("input", function () {
+    if (!elementoSeleccionado) return;
+
+    marcarEdicion();
+    const tipo = elementoSeleccionado.dataset.tipo;
+
+    if (tipo === "texto") {
+        elementoSeleccionado.style.color = propiedadColor.value;
+    } else if (tipo === "divisor") {
+        elementoSeleccionado.style.backgroundColor = propiedadColor.value;
+    }
+});
+
+const botonesFormato = document.querySelectorAll(".boton-formato");
+for (let i = 0; i < botonesFormato.length; i++) {
+    botonesFormato[i].addEventListener("click", function () {
+        if (!elementoSeleccionado) return;
+
+        guardarHistorial();
+        const formato = botonesFormato[i].dataset.formato;
+
+        if (formato === "negrita") {
+            const activo = parseInt(elementoSeleccionado.style.fontWeight) >= 600;
+            elementoSeleccionado.style.fontWeight = activo ? "normal" : "bold";
+        } else if (formato === "cursiva") {
+            if (elementoSeleccionado.style.fontStyle === "italic") {
+                elementoSeleccionado.style.fontStyle = "normal";
+            } else {
+                elementoSeleccionado.style.fontStyle = "italic";
+            }
+        } else if (formato === "subrayado") {
+            if (elementoSeleccionado.style.textDecoration.indexOf("underline") !== -1) {
+                elementoSeleccionado.style.textDecoration = "none";
+            } else {
+                elementoSeleccionado.style.textDecoration = "underline";
+            }
+        }
+
+        refrescarPanelPropiedades();
+    });
+}
+
+const botonesAlinear = document.querySelectorAll(".boton-alinear");
+for (let i = 0; i < botonesAlinear.length; i++) {
+    botonesAlinear[i].addEventListener("click", function () {
+        if (!elementoSeleccionado) return;
+
+        guardarHistorial();
+        const alineacion = botonesAlinear[i].dataset.alinear;
+        const tipo = elementoSeleccionado.dataset.tipo;
+
+        if (tipo === "texto") {
+            elementoSeleccionado.style.textAlign = ALINEACIONES[alineacion];
+        } else if (tipo === "imagen" || tipo === "video") {
+            elementoSeleccionado.style.margin = ALINEACIONES_IMAGEN[alineacion];
+        }
+
+        refrescarPanelPropiedades();
+    });
+}
+
+const camposPanel = [propiedadContenido, propiedadTamano, propiedadTipografia, propiedadGrosor, propiedadColor];
+for (let i = 0; i < camposPanel.length; i++) {
+    camposPanel[i].addEventListener("change", terminarEdicion);
+    camposPanel[i].addEventListener("blur", terminarEdicion);
+}
+
+botonSubirArchivo.addEventListener("click", function () {
+    subirPropiedad.click();
+});
+
+subirPropiedad.addEventListener("change", function () {
+    const archivo = subirPropiedad.files[0];
+    if (archivo) cargarArchivoEnElemento(archivo);
+    subirPropiedad.value = "";
+});
+
+function cargarArchivoEnElemento(archivo) {
+    if (!elementoSeleccionado) return;
+    const tipo = elementoSeleccionado.dataset.tipo;
+    if (tipo !== "imagen" && tipo !== "video") return;
 
     const lector = new FileReader();
-    lector.onload = () => {
-        elemento.classList.remove("sin-archivo");
-        if (esImagen) {
-            elemento.innerHTML = "<img src='" + lector.result + "' alt='Imagen'>";
+
+    lector.onload = function () {
+        if (!elementoSeleccionado) return;
+
+        if (tipo === "imagen") {
+            const imagen = elementoSeleccionado.querySelector("img");
+            if (imagen) imagen.src = lector.result;
         } else {
-            elemento.innerHTML = "<video src='" + lector.result + "' controls></video>";
+            const video = elementoSeleccionado.querySelector("video");
+            if (video) {
+                video.src = lector.result;
+                video.load();
+            }
         }
-        if (elemento.style.width) {
-            aplicarAncho(elemento, parseInt(elemento.style.width, 10));
-        }
+
+        elementoSeleccionado.classList.remove("sin-archivo");
     };
+
     lector.readAsDataURL(archivo);
 }
 
-/* ---------- SELECCIÓN Y PANEL ---------- */
+function borrarSeleccionado() {
+    if (!elementoSeleccionado) return;
 
-function seleccionarElemento(elemento) {
-    if (elementoSeleccionado) {
-        elementoSeleccionado.classList.remove("seleccionado");
-    }
-    elementoSeleccionado = elemento;
-    elemento.classList.add("seleccionado");
-    mostrarPropiedades(elemento);
+    guardarHistorial();
+    elementoSeleccionado.remove();
+    deseleccionarElemento();
 }
 
-function deseleccionar() {
-    if (elementoSeleccionado) {
-        elementoSeleccionado.classList.remove("seleccionado");
-    }
-    elementoSeleccionado = null;
-    mostrarMensajeSinSeleccion();
-}
+botonBorrar.addEventListener("click", borrarSeleccionado);
 
-function mostrarMensajeSinSeleccion() {
-    mensajeSeleccion.hidden = false;
-    botonBorrar.hidden = true;
-    document.querySelectorAll("[data-grupo]").forEach((grupo) => {
-        grupo.hidden = true;
-    });
-}
+document.addEventListener("keydown", function (evento) {
+    const escribiendo = evento.target.closest && evento.target.closest("input, textarea, select");
 
-/* Devuelve la alineación actual de un elemento (texto o imagen/video) */
-function alineacionActual(elemento) {
-    const tipo = elemento.dataset.tipo;
-
-    if (tipo === "imagen" || tipo === "video") {
-        const estilos = window.getComputedStyle(elemento);
-        const izq = estilos.marginLeft;
-        const der = estilos.marginRight;
-
-        if (izq === "auto" && der === "auto") return "centro";
-        if (der === "auto") return "izquierda";
-        if (izq === "auto") return "derecha";
-        if (parseInt(izq, 10) === 0 && parseInt(der, 10) === 0 && elemento.style.margin) return "justificar";
-        return "";
+    if (evento.key === "Escape") {
+        if (!ventanaConfirmacion.hidden) cerrarVentana();
+        else deseleccionarElemento();
+        return;
     }
 
-    return ALINEACIONES_INVERSO[elemento.style.textAlign] || "";
-}
+    if (escribiendo) return;
 
-function mostrarPropiedades(elemento) {
-    const tipo = elemento.dataset.tipo;
-    const propiedades = PROPIEDADES_POR_TIPO[tipo] || [];
-
-    mensajeSeleccion.hidden = true;
-    document.querySelectorAll("[data-grupo]").forEach((grupo) => {
-        grupo.hidden = !propiedades.includes(grupo.dataset.grupo);
-    });
-
-    botonBorrar.hidden = false;
-
-    if (tipo === "imagen" || tipo === "video") {
-        etiquetaTamano.textContent = "Ancho (px)";
-    } else {
-        etiquetaTamano.textContent = "Tamaño (px)";
+    if ((evento.ctrlKey || evento.metaKey) && evento.key.toLowerCase() === "z") {
+        evento.preventDefault();
+        deshacer();
+        return;
     }
 
-    const alineacion = alineacionActual(elemento);
-    document.querySelectorAll(".boton-alinear").forEach((boton) => {
-        boton.classList.toggle("activo", boton.dataset.alinear === alineacion);
-    });
-
-    if (propiedades.includes("contenido")) {
-        document.getElementById("propiedadContenido").value = elemento.textContent;
-    }
-    if (propiedades.includes("tamano")) {
-        if (tipo === "imagen" || tipo === "video") {
-            document.getElementById("propiedadTamano").value =
-                elemento.style.width ? parseInt(elemento.style.width, 10) : "";
-        } else {
-            document.getElementById("propiedadTamano").value =
-                parseInt(window.getComputedStyle(elemento).fontSize, 10);
-        }
-    }
-    if (propiedades.includes("color")) {
-        document.getElementById("propiedadColor").value = rgbAHex(window.getComputedStyle(elemento).color);
-    }
-}
-
-function aplicarAncho(elemento, anchoPx) {
-    if (!anchoPx || anchoPx < 20) {
-        elemento.style.width = "";
-    } else {
-        elemento.style.width = anchoPx + "px";
-    }
-}
-
-function rgbAHex(color) {
-    const valores = color.match(/\d+/g);
-    if (!valores || valores.length < 3) return "#ffffff";
-    return "#" + valores.slice(0, 3).map((v) => parseInt(v, 10).toString(16).padStart(2, "0")).join("");
-}
-
-function prepararPanel() {
-    const propiedadContenido = document.getElementById("propiedadContenido");
-    const propiedadTamano = document.getElementById("propiedadTamano");
-    const propiedadTipografia = document.getElementById("propiedadTipografia");
-    const propiedadGrosor = document.getElementById("propiedadGrosor");
-    const propiedadColor = document.getElementById("propiedadColor");
-
-    propiedadContenido.addEventListener("input", () => {
-        if (elementoSeleccionado && elementoSeleccionado.dataset.tipo === "texto") {
-            elementoSeleccionado.textContent = propiedadContenido.value;
-        }
-    });
-
-    propiedadTamano.addEventListener("input", () => {
-        if (!elementoSeleccionado) return;
-        const tipo = elementoSeleccionado.dataset.tipo;
-        if (tipo === "imagen" || tipo === "video") {
-            aplicarAncho(elementoSeleccionado, parseInt(propiedadTamano.value, 10));
-        } else {
-            elementoSeleccionado.style.fontSize = propiedadTamano.value + "px";
-        }
-    });
-
-    propiedadTipografia.addEventListener("change", () => {
+    if (evento.key === "Delete" || evento.key === "Backspace") {
         if (elementoSeleccionado) {
-            elementoSeleccionado.style.fontFamily = propiedadTipografia.value;
+            evento.preventDefault();
+            borrarSeleccionado();
         }
-    });
-
-    propiedadGrosor.addEventListener("change", () => {
-        if (elementoSeleccionado) {
-            elementoSeleccionado.style.fontWeight = propiedadGrosor.value;
-        }
-    });
-
-    propiedadColor.addEventListener("input", () => {
-        if (elementoSeleccionado) {
-            elementoSeleccionado.style.color = propiedadColor.value;
-        }
-    });
-
-    document.querySelectorAll(".boton-formato").forEach((boton) => {
-        boton.addEventListener("click", () => {
-            if (!elementoSeleccionado) return;
-            if (boton.dataset.formato === "italica") {
-                elementoSeleccionado.style.fontStyle =
-                    elementoSeleccionado.style.fontStyle === "italic" ? "normal" : "italic";
-            }
-            if (boton.dataset.formato === "subrayado") {
-                elementoSeleccionado.style.textDecoration =
-                    elementoSeleccionado.style.textDecoration === "underline" ? "none" : "underline";
-            }
-        });
-    });
-
-    document.querySelectorAll(".boton-alinear").forEach((boton) => {
-        boton.addEventListener("click", () => {
-            if (!elementoSeleccionado) return;
-            const tipo = elementoSeleccionado.dataset.tipo;
-
-            if (tipo === "imagen" || tipo === "video") {
-                elementoSeleccionado.style.margin = ALINEACIONES_IMAGEN[boton.dataset.alinear];
-            } else {
-                elementoSeleccionado.style.textAlign = ALINEACIONES[boton.dataset.alinear];
-            }
-
-            document.querySelectorAll(".boton-alinear").forEach((otro) => otro.classList.remove("activo"));
-            boton.classList.add("activo");
-        });
-    });
-
-    botonSubirArchivo.addEventListener("click", () => subirPropiedad.click());
-
-    subirPropiedad.addEventListener("change", () => {
-        if (elementoSeleccionado && subirPropiedad.files[0]) {
-            cargarArchivoEnElemento(elementoSeleccionado, subirPropiedad.files[0]);
-        }
-    });
-
-    botonBorrar.addEventListener("click", () => {
-        if (!elementoSeleccionado) return;
-        const aBorrar = elementoSeleccionado;
-        deseleccionar();
-        aBorrar.remove();
-    });
-}
-
-/* ---------- GUARDAR / REVISIÓN ---------- */
-
-function prepararBotonesPrincipales() {
-    botonGuardar.addEventListener("click", () =>
-        abrirVentana("¿Estás seguro de que quieres guardar el proyecto?", "Los cambios se guardarán en tu navegador", "guardar"));
-    botonRevision.addEventListener("click", () =>
-        abrirVentana("¿Estás seguro de que quieres enviar el proyecto a revisión?", "Un administrador revisará tu proyecto", "revision"));
-    ventanaRechazar.addEventListener("click", cerrarVentana);
-    ventanaAceptar.addEventListener("click", ejecutarAccionPendiente);
-}
-
-function abrirVentana(titulo, texto, accion) {
-    ventanaTitulo.textContent = titulo;
-    ventanaTexto.textContent = texto;
-    accionPendiente = accion;
-    ventanaConfirmacion.hidden = false;
-}
+    }
+});
 
 function abrirVentana(titulo, texto, accion) {
     ventanaTitulo.textContent = titulo;
@@ -409,29 +632,35 @@ function cerrarVentana() {
     accionPendiente = null;
 }
 
+ventanaAceptar.addEventListener("click", function () {
+    ejecutarAccionPendiente();
+    cerrarVentana();
+});
+
+ventanaRechazar.addEventListener("click", cerrarVentana);
+
 function ejecutarAccionPendiente() {
-    if (accionPendiente === "guardar") {
-        guardarProyecto();
-    }
     if (accionPendiente === "revision") {
         guardarProyecto();
     }
-    cerrarVentana();
 }
 
 function guardarProyecto() {
-    if (elementoSeleccionado) {
-        elementoSeleccionado.classList.remove("seleccionado");
-    }
-    localStorage.setItem(CLAVE_GUARDADO, cajaLienzo.innerHTML);
-    if (elementoSeleccionado) {
-        elementoSeleccionado.classList.add("seleccionado");
-    }
+    if (elementoSeleccionado) elementoSeleccionado.classList.remove("seleccionado");
+
+    localStorage.setItem("proyectoTIC", cajaLienzo.innerHTML);
+
+    if (elementoSeleccionado) elementoSeleccionado.classList.add("seleccionado");
 }
 
-function cargarProyecto() {
-    const guardado = localStorage.getItem(CLAVE_GUARDADO);
-    if (guardado) {
-        cajaLienzo.innerHTML = guardado;
-    }
-}
+botonGuardar.addEventListener("click", guardarProyecto);
+
+botonRevision.addEventListener("click", function () {
+    abrirVentana(
+        "¿Estás seguro de que quieres enviar el proyecto a revisión?",
+        "Un administrador revisará tu proyecto",
+        "revision"
+    );
+});
+
+refrescarPanelPropiedades();

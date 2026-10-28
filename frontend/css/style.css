@@ -730,17 +730,6 @@ footer .horizontal {
   cursor: pointer;
 }
 
-.imagen-editor.sin-archivo::after {
-  content: "Tocá para subir una imagen";
-  color: #B8B2C7;
-  font-size: .85rem;
-}
-
-.video-editor.sin-archivo::after {
-  content: "Tocá para subir un video";
-  color: #B8B2C7;
-  font-size: .85rem;
-}
 
 .imagen-editor img,
 .video-editor video {
@@ -779,6 +768,7 @@ footer .horizontal {
 .panel-derecha .form-group {
   display: flex;
   flex-direction: column;
+  flex: 0 0 auto;
   gap: .15rem;
   margin-bottom: .6rem;
 }
@@ -1290,4 +1280,8 @@ nav.horizontal .cerrar-sesion-dropdown {
   nav.horizontal .dropdown-content {
     min-width: 240px;
   }
+}
+
+[hidden] {
+  display: none !important;
 }
