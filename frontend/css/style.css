@@ -499,6 +499,7 @@ footer .horizontal {
 }
 
 .form-group input,
+.form-group select,
 .form-group textarea {
   background-color: #dfd9d9;
   border: none;
@@ -507,6 +508,11 @@ footer .horizontal {
   font-size: 1rem;
   outline: none;
   resize: vertical;
+  margin-top: .5rem;
+}
+
+.form-group select {
+  cursor: pointer;
 }
 
 .form-boton-container {
@@ -516,4 +522,192 @@ footer .horizontal {
 
 .enviar {
 width: 60rem;
+}
+
+.editor {
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  padding-bottom: 2rem;
+
+}
+
+.panel {
+  background-color: #120A2E;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 1rem;
+}
+
+.panel-izquierda {
+  width: 15rem;
+  flex-shrink: 0;
+}
+
+.panel-derecha {
+  width: 17.5rem;
+  flex-shrink: 0;
+}
+
+.panel-titulo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.etiqueta {
+  color: #B8B2C7;
+  font-size: .8rem;
+  font-weight: 500;
+}
+
+.cuadricula-herramientas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
+}
+
+.lista-layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: .5rem;
+}
+
+.herramienta {
+  background-color: #1B1244;
+  border: 1px solid transparent;
+  border-radius: .75rem;
+  padding: .75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .4rem;
+  color: white;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.herramienta:hover {
+  background-color: #241858;
+  border-color: #4D1FB8;
+}
+
+.herramienta-icono {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  line-height: 1;
+}
+
+.herramienta-texto {
+  font-size: .75rem;
+  color: #B8B2C7;
+}
+
+.girado-90 {
+  display: inline-block;
+  transform: rotate(-90deg);
+}
+
+.lienzo {
+  flex: 1;
+  background-color: #0F0830;
+  border: 1px solid #4D1FB8;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.caja-lienzo {
+  width: 22rem;
+  padding: 1rem;
+  background-color: #1B1244;
+  border-radius: .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.tituloProyecto-lienzo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.texto-lienzo {
+  color: #B8B2C7;
+  line-height: 1.4;
+}
+
+.botones-alinear {
+  gap: .5rem;
+}
+
+.boton-alinear {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: #1B1244;
+  border: 1px solid transparent;
+  border-radius: .5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.boton-alinear:hover,
+.boton-alinear.activo {
+  background-color: #241858;
+  border-color: #4D1FB8;
+}
+
+.alinear-icono {
+  width: 1.1rem;
+  height: auto;
+}
+
+.boton.revision{
+  width: 10rem;
+  font-size: 0.9rem;
+  background-color: #3927AF;
+  color: white;
+  border: solid 1px #2f1f92;
+}
+
+.boton.revision:hover{
+  background-color: #2f1f92;
+}
+
+.boton.guardar{
+  margin-right: 1rem;
+  font-size: 0.9rem;
+}
+.boton.borrar {
+  width: 100%;
+  margin-top: auto;
+  background-color: #FF0004;
+  border: none;
+  color: white;
+  margin-top: 1rem;
+}
+
+.boton.borrar:hover {
+  background-color: #d90004;
+}
+
+.propiedadTipografia{
+background-color: #dfd9d9;
+border: none;
+border-radius: 0.5rem;
+padding: 0.5rem 0.75rem;
+font-size: 1rem;
+outline: none;
+resize: vertical;
 }
