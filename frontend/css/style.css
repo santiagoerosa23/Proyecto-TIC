@@ -36,17 +36,6 @@ html, body {
   display: block;
 }
 
-.logo {
-  width: 10rem;
-  margin-left: 2rem;
-  transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.logo:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.7)); 
-}
-
 .cuadricula {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -157,31 +146,6 @@ main {
   padding-right: 2rem;
 }
 
-.search-input {
-  border-radius: .5rem;
-  width: 20rem;
-  height: 2.5rem;
-  background-color: #d9d9d9;
-  border-width: 0.05rem;
-  border-color: #e9e9e9;
-  border-style: solid;
-  padding: .5rem;
-  padding-left: 3rem;
-  margin-right: 1rem;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-}
-
-.search-input:hover {
-  background-color: #e7e7e7;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-
-.search-input:focus {
-  background-color: #ffffff;
-  box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
-  outline: none; 
-}
-
 .login {
   display: none;
 }
@@ -189,28 +153,6 @@ main {
 .login:hover {
   cursor: pointer;
   transform: scale(1.05);
-}
-
-.search-icon {
-  height: 2rem;
-  aspect-ratio: 1/1;
-  position: relative;
-  left: 40px;
-  top: 5px;
-}
-
-.nav-izquierda {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: flex-start;
-}
-
-.nav-derecha {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  justify-content: flex-end;
 }
 
 .circulo.left {
