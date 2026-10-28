@@ -1,37 +1,59 @@
+
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil de usuario</title>
+    <title>Perfil de usuario - TIC EXPERIENCE</title>
 
-    <link rel="stylesheet" href="/CSS/perfil.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/perfil.css">
 </head>
 
 <body>
 
-    <header class="barra-superior">
 
-        <div class="logo">
-            <a href="/index.html">
-                <img src="/Assets/logo.png" alt="Logo">
+    <nav class="horizontal">
+        <section class="nav-izquierda">
+            <a href="index.html" class="inicio-link">
+                <img src="/Assets/logo.png" alt="Logo" class="logo">
             </a>
-        </div>
-
-        <div class="buscador">
-            <input type="text" placeholder="Buscar...">
-        </div>
-
-        <div class="perfil">
-            <img src="/Assets/perfil.webp" alt="Perfil" class="icono-perfil">
-        </div>
-
-    </header>
-
+    
+            <section class="search-container horizontal">
+                <img src="/Assets/search.png" alt="Search Icon" class="search-icon">
+                <input type="text" placeholder="Busca un proyecto" class="search-input">
+            </section>
+        </section>
+    
+        <section class="nav-derecha">
+            <div class="dropdown">
+                <button type="button" class="login-btn">
+                    <img src="/Assets/perfil.webp" alt="Perfil de usuario" class="login-img">
+                </button>
+    
+                <div class="dropdown-content">
+                    <div class="dropdown-header">
+                        <div class="usuario-icono-drpdw"></div>
+    
+                        <div class="info-drpdw">
+                            <span class="nombre-usuario">Nombre de usuario</span>
+                            <span class="uduario-@">@nombredeusuario</span>
+                        </div>
+                    </div>
+    
+                    <hr class="divisor-dropdown">
+    
+                    <a href="/perfil.html" class="perfil-dropdown">Ver perfil</a>
+                    <a href="/logout.html" class="cerrar-sesion-dropdown">Cerrar sesión</a>
+                </div>
+            </div>
+        </section>
+    </nav>
+    
 
     <main class="perfil-container">
 
-        <!-- INFORMACIÓN DEL USUARIO -->
         <section class="informacion-usuario">
 
             <div class="foto-usuario">
@@ -47,13 +69,11 @@
             </div>
 
             <button class="boton-foto-perfil">
-            Subir foto de perfil
+                Subir foto de perfil
             </button>
 
         </section>
 
-
-        <!-- PROYECTOS -->
         <section class="proyectos">
 
             <h2>Proyectos publicados</h2>
@@ -62,39 +82,70 @@
 
                 <a href="/publicar.html" class="proyecto">
                     <div class="imagen-proyecto-1">
-                        <img src="/Assets/proyecto1." alt="Proyecto">
+                        <img src="/Assets/proyecto2.png" alt="Proyecto 1">
                     </div>
+
                     <div class="barra-negra">
-                    <h3>Nombre del proyecto</h3>
+                        <h3>Nombre del proyecto</h3>
                     </div>
-
                 </a>
-
 
                 <a href="/publicar.html" class="proyecto">
                     <div class="imagen-proyecto-2">
-                        <img src="/Assets/proyecto2" alt="Proyecto">
+                        <img src="/Assets/proyecto2.png" alt="Proyecto 2">
                     </div>
-                    <div class="barra-negra">
-                    <h3>Nombre del proyecto</h3>
-                    </div>
-                    
-                </a>
 
+                    <div class="barra-negra">
+                        <h3>Nombre del proyecto</h3>
+                    </div>
+                </a>
 
                 <a href="/publicar.html" class="proyecto">
                     <div class="imagen-proyecto-3">
-                        <img src="/Assets/proyecto3" alt="Proyecto">
+                        <img src="/Assets/proyecto3.jpg" alt="Proyecto 3">
                     </div>
+
                     <div class="barra-negra">
-                    
-                    <h3>Nombre del proyecto</h3>
+                        <h3>Nombre del proyecto</h3>
                     </div>
-                </a>      
-                </div>
-  </section>
+                </a>
+
+            </div>
+
+        </section>
 
     </main>
 
+    <footer>
+        <section class="footer-left">
+            <img src="/Assets/logo.png" alt="Logo" class="logo-footer">
+        </section>
+
+        <section class="footer-right">
+            <a
+                href="https://campus.ort.edu.ar/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="ort-link"
+            >
+                <img src="/Assets/ort-logo.png" alt="ORT Logo" class="ort-logo">
+            </a>
+
+            <a
+                href="https://www.instagram.com/ort.tic"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="instagram-link"
+            >
+                <img
+                    src="/Assets/Instagram.svg"
+                    alt="Instagram"
+                    class="Instagram-logo"
+                >
+            </a>
+        </section>
+    </footer>
+
 </body>
+
 </html>

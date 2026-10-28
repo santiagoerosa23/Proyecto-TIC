@@ -13,18 +13,6 @@ body {
 
 /* BARRA SUPERIOR */
 
-.barra-superior {
-    width: 100%;
-    height: 60px;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 30px;
-
-    border-bottom: 1px solid #ddd;
-}
 
 .logo img {
     width: 100px;
@@ -38,13 +26,6 @@ body {
     border-radius: 5px;
 
     padding: 0 10px;
-}
-
-.icono-perfil {
-    width: 60px;
-    height: 60px;
-
-    border-radius: 50%;
 }
 
 
@@ -140,29 +121,12 @@ body {
 }
 
 
-/* GRILLA */
-
-.proyectos-grid {
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 20px;
-}
-
-
 /* TARJETA DEL PROYECTO */
-a {
-    display: inline-block;
-    margin-right: 10px; 
-  }
-  h3{
-    color: whitesmoke;
-    font-weight: 300;
-  }
 .proyecto {
     text-decoration: none;
     color: #222;
+    display: inline-block;
+    margin-right: 10px; 
 }
 
 .imagen-proyecto-1 {
@@ -197,7 +161,9 @@ background-color: #0A0517;
 
     border-radius: 0 0 8px 8px;
 }
-.imagen-proyecto img {
+.imagen-proyecto-1 img,
+.imagen-proyecto-2 img,
+.imagen-proyecto-3 img {
     width: 100%;
     height: 100%;
 
@@ -206,6 +172,179 @@ background-color: #0A0517;
 
 .proyecto h3 {
     margin-top: 8px;
-
     font-size: 17px;
+    color: whitesmoke;
+    font-weight: 300;
+}
+
+/* HEADER Y FOOTER */
+
+nav.horizontal {
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+nav .logo {
+    width: 10rem;
+    height: auto;
+    margin-left: 2rem;
+    object-fit: contain;
+}
+
+nav .perfil {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 2rem;
+    flex-shrink: 0;
+}
+
+nav .perfil-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.logged-in {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+footer {
+    width: 100%;
+    margin-top: 5rem;
+    flex-shrink: 0;
+}
+
+.logo-footer {
+    width: 10rem;
+    height: auto;
+    object-fit: contain;
+}
+
+.footer-left {
+    margin-right: auto;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.ort-logo,
+.Instagram-logo {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+}
+
+/* CONTENIDO DEL PERFIL */
+
+.perfil-container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.proyectos-publicados {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.perfil-container .proyecto {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    background: none;
+    aspect-ratio: auto;
+    border-radius: 8px;
+    overflow: hidden;
+    text-decoration: none;
+}
+
+.perfil-container .imagen-proyecto-1,
+.perfil-container .imagen-proyecto-2,
+.perfil-container .imagen-proyecto-3 {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+}
+
+.perfil-container .proyecto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.perfil-container .barra-negra {
+    width: 100%;
+    height: 100px;
+    padding: 12px;
+    background-color: #0A0517;
+    border-radius: 0 0 8px 8px;
+}
+
+.perfil-container .proyecto h3 {
+    margin-top: 8px;
+    color: whitesmoke;
+    font-size: 17px;
+    font-weight: 300;
+}
+
+.perfil-container .proyecto:hover {
+    background: none;
+    opacity: 0.9;
+}
+
+.descripcion {
+    color: #ddd;
+}
+
+@media (max-width: 800px) {
+    .proyectos-publicados {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .informacion-usuario {
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        width: 12rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .proyectos-publicados {
+        grid-template-columns: 1fr;
+    }
+
+    nav .logo {
+        width: 6rem;
+        margin-left: 0;
+    }
+
+    .search-input {
+        width: 9rem;
+    }
+
+    .nav-derecha {
+        gap: 0.4rem;
+    }
+
+    .login {
+        margin-right: 0;
+        width: 6rem;
+    }
+
+    .perfil-container {
+        width: 92%;
+    }
 }
