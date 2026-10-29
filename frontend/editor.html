@@ -4,11 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=5">
     <title>TIC EXPERIENCE: EDITOR</title>
 </head>
 
-<body>
+<body class="editor-page">
     <nav class="horizontal">
         <section class="nav-izquierda">
             <a href="Index.html" class="inicio-link">
@@ -18,6 +18,9 @@
         <section class="nav-derecha">
             <button class="boton revision" id="botonRevision">
                 Enviar a revisión
+            </button>
+            <button class="boton" id="botonConfiguracion">
+                Configuración
             </button>
             <button class="boton guardar" id="botonGuardar">
                 Guardar
@@ -56,11 +59,11 @@
                     <span class="herramienta-texto">Contenedor</span>
                 </button>
                 <button class="herramienta" draggable="true" data-tipo="fila">
-                    <span class="herramienta-icono">≡</span>
+                    <span class="herramienta-icono girado-90">≡</span>
                     <span class="herramienta-texto">Fila</span>
                 </button>
                 <button class="herramienta" draggable="true" data-tipo="columna">
-                    <span class="herramienta-icono girado-90">≡</span>
+                    <span class="herramienta-icono">≡</span>
                     <span class="herramienta-texto">Columna</span>
                 </button>
             </div>
@@ -103,9 +106,6 @@
                     <option value="Inter Regular" selected>
                         Inter Regular
                     </option>
-                    <option value="Inter Bold">
-                        Inter Bold
-                    </option>
                     <option value="Arial">
                         Arial
                     </option>
@@ -131,6 +131,41 @@
             <div class="form-group grupo-propiedad" data-grupo="color">
                 <label for="propiedadColor">Color</label>
                 <input type="color" id="propiedadColor" name="propiedadColor" value="#ffffff">
+            </div>
+
+            <div class="form-group grupo-propiedad" data-grupo="radio">
+                <label for="propiedadRadio">Radio (px)</label>
+                <input type="number" id="propiedadRadio" name="propiedadRadio" min="0" value="0">
+            </div>
+
+            <div class="form-group grupo-propiedad" data-grupo="margin">
+                <label for="propiedadMargen">Margin (px)</label>
+                <input type="number" id="propiedadMargen" name="propiedadMargen" min="0" value="0">
+            </div>
+
+            <div class="form-group grupo-propiedad" data-grupo="padding">
+                <label for="propiedadRelleno">Padding (px)</label>
+                <input type="number" id="propiedadRelleno" name="propiedadRelleno" min="0" value="0">
+            </div>
+
+            <div class="form-group grupo-propiedad" data-grupo="horizontal">
+                <label for="propiedadAlineacionHorizontal">Alineación horizontal</label>
+                <select id="propiedadAlineacionHorizontal" name="propiedadAlineacionHorizontal">
+                    <option value="flex-start">Izquierda</option>
+                    <option value="center">Centro</option>
+                    <option value="flex-end">Derecha</option>
+                    <option value="space-between">Separado</option>
+                </select>
+            </div>
+
+            <div class="form-group grupo-propiedad" data-grupo="vertical">
+                <label for="propiedadAlineacionVertical">Alineación vertical</label>
+                <select id="propiedadAlineacionVertical" name="propiedadAlineacionVertical">
+                    <option value="flex-start">Arriba</option>
+                    <option value="center">Centro</option>
+                    <option value="flex-end">Abajo</option>
+                    <option value="stretch">Estirar</option>
+                </select>
             </div>
 
             <div class="form-group grupo-propiedad" data-grupo="formato">
@@ -170,6 +205,7 @@
         <div class="ventana-confirmacion">
             <h3 class="ventana-titulo" id="ventanaTitulo"></h3>
             <p class="ventana-texto" id="ventanaTexto"></p>
+            <div id="ventanaCampos"></div>
             <div class="ventana-botones">
                 <button class="boton ventana-rechazar" id="ventanaRechazar">Rechazar</button>
                 <button class="boton ventana-aceptar" id="ventanaAceptar">Aceptar</button>
@@ -177,7 +213,8 @@
         </div>
     </div>
 
-    <script src="/js/editor.js"></script>
+    <script src="/js/config.js?v=2"></script>
+    <script src="/js/editor.js?v=5"></script>
 </body>
 
 </html>

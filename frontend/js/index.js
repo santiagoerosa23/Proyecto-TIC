@@ -1,4 +1,5 @@
 let proyectos = [];
+const VERSION_AVATARES = '2';
 const container = document.querySelector('.cuadricula');
 const inputBusqueda = document.querySelector('.search-input');
 
@@ -33,14 +34,15 @@ function mostrarProyectos(lista) {
   container.innerHTML = '';
   lista.forEach(proyecto => {
     const colaboradores = proyecto.colaboradores ? proyecto.colaboradores : [];
+    const perfiles = crearPerfilesApilados(colaboradores);
     container.innerHTML += `
     <section class="proyecto">
       <a href="Pestaña-proyecto.html?id=${proyecto.id}" class="proyecto-link">
         <section class="proyecto-miniatura" style="background-image: url('${API_BASE_URL}/media/${proyecto.miniatura}')"></section>
         <div class="informacion">
           <div class="perfilytitulo">
-            <div class="perfil">
-              <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono" title="Por ${colaboradores.map(c => c.alias).join(', ')}">
+            <div class="perfiles-apilados" title="Por ${colaboradores.map(c => c.alias).join(', ')}">
+              ${perfiles}
             </div>
             <div class="titulo">
               <p class="tituloProyecto">${proyecto.titulo}</p>
@@ -51,4 +53,35 @@ function mostrarProyectos(lista) {
     </section>
     `;
   });
+}
+
+function crearPerfilesApilados(colaboradores) {
+  if (colaboradores.length === 0) {
+    return crearPerfilColaborador({});
+  }
+
+  return colaboradores.map((colaborador, indice) => {
+    return crearPerfilColaborador(colaborador, indice);
+  }).join('');
+}
+
+function crearPerfilColaborador(colaborador, indice = 0) {
+  const rol = (colaborador.rol || '').toLowerCase();
+  const archivo = obtenerAvatarPorRol(rol);
+  const alias = colaborador.alias || 'Colaborador';
+
+  return `
+    <div class="perfil perfil-apilado" style="z-index: ${20 - indice};">
+      <img src="/Assets/${archivo}?v=${VERSION_AVATARES}" alt="Perfil de ${alias}" class="perfil-img" title="${alias} - ${colaborador.rol || 'Sin rol'}">
+    </div>
+  `;
+}
+
+function obtenerAvatarPorRol(rol) {
+  if (rol.includes('front')) return 'frontendPfp.png';
+  if (rol.includes('back')) return 'backendPfp.png';
+  if (rol.includes('hardware')) return 'hardwarePfp.png';
+  if (rol.includes('timi')) return 'timiPfp.png';
+  if (rol.includes('full')) return 'fullstackPfp.png';
+  return 'perfil.svg';
 }

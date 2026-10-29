@@ -1,4 +1,5 @@
 let idProyecto = new URLSearchParams(window.location.search).get('id');
+const VERSION_AVATARES = '2';
 
 const titulo = document.getElementById('tituloProyecto');
 // const descripcion = document.getElementById('descripcion');
@@ -44,10 +45,20 @@ function mostrarProyecto(proyecto) {
   colabs.forEach(colab => {
     colaboradores.innerHTML += `
     <div class="perfil">
-      <img src="/Assets/perfil.svg" alt="Perfil de ${colab.alias}" class="perfil-img icono" title="${colab.rol}: ${colab.alias}">
+      <img src="/Assets/${obtenerAvatarPorRol(colab.rol)}?v=${VERSION_AVATARES}" alt="Perfil de ${colab.alias}" class="perfil-img" title="${colab.rol}: ${colab.alias}">
     </div>
     `;
   });
+}
+
+function obtenerAvatarPorRol(rol) {
+  const rolNormalizado = (rol || '').toLowerCase();
+  if (rolNormalizado.includes('front')) return 'frontendPfp.png';
+  if (rolNormalizado.includes('back')) return 'backendPfp.png';
+  if (rolNormalizado.includes('hardware')) return 'hardwarePfp.png';
+  if (rolNormalizado.includes('timi')) return 'timiPfp.png';
+  if (rolNormalizado.includes('full')) return 'fullstackPfp.png';
+  return 'perfil.svg';
 }
 
 

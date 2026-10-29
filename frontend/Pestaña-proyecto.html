@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=4">
     <title>TIC EXPERIENCE: SHOWCASE</title>
 </head>
 
@@ -20,21 +20,25 @@
             </section>
         </section>
         <section class="nav-derecha">
-            <button class="login boton">
-                <a href="login.html">
-                    Iniciar sesión
-                </a>
-            </button>
-            <section class="logged-in">
-                <button class="boton navbar">
-                    <a href="#">
-                        Mis proyectos
-                    </a>
+            <a class="navbar-guest boton navbar" href="login.html">Iniciar sesión</a>
+            <a class="mis-proyectos boton navbar" href="/perfil.html" hidden>Mis proyectos</a>
+            <div class="dropdown navbar-profile" hidden>
+                <button type="button" class="login-btn">
+                    <img src="/Assets/perfil.svg?v=2" alt="Perfil de usuario" class="login-img">
                 </button>
-                <div class="perfil">
-                    <img src="/Assets/perfil.svg" alt="Perfil del creador" class="perfil-img icono">
+                <div class="dropdown-content">
+                    <div class="dropdown-header">
+                        <div class="usuario-icono-drpdw"></div>
+                        <div class="info-drpdw">
+                            <span class="nombre-usuario">Nombre de usuario</span>
+                            <span class="uduario-@">@nombredeusuario</span>
+                        </div>
+                    </div>
+                    <hr class="divisor-dropdown">
+                    <a href="/perfil.html" class="perfil-dropdown">Ver perfil</a>
+                    <a href="login.html" class="cerrar-sesion-dropdown">Cerrar sesión</a>
                 </div>
-            </section>
+            </div>
         </section>
     </nav>
     <div class="info">
@@ -94,9 +98,10 @@
             </a>
         </section>
     </footer>
-    <script src="/js/config.js"></script>
-    <script src="/js/proyecto.js"></script>
-    <script src="/js/busqueda.js"></script>
+    <script src="/js/config.js?v=2"></script>
+    <script src="/js/navbar.js?v=4"></script>
+    <script src="/js/proyecto.js?v=2"></script>
+    <script src="/js/busqueda.js?v=3"></script>
 </body>
 
 </html>

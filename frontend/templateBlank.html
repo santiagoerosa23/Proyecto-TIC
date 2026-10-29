@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css?v=4">
     <title>TIC EXPERIENCE: SHOWCASE</title>
 </head>
 
@@ -23,9 +23,11 @@
         </section>
     
         <section class="nav-derecha">
-            <div class="dropdown">
+            <a class="navbar-guest boton navbar" href="login.html">Iniciar sesión</a>
+            <a class="mis-proyectos boton navbar" href="/perfil.html" hidden>Mis proyectos</a>
+            <div class="dropdown navbar-profile" hidden>
                 <button type="button" class="login-btn">
-                    <img src="/Assets/perfil.svg" alt="Perfil de usuario" class="login-img">
+                    <img src="/Assets/perfil.svg?v=2" alt="Perfil de usuario" class="login-img">
                 </button>
     
                 <div class="dropdown-content">
@@ -41,13 +43,15 @@
                     <hr class="divisor-dropdown">
     
                     <a href="/perfil.html" class="perfil-dropdown">Ver perfil</a>
-                    <a href="/logout.html" class="cerrar-sesion-dropdown">Cerrar sesión</a>
+                    <a href="login.html" class="cerrar-sesion-dropdown">Cerrar sesión</a>
                 </div>
             </div>
         </section>
     </nav>
     
 <!--Pegar pagina aca-->
+    <script src="/js/config.js?v=2"></script>
+    <script src="/js/navbar.js?v=4"></script>
     <footer>
         <section class="footer-left">
             <img src="/Assets/logo.png" alt="Logo" class="logo-footer">

@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Publicar proyecto</title>
-<link rel="stylesheet" href="/css/publicar.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css?v=5">
+    <link rel="stylesheet" href="/css/publicar.css?v=6">
+    <title>Crear proyecto - TIC EXPERIENCE</title>
 </head>
+
 <body>
-<main class="wireframe">
-<section class="panel">
-<h1>Publicar proyecto</h1>
-<label for="titulo">Título del proyecto</label>
-<input id="titulo" type="text" placeholder="Título">
-<label for="descripcion">Descripción</label>
-<textarea id="descripcion" placeholder="Descripción"></textarea>
-<label for="integrantes">Integrantes</label>
-<input id="integrantes" type="text" placeholder="Integrantes">
-<div class="acciones"><a href="/Index.html">Volver</a><button type="button">Publicar</button></div>
-</section>
-<section class="preview">
-<div id="previewTitulo">Título del proyecto</div>
-<p id="previewDescripcion">Descripción</p>
-</section>
-</main>
-<script>
-const t=document.getElementById("titulo"),d=document.getElementById("descripcion");
-t.addEventListener("input",()=>document.getElementById("previewTitulo").textContent=t.value||"Título del proyecto");
-d.addEventListener("input",()=>document.getElementById("previewDescripcion").textContent=d.value||"Descripción");
-</script>
+    <main class="publicar-container">
+        <form id="formularioProyecto" class="formulario-proyecto">
+            <h1>CONFIGURÁ TU PROYECTO</h1>
+
+            <label for="titulo">Título</label>
+            <input id="titulo" name="titulo" type="text" placeholder="Título" required>
+
+            <div id="listaIntegrantes" class="lista-integrantes"></div>
+
+            <p class="mensaje-formulario" id="mensajeFormulario" role="status"></p>
+
+            <div class="acciones-proyecto">
+                <button class="boton continuar-proyecto" type="submit">IR AL EDITOR</button>
+                <a class="volver-proyecto" href="/Index.html">Volver al inicio</a>
+            </div>
+        </form>
+
+        <section class="vista-logo">
+            <img src="/Assets/logo.png" alt="TIC EXPERIENCE">
+        </section>
+    </main>
+
+    <script src="/js/config.js?v=2"></script>
+    <script src="/js/publicar.js?v=1"></script>
 </body>
+
 </html>

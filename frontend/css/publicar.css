@@ -1,15 +1,168 @@
-*{box-sizing:border-box;margin:0;padding:0}
-body{min-height:100vh;background:#f2f2f2;font-family:Arial,Helvetica,sans-serif;color:#111}
-.wireframe{width:min(900px,92vw);min-height:520px;margin:60px auto;display:grid;grid-template-columns:1fr 1fr;background:#d9d9d9}
-.panel{padding:50px 42px;display:flex;flex-direction:column;gap:12px}
-.panel h1{font-size:28px;margin-bottom:22px}
-.panel input,.panel textarea{width:100%;border:0;background:#fff;padding:12px;font:inherit}
-.panel textarea{min-height:100px;resize:vertical}
-.acciones{margin-top:auto;display:flex;gap:12px}
-.acciones a,.acciones button{border:0;padding:11px 24px;font:inherit;text-decoration:none;cursor:pointer}
-.acciones a{background:#bdbdbd;color:#111}
-.acciones button{background:#000;color:#fff}
-.preview{background:#000;color:#fff;padding:40px;min-height:520px}
-.preview div{background:#d9d9d9;color:#111;padding:12px 18px;font-size:18px}
-.preview p{color:#d9d9d9;margin-top:18px;line-height:1.5}
-@media(max-width:700px){.wireframe{grid-template-columns:1fr;margin:20px auto}.preview{min-height:300px}}
+html,
+body {
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    display: block;
+    overflow: hidden;
+    background: #292929;
+}
+
+.publicar-container {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background: #292929;
+}
+
+.formulario-proyecto {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+    padding: 2.5rem 2rem;
+    background-color: #292929;
+}
+
+.formulario-proyecto h1 {
+    margin-bottom: 1.8rem;
+    color: #BDBDBD;
+    font-size: 1.45rem;
+    font-weight: 400;
+}
+
+.formulario-proyecto label {
+    display: none;
+}
+
+.formulario-proyecto > input,
+.integrante input,
+.integrante select {
+    width: 100%;
+    height: 2.1rem;
+    padding: .3rem .5rem;
+    border: 1px solid #777777;
+    border-radius: .35rem;
+    background-color: transparent;
+    color: #FFFFFF;
+    font: inherit;
+    font-size: .8rem;
+}
+
+.recordatorio-integrantes {
+    margin: 0 0 .35rem;
+    color: #858585;
+    font-size: .68rem;
+}
+
+.formulario-proyecto input::placeholder,
+.integrante select {
+    color: #A7A7A7;
+}
+
+.integrante select {
+    appearance: auto;
+}
+
+.integrante select option {
+    color: #111111;
+}
+
+.integrante {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+    margin-top: .3rem;
+}
+
+.integrante h3 {
+    color: #999999;
+    font-size: .72rem;
+    font-weight: 400;
+}
+
+.campos-integrante {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .6rem;
+}
+
+.mensaje-formulario {
+    min-height: 1rem;
+    margin-top: .2rem;
+    color: #FFB5B5;
+    font-size: .75rem;
+}
+
+.acciones-proyecto {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 2px solid #777777;
+}
+
+.continuar-proyecto {
+    width: auto;
+    min-width: 10rem;
+    padding: .6rem 1rem;
+    border: 1px solid #555555;
+    border-radius: 2rem;
+    background: transparent;
+    color: #999999;
+    font-size: .95rem;
+}
+
+.volver-proyecto {
+    color: #999999;
+    text-decoration: none;
+    font-size: .95rem;
+}
+
+.volver-proyecto:hover {
+    color: #FFFFFF;
+}
+
+.vista-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 100vh;
+    padding-left: 0;
+    background: linear-gradient(145deg, #44245e, #c50082);
+}
+
+.vista-logo img {
+    width: 72%;
+    max-width: 320px;
+}
+
+@media (max-width: 600px) {
+    .publicar-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100vh;
+        overflow-y: auto;
+    }
+
+    .formulario-proyecto {
+        padding: 1.25rem;
+    }
+
+    .vista-logo {
+        min-height: 280px;
+        padding-left: 2rem;
+    }
+
+    .campos-integrante {
+        grid-template-columns: 1fr;
+    }
+}

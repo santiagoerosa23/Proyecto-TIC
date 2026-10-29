@@ -9,7 +9,7 @@ const form = document.getElementById("login");
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const loginResultado = await fetch('http://localhost:3000/login', {
+    const loginResultado = await fetch(`${API_BASE_URL}/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

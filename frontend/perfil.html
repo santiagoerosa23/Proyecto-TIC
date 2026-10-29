@@ -7,8 +7,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de usuario - TIC EXPERIENCE</title>
 
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/perfil.css">
+    <link rel="stylesheet" href="/css/style.css?v=3">
+    <link rel="stylesheet" href="/css/perfil.css?v=3">
+    <link rel="stylesheet" href="/css/admin.css?v=2">
 </head>
 
 <body>
@@ -27,9 +28,11 @@
         </section>
     
         <section class="nav-derecha">
-            <div class="dropdown">
+            <a class="navbar-guest boton navbar" href="login.html">Iniciar sesión</a>
+            <a class="mis-proyectos boton navbar" href="/perfil.html" hidden>Mis proyectos</a>
+            <div class="dropdown navbar-profile" hidden>
                 <button type="button" class="login-btn">
-                    <img src="/Assets/perfil.svg" alt="Perfil de usuario" class="login-img">
+                    <img src="/Assets/perfil.svg?v=2" alt="Perfil de usuario" class="login-img">
                 </button>
     
                 <div class="dropdown-content">
@@ -45,74 +48,102 @@
                     <hr class="divisor-dropdown">
     
                     <a href="/perfil.html" class="perfil-dropdown">Ver perfil</a>
-                    <a href="/logout.html" class="cerrar-sesion-dropdown">Cerrar sesión</a>
+                    <a href="login.html" class="cerrar-sesion-dropdown">Cerrar sesión</a>
                 </div>
             </div>
         </section>
     </nav>
     
+    <script src="/js/config.js?v=2"></script>
+    <script src="/js/navbar.js?v=4"></script>
 
     <main class="perfil-container">
 
         <section class="informacion-usuario">
 
             <div class="foto-usuario">
-                <img src="/Assets/perfil.svg" alt="Foto de perfil">
+                <img id="fotoPerfil" src="/Assets/perfil.svg?v=2" alt="Foto de perfil">
             </div>
 
             <div class="datos-usuario">
-                <h1>Nombre de usuario</h1>
-
-                <p class="descripcion">
-                    Descripción del usuario
-                </p>
+                <h1 class="nombre-perfil">
+                    <span id="nombrePerfil">Nombre de usuario</span>
+                    <span id="chipAdmin" class="chip-admin" hidden>ADMIN</span>
+                </h1>
             </div>
 
-            <button class="boton-foto-perfil">
+            <button class="boton-foto-perfil" id="botonFotoPerfil">
                 Subir foto de perfil
             </button>
+            <input type="file" id="archivoFotoPerfil" accept="image/*" hidden>
 
         </section>
 
         <section class="proyectos">
 
             <h2>Proyectos publicados</h2>
+            <p class="subtitulo-proyectos">Los proyectos que el usuario publicó.</p>
 
-            <div class="proyectos-publicados">
-
-                <a href="/publicar.html" class="proyecto">
-                    <div class="imagen-proyecto-1">
-                        <img src="/Assets/proyecto2.png" alt="Proyecto 1">
-                    </div>
-
-                    <div class="barra-negra">
-                        <h3>Nombre del proyecto</h3>
-                    </div>
-                </a>
-
-                <a href="/publicar.html" class="proyecto">
-                    <div class="imagen-proyecto-2">
-                        <img src="/Assets/proyecto2.png" alt="Proyecto 2">
-                    </div>
-
-                    <div class="barra-negra">
-                        <h3>Nombre del proyecto</h3>
-                    </div>
-                </a>
-
-                <a href="/publicar.html" class="proyecto">
-                    <div class="imagen-proyecto-3">
-                        <img src="/Assets/proyecto3.jpg" alt="Proyecto 3">
-                    </div>
-
-                    <div class="barra-negra">
-                        <h3>Nombre del proyecto</h3>
-                    </div>
-                </a>
-
-            </div>
+            <div class="proyectos-publicados" id="proyectosPublicados"></div>
 
         </section>
+
+        <section class="proyectos no-publicados">
+            <h2>Proyectos no publicados</h2>
+            <div class="lista-no-publicados" id="proyectosNoPublicados"></div>
+            <a class="boton crear-proyecto" href="/publicar.html">
+                Crear proyecto
+            </a>
+            <section class="seccion-admin panel-admin-perfil" hidden>
+                <h2>Administración</h2>
+                <section class="admin-grid">
+                    <article class="admin-card">
+                        <div class="admin-card-titulo">
+                            <h2>Solicitudes</h2>
+                            <span id="cantidadSolicitudes">0</span>
+                        </div>
+                        <div id="listaSolicitudes" class="lista-admin"></div>
+                    </article>
+
+                    <article class="admin-card">
+                        <div class="admin-card-titulo">
+                            <h2>Solicitudes de comentarios</h2>
+                            <span id="cantidadComentarios">0</span>
+                        </div>
+                        <div id="listaComentarios" class="lista-admin"></div>
+                    </article>
+
+                    <article class="admin-card">
+                        <div class="admin-card-titulo">
+                            <h2>Usuarios</h2>
+                            <button class="boton-admin pequeno" id="botonCrearUsuarios">+</button>
+                        </div>
+                        <div id="listaUsuarios" class="lista-admin"></div>
+                    </article>
+
+                    <article class="admin-card">
+                        <div class="admin-card-titulo">
+                            <h2>Mails</h2>
+                            <span id="cantidadMails">0</span>
+                        </div>
+                        <div id="listaMails" class="lista-admin"></div>
+                    </article>
+                </section>
+            </section>
+
+        </section>
+
+        <div class="popup-fondo" id="popupAdmin" hidden>
+            <form class="popup-admin" id="formularioAdmin">
+                <h2 id="popupTitulo">Confirmar acción</h2>
+                <p id="popupTexto"></p>
+                <div id="camposPopup"></div>
+                <div class="popup-acciones">
+                    <button type="button" class="boton-admin secundario" id="botonCancelarPopup">Cancelar</button>
+                    <button type="submit" class="boton-admin" id="botonAceptarPopup">Aceptar</button>
+                </div>
+            </form>
+        </div>
 
     </main>
 
@@ -146,6 +177,8 @@
         </section>
     </footer>
 
+    <script src="/js/perfil.js?v=5"></script>
+    <script src="/js/admin.js?v=2"></script>
 </body>
 
 </html>

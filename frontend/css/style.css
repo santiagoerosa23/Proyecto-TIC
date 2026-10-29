@@ -20,6 +20,10 @@ html, body {
   background-attachment: fixed;
 }
 
+.editor-page {
+  overflow: hidden;
+}
+
 .centrado {
   text-align: center;
   width: 100%;
@@ -255,6 +259,10 @@ footer .horizontal {
 
 .boton.navbar {
   margin-right: 2rem;
+  width: auto;
+  min-width: 8.5rem;
+  white-space: nowrap;
+  text-align: center;
 }
 
 .boton.volver {
@@ -296,6 +304,23 @@ footer .horizontal {
   margin-right: auto;
   align-items: center;
   gap: 0.5rem;
+}
+
+.perfiles-apilados {
+  display: flex;
+  align-items: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+}
+
+.perfil-apilado {
+  position: relative;
+  flex: 0 0 2.5rem;
+  margin-left: -0.5rem;
+}
+
+.perfil-apilado:first-child {
+  margin-left: 0;
 }
 
 .perfil {
@@ -462,6 +487,8 @@ footer .horizontal {
   display: flex;
   gap: 1rem;
   padding-bottom: 2rem;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .panel {
@@ -471,6 +498,7 @@ footer .horizontal {
   flex-direction: column;
   gap: 1rem;
   border-radius: 1rem;
+  min-height: 0;
 }
 
 .panel-izquierda {
@@ -562,6 +590,8 @@ footer .horizontal {
 
 .lienzo {
   flex: 1;
+  min-width: 0;
+  min-height: 0;
   background-color: #0F0830;
   border: 1px solid #4D1FB8;
   border-radius: 1rem;
@@ -569,11 +599,15 @@ footer .horizontal {
   align-items: stretch;
   justify-content: center;
   padding: 1rem;
+  overflow: auto;
 }
 
 .caja-lienzo {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
+  height: max-content;
   min-height: 100%;
+  flex-shrink: 0;
   padding: 1.5rem;
   background-color: #1B1244;
   border-radius: .75rem;
@@ -621,10 +655,13 @@ footer .horizontal {
 
 .fila-editor {
   display: flex !important;
-  flex-direction: column !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap;
+  align-items: stretch;
   gap: .5rem;
   width: 100%;
   min-height: 3rem;
+  flex-shrink: 0;
   border: 1px dashed #4D1FB8;
   border-radius: .5rem;
   padding: .5rem;
@@ -632,10 +669,13 @@ footer .horizontal {
 
 .columna-editor {
   display: flex !important;
-  flex-direction: row !important;
+  flex-direction: column !important;
+  flex-wrap: nowrap;
+  align-items: stretch;
   gap: .5rem;
   width: 100%;
   min-height: 3rem;
+  flex-shrink: 0;
   border: 1px dashed #4D1FB8;
   border-radius: .5rem;
   padding: .5rem;
@@ -648,14 +688,20 @@ footer .horizontal {
   padding: 1rem;
   min-height: 3rem;
   width: 100%;
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
   gap: .5rem;
 }
 
 .fila-editor > * {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-width: 0;
+}
+
+.fila-editor > .imagen-editor.tamano-personalizado,
+.fila-editor > .video-editor.tamano-personalizado {
+  flex: 0 0 auto;
 }
 
 .columna-editor > * {
@@ -681,6 +727,10 @@ footer .horizontal {
 
 .elemento:hover {
   outline: 1px dashed #B8B2C7;
+}
+
+.texto-editor:hover {
+  outline: none;
 }
 
 .elemento.seleccionado {
@@ -992,7 +1042,7 @@ footer .horizontal {
 .ventana-fondo {
   position: fixed;
   inset: 0;
-  background: rgba(5, 3, 20, 0.65);
+  background: rgba(0, 0, 0, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1000,65 +1050,100 @@ footer .horizontal {
 }
 
 .ventana-confirmacion {
-  background: #211A5E;
+  background: #2d216d;
   color: #FFFFFF;
-  border-radius: .75rem;
-  padding: 1.25rem 1.5rem;
-  width: 26rem;
-  max-width: 90%;
-  box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  padding: .55rem .65rem;
+  width: 280px;
+  max-width: calc(100% - 1rem);
+  box-shadow: none;
   text-align: left;
+}
+
+.ventana-configuracion .ventana-confirmacion {
+  width: 420px;
+  padding: 1.25rem;
+}
+
+.ventana-configuracion .ventana-titulo {
+  font-size: 1rem;
+}
+
+.ventana-configuracion .ventana-texto {
+  font-size: .85rem;
 }
 
 .ventana-titulo {
   color: #FFFFFF;
-  font-size: 1rem;
-  font-weight: bold;
-  line-height: 1.4;
-  margin: 0 0 .15rem;
+  font-size: .72rem;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0 0 .1rem;
 }
 
 .ventana-texto {
-  color: #B8B2C7;
-  font-size: .85rem;
-  margin: 0 0 1.25rem;
+  color: #FFFFFF;
+  font-size: .72rem;
+  line-height: 1.25;
+  margin: 0 0 .55rem;
+}
+
+.ventana-texto.texto-error {
+  color: #ff6b6b;
+}
+
+#ventanaCampos {
+  margin-bottom: .55rem;
+}
+
+#ventanaCampos input[type="file"] {
+  width: 100%;
+  color: #FFFFFF;
+  font-size: .7rem;
+}
+
+.campo-miniatura {
+  display: block;
+  margin-bottom: .25rem;
+  color: #FFFFFF;
+  font-size: .7rem;
 }
 
 .ventana-botones {
   display: flex;
-  gap: .75rem;
+  gap: .25rem;
   justify-content: flex-end;
 }
 
 .ventana-botones .boton {
   width: auto;
-  height: 2.25rem;
-  padding: 0 1.25rem;
-  border-radius: .4rem;
+  height: 1.5rem;
+  padding: 0 .55rem;
+  border-radius: 2px;
   border: none;
-  font-size: .85rem;
-  font-weight: bold;
+  font-size: .7rem;
+  font-weight: 400;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .ventana-aceptar {
-  background: #4132C9;
+  background: #4636a5;
   color: #FFFFFF;
 }
 
 .ventana-aceptar:hover {
-  background: #4d3ad9;
+  background: #5544bb;
 }
 
 .ventana-rechazar {
-  background: #322a80;
+  background: #392b87;
   color: #FFFFFF;
 }
 
 .ventana-rechazar:hover {
-  background: #3b3194;
+  background: #4635a0;
 }
 /* ---------- NAV ---------- */
 
@@ -1141,12 +1226,26 @@ nav.horizontal .nav-derecha {
   align-items: center;
   justify-content: flex-end;
   gap: 1rem;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 nav.horizontal .dropdown {
   position: relative;
   display: inline-block;
   margin-right: 2rem;
+  flex-shrink: 0;
+}
+
+nav.horizontal .dropdown::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100%;
+  min-width: 280px;
+  height: 1.5rem;
 }
 
 nav.horizontal .login-btn {
@@ -1180,7 +1279,6 @@ nav.horizontal .dropdown-content {
   right: 0;
   z-index: 1000;
   min-width: 280px;
-  margin-top: 0.5rem;
   padding: 1.2rem 0;
   overflow: hidden;
   visibility: hidden;
@@ -1284,4 +1382,15 @@ nav.horizontal .cerrar-sesion-dropdown {
 
 [hidden] {
   display: none !important;
+}
+
+nav.horizontal .navbar-guest {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+nav.horizontal .mis-proyectos {
+  flex-shrink: 0;
 }
