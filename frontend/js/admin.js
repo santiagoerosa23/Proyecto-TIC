@@ -199,10 +199,13 @@ document.addEventListener('click', (evento) => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ decision: 'aprobar', razon: '' })
                 });
+                const ids = botonPublicar.dataset.publicar.map(id => {
+                    return parseNumber(id)
+                });
                 await pedirApi('/admin/proyectos/publicar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ids: [botonPublicar.dataset.publicar] })
+                    body: JSON.stringify({ ids: [ids] })
                 });
                 await cargarSolicitudes();
             }

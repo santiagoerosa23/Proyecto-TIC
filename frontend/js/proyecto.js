@@ -1,5 +1,6 @@
 let idProyecto = new URLSearchParams(window.location.search).get('id');
 const VERSION_AVATARES = '2';
+const token = localStorage.getItem('token')
 
 const titulo = document.getElementById('tituloProyecto');
 // const descripcion = document.getElementById('descripcion');
@@ -7,6 +8,15 @@ const contenidoProyecto = document.getElementById('contenidoProyecto');
 const colaboradores = document.getElementById('colaboradores');
 const listaComentarios = document.getElementById('listaComentarios');
 const formularioOpinion = document.getElementById('formularioOpinion');
+
+if (token) {
+  const mailLabel = document.getElementById('mailLabel')
+  const mailInput = document.getElementById('mail')
+  mailLabel.hidden = true
+  mailInput.hidden = true
+  mailInput.removeAttribute('required');
+
+}
 
 
 fetch(`${API_BASE_URL}/proyectos/${idProyecto}`)
@@ -80,7 +90,7 @@ function mostrarComentarios(lista) {
 
 formularioOpinion.addEventListener('submit', (event) => {
   event.preventDefault();
-
+  if (!token) {
   fetch(`${API_BASE_URL}/proyectos/${idProyecto}/comentarios`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -99,4 +109,23 @@ formularioOpinion.addEventListener('submit', (event) => {
       }
     })
     .catch(error => console.error('Error al enviar el comentario:', error));
+  } else  {
+    fetch(`${API_BASE_URL}/proyectos/${idProyecto}/comentarios`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization' : token },
+      body: JSON.stringify({
+        nombre: event.target.nombre.value,
+        contenido: event.target.contenido.value,
+      }),
+    })
+      .then(response => {
+        if (response.ok) {
+          alert('Comentario enviado a revisión. Cuando un admin lo apruebe va a aparecer acá.');
+          formularioOpinion.reset();
+        } else {
+          return response.json().then(data => alert('Error: ' + data.error));
+        }
+      })
+      .catch(error => console.error('Error al enviar el comentario:', error));
+  }
 });

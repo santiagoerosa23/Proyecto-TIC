@@ -11,7 +11,6 @@ function crearFilaIntegrante(numero) {
         <h3>${esCreador ? 'Vos (creador)' : `Integrante ${numero}`}</h3>
         ${esCreador ? '<p class="recordatorio-integrantes">Recordá incluirte primero en la lista con tu DNI y alias.</p>' : ''}
         <div class="campos-integrante">
-            ${esCreador ? '<input name="dni1" type="text" placeholder="Tu DNI">' : ''}
             <input name="alias${numero}" type="text" placeholder="${esCreador ? 'Tu alias' : 'Alias'}">
             <select name="rol${numero}" aria-label="Rol del integrante ${numero}">
                 <option value="" selected disabled>Rol</option>
@@ -21,6 +20,7 @@ function crearFilaIntegrante(numero) {
                 <option value="TIMI">TIMI</option>
                 <option value="Fullstack">Fullstack</option>
             </select>
+            ${esCreador ? '<input name="dni1" type="text" placeholder="Tu DNI">' : ''}
             ${esCreador ? '' : `<input name="dni${numero}" type="text" placeholder="DNI">`}
         </div>
     `;
