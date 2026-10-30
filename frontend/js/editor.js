@@ -670,6 +670,7 @@ propiedadRelleno.addEventListener("input", function () {
     elementoSeleccionado.style.padding = valor >= 0 ? valor + "px" : "";
 });
 
+
 propiedadAlineacionHorizontal.addEventListener("change", function () {
     if (!elementoSeleccionado) return;
 

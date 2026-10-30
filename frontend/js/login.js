@@ -1,10 +1,4 @@
 const form = document.getElementById("login");
-// const tokenActual = localStorage.getItem(token);
-// if (tokenActual.length > 10) {
-//     alert("Ya estas logeado! Por test, hasta que haya logout, te sacare de memoria el token (ademas me quede sin tiempo!)")
-//     localStorage.setItem('token', "");
-//     window.location.href = '/';
-// }
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();

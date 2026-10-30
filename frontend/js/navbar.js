@@ -31,10 +31,9 @@ async function cargarNavbar() {
     for (const menu of menusPerfil) {
         menu.hidden = false;
     }
-    // El try/catch no es vibecodeado conozco mi javascript.
+
     try {
         const respuesta = await fetch(`${API_BASE_URL}/perfil/yo`, {
-            cache: 'no-store',
             cache: 'no-store',
             headers: {
                 Authorization: token

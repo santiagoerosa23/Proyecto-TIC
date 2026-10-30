@@ -1,10 +1,12 @@
 const tokenAdmin = localStorage.getItem('token');
 const listaSolicitudes = document.getElementById('listaSolicitudes');
 const listaComentarios = document.getElementById('listaComentarios');
+const listaAprobados = document.getElementById('listaAprobados');
 const listaUsuarios = document.getElementById('listaUsuarios');
 const listaMails = document.getElementById('listaMails');
 const cantidadSolicitudes = document.getElementById('cantidadSolicitudes');
 const cantidadComentarios = document.getElementById('cantidadComentarios');
+const cantidadAprobados = document.getElementById('cantidadAprobados');
 const cantidadMails = document.getElementById('cantidadMails');
 const popupAdmin = document.getElementById('popupAdmin');
 const formularioAdmin = document.getElementById('formularioAdmin');
@@ -81,15 +83,16 @@ async function cargarSolicitudes() {
 
 async function cargarComentarios() {
     const comentarios = await pedirApi('/admin/comentarios');
-    cantidadComentarios.textContent = comentarios.length;
+    const pendientes = comentarios.filter(comentario => !comentario.aprobado);
+    cantidadComentarios.textContent = pendientes.length;
     listaComentarios.innerHTML = '';
 
-    if (comentarios.length === 0) {
+    if (pendientes.length === 0) {
         mostrarMensaje(listaComentarios, 'No hay comentarios pendientes.');
         return;
     }
 
-    for (const comentario of comentarios) {
+    for (const comentario of pendientes) {
         listaComentarios.innerHTML += `
             <article class="item-admin">
                 <h3>${textoSeguro(comentario.nombre || 'Comentario')}</h3>
@@ -97,6 +100,29 @@ async function cargarComentarios() {
                 <div class="acciones-item">
                     <button class="boton-admin" data-comentario="${textoSeguro(comentario.id)}" data-accion="aprobar">✓</button>
                     <button class="boton-admin secundario" data-comentario="${textoSeguro(comentario.id)}" data-accion="borrar">×</button>
+                </div>
+            </article>
+        `;
+    }
+}
+
+async function cargarAprobados() {
+    const proyectos = await pedirApi('/admin/proyectos/aprobados');
+    cantidadAprobados.textContent = proyectos.length;
+    listaAprobados.innerHTML = '';
+
+    if (proyectos.length === 0) {
+        mostrarMensaje(listaAprobados, 'No hay proyectos aprobados esperando publicación.');
+        return;
+    }
+
+    for (const proyecto of proyectos) {
+        listaAprobados.innerHTML += `
+            <article class="item-admin">
+                <h3>${textoSeguro(proyecto.nombre || proyecto.titulo || 'Proyecto')}</h3>
+                <p>Fue aprobado y está esperando publicación.</p>
+                <div class="acciones-item">
+                    <button class="boton-admin" data-publicar="${textoSeguro(proyecto.id)}">Publicar</button>
                 </div>
             </article>
         `;
@@ -189,25 +215,24 @@ document.addEventListener('click', (evento) => {
 
     const botonPublicar = evento.target.closest('[data-publicar]');
     if (botonPublicar) {
+        const idProyecto = Number(botonPublicar.dataset.publicar);
         abrirPopup(
             'Publicar proyecto',
             'Primero se aprobará el proyecto y después se publicará.',
             '',
             async () => {
-                await pedirApi(`/admin/proyectos/${botonPublicar.dataset.publicar}/revision`, {
+                await pedirApi(`/admin/proyectos/${idProyecto}/revision`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ decision: 'aprobar', razon: '' })
                 });
-                const ids = botonPublicar.dataset.publicar.map(id => {
-                    return parseNumber(id)
-                });
                 await pedirApi('/admin/proyectos/publicar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ids: [ids] })
+                    body: JSON.stringify({ ids: [idProyecto] })
                 });
                 await cargarSolicitudes();
+                await cargarAprobados();
             }
         );
         return;
@@ -223,7 +248,7 @@ document.addEventListener('click', (evento) => {
                 await pedirApi('/admin/usuarios', {
                     method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ids: [botonUsuario.dataset.usuario] })
+                    body: JSON.stringify([Number(botonUsuario.dataset.usuario)])
                 });
                 await cargarUsuarios();
             }
@@ -264,10 +289,10 @@ formularioAdmin.addEventListener('submit', async (evento) => {
 
     const datos = Object.fromEntries(new FormData(formularioAdmin));
     const accion = accionPopup;
-    cerrarPopup();
 
     try {
         await accion(datos);
+        cerrarPopup();
     } catch (error) {
         console.error('Error en acción administrativa:', error);
         alert('No se pudo completar la acción.');
@@ -324,6 +349,7 @@ async function iniciarPanel() {
         await Promise.all([
             cargarSolicitudes(),
             cargarComentarios(),
+            cargarAprobados(),
             cargarUsuarios(),
             cargarMails()
         ]);
@@ -331,6 +357,7 @@ async function iniciarPanel() {
         console.error('No se pudo cargar el panel admin:', error);
         mostrarMensaje(listaSolicitudes, 'No se pudo cargar el panel.');
         mostrarMensaje(listaComentarios, 'No se pudo cargar el panel.');
+        mostrarMensaje(listaAprobados, 'No se pudo cargar el panel.');
         mostrarMensaje(listaUsuarios, 'No se pudo cargar el panel.');
         mostrarMensaje(listaMails, 'No se pudo cargar el panel.');
     }

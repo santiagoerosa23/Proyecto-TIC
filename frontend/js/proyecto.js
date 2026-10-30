@@ -3,11 +3,17 @@ const VERSION_AVATARES = '2';
 const token = localStorage.getItem('token')
 
 const titulo = document.getElementById('tituloProyecto');
-// const descripcion = document.getElementById('descripcion');
 const contenidoProyecto = document.getElementById('contenidoProyecto');
 const colaboradores = document.getElementById('colaboradores');
 const listaComentarios = document.getElementById('listaComentarios');
 const formularioOpinion = document.getElementById('formularioOpinion');
+
+const TIPOGRAFIAS = {
+  "Inter Regular": "Inter, sans-serif",
+  "Arial": "Arial, sans-serif",
+  "Georgia": "Georgia, serif",
+  "Courier New": "'Courier New', monospace"
+};
 
 if (token) {
   const mailLabel = document.getElementById('mailLabel')
@@ -28,6 +34,7 @@ fetch(`${API_BASE_URL}/proyectos/${idProyecto}`)
       return;
     }
     mostrarProyecto(data);
+    cargarDisenioPublicado();
   })
   .catch(error => {
     console.error('Error al cargar el proyecto:', error);
@@ -47,7 +54,6 @@ fetch(`${API_BASE_URL}/proyectos/${idProyecto}/comentarios`)
 
 function mostrarProyecto(proyecto) {
   titulo.textContent = proyecto.titulo;
-  // descripcion.textContent = proyecto.descripcion;
   contenidoProyecto.innerHTML = proyecto.contenidoHtml;
 
   const colabs = proyecto.colaboradores ? proyecto.colaboradores : [];
@@ -69,6 +75,121 @@ function obtenerAvatarPorRol(rol) {
   if (rolNormalizado.includes('timi')) return 'timiPfp.png';
   if (rolNormalizado.includes('full')) return 'fullstackPfp.png';
   return 'perfil.svg';
+}
+
+function cargarDisenioPublicado() {
+  fetch(`${API_BASE_URL}/proyectos/${idProyecto}/archivo-publico`)
+    .then(respuesta => {
+      if (!respuesta.ok) throw new Error('No se pudo cargar el diseño');
+      return respuesta.text();
+    })
+    .then(texto => {
+      const documento = extraerContenidoArchivo(texto);
+      const caja = document.createElement('div');
+      caja.className = 'contenido-publicado';
+
+      const elementos = documento.elementos ? documento.elementos : [];
+      for (const datos of elementos) {
+        const elemento = crearElementoPublicado(datos);
+        if (elemento) caja.appendChild(elemento);
+      }
+
+      contenidoProyecto.innerHTML = '';
+      contenidoProyecto.appendChild(caja);
+    })
+    .catch(error => {
+      console.error('No se pudo cargar el diseño publicado:', error);
+    });
+}
+
+function extraerContenidoArchivo(textoRespuesta) {
+  if (!textoRespuesta.trim()) {
+    return { version: 1, elementos: [] };
+  }
+
+  const respuesta = JSON.parse(textoRespuesta);
+  let documento = respuesta;
+
+  if (respuesta.contenido) {
+    documento = JSON.parse(respuesta.contenido);
+  }
+
+  if (documento && documento.elementos) {
+    return documento;
+  }
+
+  return { version: 1, elementos: [] };
+}
+
+function aplicarEstilosPublicados(elemento, datos) {
+  const estilos = datos.estilos ? datos.estilos : {};
+  for (const propiedad in estilos) {
+    if (estilos[propiedad]) {
+      elemento.style.setProperty(propiedad, estilos[propiedad]);
+    }
+  }
+
+  if (datos.tipografia && TIPOGRAFIAS[datos.tipografia]) {
+    elemento.style.fontFamily = TIPOGRAFIAS[datos.tipografia];
+  }
+}
+
+function crearElementoPublicado(datos) {
+  if (!datos || !datos.tipo) return null;
+
+  if (datos.tipo === 'imagen') {
+    const caja = document.createElement('div');
+    caja.classList.add('elemento', 'imagen-editor');
+    const imagen = document.createElement('img');
+    imagen.alt = datos.alt || 'Imagen';
+    if (datos.src) imagen.src = datos.src;
+    else caja.classList.add('sin-archivo');
+    caja.appendChild(imagen);
+    aplicarEstilosPublicados(caja, datos);
+    return caja;
+  }
+
+  if (datos.tipo === 'video') {
+    const caja = document.createElement('div');
+    caja.classList.add('elemento', 'video-editor');
+    const video = document.createElement('video');
+    video.controls = true;
+    if (datos.src) video.src = datos.src;
+    else caja.classList.add('sin-archivo');
+    caja.appendChild(video);
+    aplicarEstilosPublicados(caja, datos);
+    return caja;
+  }
+
+  let tag = 'div';
+  if (datos.tipo === 'texto' && ['h1', 'h2', 'h3', 'p', 'span', 'div'].includes(datos.tag)) {
+    tag = datos.tag;
+  }
+  if (datos.tipo === 'divisor') tag = 'hr';
+
+  const elemento = document.createElement(tag);
+  elemento.classList.add('elemento');
+
+  if (datos.tipo === 'texto') elemento.classList.add('texto-editor');
+  if (datos.tipo === 'divisor') elemento.classList.add('divisor-editor');
+  if (datos.tipo === 'contenedor') elemento.classList.add('contenedor-editor');
+  if (datos.tipo === 'fila') elemento.classList.add('fila-editor');
+  if (datos.tipo === 'columna') elemento.classList.add('columna-editor');
+
+  if (datos.tipo === 'texto' && datos.contenido) {
+    elemento.textContent = datos.contenido;
+  }
+
+  aplicarEstilosPublicados(elemento, datos);
+
+  if (Array.isArray(datos.hijos)) {
+    for (const hijo of datos.hijos) {
+      const elementoHijo = crearElementoPublicado(hijo);
+      if (elementoHijo) elemento.appendChild(elementoHijo);
+    }
+  }
+
+  return elemento;
 }
 
 

@@ -10,10 +10,6 @@ body {
     color: white;
 }
 
-
-/* BARRA SUPERIOR */
-
-
 .logo img {
     width: 100px;
 }
@@ -28,18 +24,12 @@ body {
     padding: 0 10px;
 }
 
-
-/* CONTENEDOR PRINCIPAL */
-
 .perfil-container {
     width: 90%;
     max-width: 1100px;
 
     margin: 40px auto;
 }
-
-
-/* INFORMACIÓN DEL USUARIO */
 
 .informacion-usuario {
     display: flex;
@@ -93,9 +83,6 @@ body {
     margin-bottom: 20px;
 }
 
-
-/* ESTADÍSTICAS */
-
 .estadisticas {
     display: flex;
     gap: 30px;
@@ -115,9 +102,6 @@ body {
     color: #666;
 }
 
-
-/* BOTÓN */
-
 .boton-foto-perfil {
     padding: 10px 25px;
 
@@ -126,9 +110,6 @@ body {
 
     cursor: pointer;
 }
-
-
-/* PROYECTOS */
 
 .proyectos {
     margin-top: 35px;
@@ -157,8 +138,6 @@ body {
     margin-bottom: 25px;
 }
 
-
-/* TARJETA DEL PROYECTO */
 .proyecto {
     text-decoration: none;
     color: #222;
@@ -214,8 +193,6 @@ background-color: #0A0517;
     font-weight: 300;
 }
 
-/* HEADER Y FOOTER */
-
 nav.horizontal {
     margin-bottom: 0;
     flex-shrink: 0;
@@ -250,14 +227,7 @@ nav .perfil-img {
 
 footer {
     width: 100%;
-    margin-top: 5rem;
     flex-shrink: 0;
-}
-
-.logo-footer {
-    width: 10rem;
-    height: auto;
-    object-fit: contain;
 }
 
 .footer-left {
@@ -270,14 +240,6 @@ footer {
     gap: 1.5rem;
 }
 
-.ort-logo,
-.Instagram-logo {
-    width: 2.5rem;
-    height: 2.5rem;
-    object-fit: contain;
-}
-
-/* CONTENIDO DEL PERFIL */
 
 .perfil-container {
     width: 90%;
@@ -353,7 +315,6 @@ footer {
 .proyectos h2 {
     margin-bottom: 4px;
     color: white;
-    font-size: 10px;
     font-weight: 400;
     text-transform: uppercase;
 }
@@ -361,7 +322,6 @@ footer {
 .subtitulo-proyectos {
     margin-bottom: 8px;
     color: #bcb3d5;
-    font-size: 8px;
 }
 
 .lista-no-publicados {
