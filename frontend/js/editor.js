@@ -47,6 +47,7 @@ const botonGuardar = document.getElementById("botonGuardar");
 const botonRevision = document.getElementById("botonRevision");
 const botonConfiguracion = document.getElementById("botonConfiguracion");
 const ventanaConfirmacion = document.getElementById("ventanaConfirmacion");
+const ventanaCerrar = document.getElementById("ventanaCerrar");
 const ventanaTitulo = document.getElementById("ventanaTitulo");
 const ventanaTexto = document.getElementById("ventanaTexto");
 const ventanaCampos = document.getElementById("ventanaCampos");
@@ -884,6 +885,8 @@ document.addEventListener("keydown", function (evento) {
 
 function abrirVentana(titulo, texto, accion, campos = "", permitirAceptar = true) {
     ventanaConfirmacion.classList.toggle("ventana-configuracion", accion === "miniatura");
+    ventanaConfirmacion.classList.toggle("ventana-revision", accion === "revision");
+    ventanaCerrar.hidden = accion !== "miniatura";
     ventanaAceptar.textContent = accion === "miniatura" ? "Hecho" : "Aceptar";
     ventanaRechazar.hidden = accion === "miniatura";
     ventanaTitulo.textContent = titulo;
@@ -905,6 +908,8 @@ function cerrarVentana() {
     ventanaConfirmacion.hidden = true;
     accionPendiente = null;
     ventanaConfirmacion.classList.remove("ventana-configuracion");
+    ventanaConfirmacion.classList.remove("ventana-revision");
+    ventanaCerrar.hidden = true;
     ventanaAceptar.textContent = "Aceptar";
     ventanaRechazar.hidden = false;
     ventanaCampos.innerHTML = "";
@@ -924,14 +929,14 @@ ventanaAceptar.addEventListener("click", async function () {
 });
 
 ventanaRechazar.addEventListener("click", cerrarVentana);
+ventanaCerrar.addEventListener("click", cerrarVentana);
 
 botonConfiguracion.addEventListener("click", () => {
     abrirVentana(
         "Configuración del proyecto",
         "Subí la miniatura que se va a mostrar en las tarjetas del proyecto.",
         "miniatura",
-        `<label class="campo-miniatura" for="archivoMiniatura">Miniatura</label>
-         <input type="file" id="archivoMiniatura" accept="image/*">`
+        `<input type="file" id="archivoMiniatura" accept="image/*">`
     );
 });
 

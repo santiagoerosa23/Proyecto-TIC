@@ -1036,23 +1036,78 @@ footer .horizontal {
   color: #FFFFFF;
   border-radius: 2px;
   padding: .55rem .65rem;
-  width: 280px;
-  max-width: calc(100% - 1rem);
+  width: 40rem;
   box-shadow: none;
   text-align: left;
 }
 
 .ventana-configuracion .ventana-confirmacion {
-  width: 420px;
-  padding: 1.25rem;
+  width: 600px;
+  max-width: calc(100vw - 2rem);
+  box-sizing: border-box;
+  padding: 1.75rem;
+  border-radius: 8px;
+}
+
+.ventana-revision .ventana-confirmacion {
+  width: 50rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.ventana-revision .ventana-titulo {
+  font-size: 1.1rem;
+  margin-bottom: .5rem;
+}
+
+.ventana-revision .ventana-texto {
+  font-size: .95rem;
+  margin-bottom: 1.25rem;
+}
+
+.ventana-revision .ventana-botones {
+  gap: .75rem;
+}
+
+.ventana-revision .ventana-botones .boton {
+  height: 2.25rem;
+  padding: 0 1rem;
+  border-radius: 4px;
+  font-size: .9rem;
 }
 
 .ventana-configuracion .ventana-titulo {
   font-size: 1rem;
+  margin: 0;
 }
 
 .ventana-configuracion .ventana-texto {
   font-size: .85rem;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.ventana-encabezado {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.ventana-cerrar {
+  flex: 0 0 auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.ventana-cerrar:hover {
+  color: #d7d0ff;
 }
 
 .ventana-titulo {
@@ -1078,17 +1133,11 @@ footer .horizontal {
   margin-bottom: .55rem;
 }
 
-#ventanaCampos input[type="file"] {
+.ventana-configuracion #ventanaCampos input[type="file"] {
   width: 100%;
   color: #FFFFFF;
-  font-size: .7rem;
-}
-
-.campo-miniatura {
-  display: block;
-  margin-bottom: .25rem;
-  color: #FFFFFF;
-  font-size: .7rem;
+  font-size: 1rem;
+  padding: .5rem 0;
 }
 
 .ventana-botones {
@@ -1108,6 +1157,13 @@ footer .horizontal {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.ventana-configuracion .ventana-aceptar {
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border-radius: 4px;
+  font-size: .95rem;
 }
 
 .ventana-aceptar {
