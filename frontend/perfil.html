@@ -81,8 +81,7 @@
 
         <section class="proyectos">
 
-            <h2>Proyectos publicados</h2>
-            <p class="subtitulo-proyectos">Los proyectos que el usuario publicó.</p>
+            <h2 class="publicados">Proyectos publicados</h2>
 
             <div class="proyectos-publicados" id="proyectosPublicados"></div>
 
@@ -97,13 +96,23 @@
             <section class="seccion-admin panel-admin-perfil" hidden>
                 <h2>Administración</h2>
                 <section class="admin-grid">
-                    <article class="admin-card">
-                        <div class="admin-card-titulo">
-                            <h2>Solicitudes</h2>
-                            <span id="cantidadSolicitudes">0</span>
-                        </div>
-                        <div id="listaSolicitudes" class="lista-admin"></div>
-                    </article>
+                    <div class="admin-column">
+                        <article class="admin-card">
+                            <div class="admin-card-titulo">
+                                <h2>Solicitudes</h2>
+                                <span id="cantidadSolicitudes">0</span>
+                            </div>
+                            <div id="listaSolicitudes" class="lista-admin"></div>
+                        </article>
+
+                        <article class="admin-card">
+                            <div class="admin-card-titulo">
+                                <h2>Mails anonimos</h2>
+                                <span id="cantidadMails">0</span>
+                            </div>
+                            <div id="listaMails" class="lista-admin"></div>
+                        </article>
+                    </div>
 
                     <article class="admin-card">
                         <div class="admin-card-titulo">
@@ -127,14 +136,6 @@
                             <button class="boton-admin pequeno" id="botonCrearUsuarios">+</button>
                         </div>
                         <div id="listaUsuarios" class="lista-admin"></div>
-                    </article>
-
-                    <article class="admin-card">
-                        <div class="admin-card-titulo">
-                            <h2>Mails</h2>
-                            <span id="cantidadMails">0</span>
-                        </div>
-                        <div id="listaMails" class="lista-admin"></div>
                     </article>
                 </section>
             </section>

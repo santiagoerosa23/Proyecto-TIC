@@ -4,8 +4,8 @@ const PROPIEDADES_POR_TIPO = {
     video: ["subir", "tamano", "alinear", "margin"],
     divisor: ["color", "margin"],
     contenedor: ["color", "radio", "margin", "padding"],
-    fila: ["horizontal", "vertical", "margin", "padding"],
-    columna: ["horizontal", "vertical", "margin", "padding"]
+    fila: ["horizontal", "vertical", "margin", "padding", "expandir"],
+    columna: ["horizontal", "vertical", "margin", "padding", "expandir"]
 };
 
 const TIPOS_VALIDOS = Object.keys(PROPIEDADES_POR_TIPO);
@@ -63,6 +63,7 @@ const propiedadColor = document.getElementById("propiedadColor");
 const propiedadRadio = document.getElementById("propiedadRadio");
 const propiedadAlineacionHorizontal = document.getElementById("propiedadAlineacionHorizontal");
 const propiedadAlineacionVertical = document.getElementById("propiedadAlineacionVertical");
+const propiedadExpandirElementos = document.getElementById("propiedadExpandirElementos");
 const propiedadMargen = document.getElementById("propiedadMargen");
 const propiedadRelleno = document.getElementById("propiedadRelleno");
 const botonSubirArchivo = document.getElementById("botonSubirArchivo");
@@ -78,6 +79,7 @@ let elementoEnArrastre = null;
 let contenedorResaltado = null;
 let historial = [];
 let edicionEnCurso = false;
+let guardarFeedbackTimeout = null;
 
 function rgbAHex(color) {
     const partes = color.match(/\d+/g);
@@ -150,6 +152,20 @@ function actualizarClaseTamanoMedia(elemento) {
     }
 }
 
+function actualizarExpansionLayout(elemento, expandir) {
+    elemento.dataset.expandirElementos = String(expandir);
+    elemento.classList.toggle("sin-expansion", !expandir);
+
+    for (const hijo of elemento.children) {
+        if (!hijo.classList.contains("elemento")) continue;
+        if (expandir) {
+            hijo.style.removeProperty("flex-grow");
+        } else {
+            hijo.style.flexGrow = "0";
+        }
+    }
+}
+
 function crearElemento(tipo, datos = {}) {
     const elemento = document.createElement(datos.tag || "div");
     elemento.classList.add("elemento");
@@ -179,10 +195,12 @@ function crearElemento(tipo, datos = {}) {
         elemento.classList.add("fila-editor");
         elemento.style.justifyContent = "flex-start";
         elemento.style.alignItems = "stretch";
+        elemento.dataset.expandirElementos = "true";
     } else if (tipo === "columna") {
         elemento.classList.add("columna-editor");
         elemento.style.justifyContent = "flex-start";
         elemento.style.alignItems = "stretch";
+        elemento.dataset.expandirElementos = "true";
     }
 
     if (datos.estilos && typeof datos.estilos === "object") {
@@ -202,6 +220,10 @@ function crearElemento(tipo, datos = {}) {
             const elementoHijo = crearElementoDesdeDocumento(hijo);
             if (elementoHijo) elemento.appendChild(elementoHijo);
         }
+    }
+
+    if (tipo === "fila" || tipo === "columna") {
+        actualizarExpansionLayout(elemento, datos.expandirElementos !== false);
     }
 
     if (datos.src) elemento.classList.remove("sin-archivo");
@@ -238,6 +260,10 @@ function crearDatosElemento(elemento) {
 
     if (datos.tipo === "texto") {
         datos.contenido = elemento.textContent;
+    }
+
+    if (datos.tipo === "fila" || datos.tipo === "columna") {
+        datos.expandirElementos = elemento.dataset.expandirElementos !== "false";
     }
 
     if (datos.tipo === "imagen" || datos.tipo === "video") {
@@ -399,6 +425,10 @@ function refrescarPanelPropiedades() {
             : estilos.justifyContent === "normal" ? "flex-start" : estilos.justifyContent;
     }
 
+    if (lista.indexOf("expandir") !== -1) {
+        propiedadExpandirElementos.checked = elementoSeleccionado.dataset.expandirElementos !== "false";
+    }
+
     const botonesFormato = document.querySelectorAll(".boton-formato");
     for (let i = 0; i < botonesFormato.length; i++) {
         const formato = botonesFormato[i].dataset.formato;
@@ -453,6 +483,11 @@ function posicionSoltado(contenedor, x, y) {
 }
 
 function soltarElemento(contenedor, elemento, x, y) {
+    const origenSinExpansion = elemento.parentElement?.dataset.expandirElementos === "false";
+    if (origenSinExpansion) {
+        elemento.style.removeProperty("flex-grow");
+    }
+
     const pos = posicionSoltado(contenedor, x, y);
 
     if (pos.referencia && pos.antes) {
@@ -461,6 +496,10 @@ function soltarElemento(contenedor, elemento, x, y) {
         contenedor.insertBefore(elemento, pos.referencia.nextSibling);
     } else {
         contenedor.appendChild(elemento);
+    }
+
+    if (contenedor.dataset.expandirElementos !== undefined) {
+        elemento.style.flexGrow = contenedor.dataset.expandirElementos === "false" ? "0" : "";
     }
 }
 
@@ -698,6 +737,14 @@ propiedadAlineacionVertical.addEventListener("change", function () {
     } else {
         elementoSeleccionado.style.justifyContent = propiedadAlineacionVertical.value;
     }
+});
+
+propiedadExpandirElementos.addEventListener("change", function () {
+    if (!elementoSeleccionado) return;
+
+    marcarEdicion();
+    actualizarExpansionLayout(elementoSeleccionado, propiedadExpandirElementos.checked);
+    terminarEdicion();
 });
 
 const botonesFormato = document.querySelectorAll(".boton-formato");
@@ -1046,7 +1093,27 @@ async function enviarARevision() {
 }
 
 botonGuardar.addEventListener("click", async function () {
-    await guardarProyecto();
+    botonGuardar.disabled = true;
+    botonGuardar.classList.remove("guardado", "error-guardado");
+    botonGuardar.classList.add("guardando");
+    botonGuardar.textContent = "Guardando...";
+
+    const guardado = await guardarProyecto();
+    botonGuardar.classList.remove("guardando");
+    botonGuardar.disabled = false;
+    if (guardado) {
+        botonGuardar.classList.add("guardado");
+        botonGuardar.textContent = "Guardado ✓";
+    } else {
+        botonGuardar.classList.add("error-guardado");
+        botonGuardar.textContent = "Error al guardar";
+    }
+
+    window.clearTimeout(guardarFeedbackTimeout);
+    guardarFeedbackTimeout = window.setTimeout(() => {
+        botonGuardar.classList.remove("guardado", "error-guardado");
+        botonGuardar.textContent = "Guardar";
+    }, 2500);
 });
 
 botonRevision.addEventListener("click", async function () {

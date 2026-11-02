@@ -14,16 +14,16 @@ body {
     height: 90%;
     display: flex;
     flex-direction: row-reverse;
-    padding: 15px;
+    padding: .9375rem;
     box-sizing: border-box;
-    gap: 15px;
+    gap: .9375rem;
 }
 
 .wf-logo {
-    width: 400px;
+    width: 25rem;
     flex-direction: column;
     background-color: #66205C;
-    border-radius: 40px;
+    border-radius: 2.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,40 +44,40 @@ body {
 .wf-derecha {
     flex: 1;
     background-color: #2B2B2B; 
-    padding: 20px;
+    padding: 1.25rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    border-radius: 40px;
+    border-radius: 2.5rem;
 }
 form {
     background-color: #2B2B2B;
-    padding: 30px;
-    border: 1px solid #515151;
-    border-radius: 30px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    height: 5000px;
-    width: 290px;
-    max-width: 350px;
+    padding: 1.875rem;
+    border: .0625rem solid #515151;
+    border-radius: 1.875rem;
+    box-shadow: 0 .25rem .9375rem rgba(0, 0, 0, 0.1);
+    height: 312.5rem;
+    width: 18.125rem;
+    max-width: 21.875rem;
     display: flex;
     flex-direction: column;
     box-align: center;
     margin: auto; 
 }
 label {
-    font-size: 14px;
+    font-size: .875rem;
     color: #ffffff;
-    margin-bottom: 6px;
+    margin-bottom: .375rem;
     font-weight: 600;
-    height: 30px;
+    height: 1.875rem;
   }
   input{
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #cccccc;
-    height: 20px;
-    border-radius: 10px;
+    padding: .625rem;
+    margin-bottom: 1.25rem;
+    border: .0625rem solid #cccccc;
+    height: 1.25rem;
+    border-radius: .625rem;
 
 
   }
@@ -90,17 +90,17 @@ color: #66205C;
     color: #515151;
     border: #515151;
     font-size: 0.85rem;
-    border-radius: 10px;
+    border-radius: .625rem;
 }
 .wf-contraseña{
     background-color: #ffffff;
-    border: 2px solid #515151;
-    height: 45px;
+    border: .125rem solid #515151;
+    height: 2.8125rem;
     display: flex;
     align-items: center;
-    padding-left: 10px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    padding-left: .625rem;
+    margin-bottom: .625rem;
+    border-radius: .625rem;
 }
 h2{
     color: #ffffff;
@@ -109,32 +109,32 @@ h2{
     background-color: #555555;
     color: #ffffff;
     border: none;
-    padding: 6px 14px;
+    padding: .375rem .875rem;
     font-size: 0.8rem;
     cursor: pointer;
     display: block;
     margin-left:auto; 
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: .625rem;
     align-items:start;
 }
 
 .wf-divider {
-    border-top: 1px dashed #777;
-    margin: 5px 0;
+    border-top: .0625rem dashed #777;
+    margin: .3125rem 0;
 }
 
 .wf-formas {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: .375rem;
 }
 .wf-volver {
     text-align: center;
     font-size: 0.75rem;
     color: #ffffff;
     text-decoration: none;
-    margin-top: 120px;
+    margin-top: 7.5rem;
 }
 
 .wf-volver:hover {

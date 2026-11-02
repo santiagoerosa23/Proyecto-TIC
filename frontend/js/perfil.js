@@ -1,4 +1,5 @@
 let eventosPerfilConfigurados = false;
+const VERSION_AVATARES = '2';
 
 async function subirFotoPerfil() {
     const token = localStorage.getItem('token');
@@ -94,7 +95,20 @@ async function cargarPerfil() {
         }
 
         const proyectos = await respuestaProyectos.json();
-        mostrarProyectos(proyectos);
+        let proyectosPublicos = [];
+        try {
+            const respuestaPublicos = await fetch(`${API_BASE_URL}/proyectos/publicos`, {
+                cache: 'no-store'
+            });
+            if (!respuestaPublicos.ok) {
+                throw new Error(`No se pudieron cargar los colaboradores (${respuestaPublicos.status}).`);
+            }
+            proyectosPublicos = await respuestaPublicos.json();
+        } catch (error) {
+            console.warn('No se pudieron cargar los colaboradores de los proyectos publicados:', error);
+        }
+
+        mostrarProyectos(proyectos, proyectosPublicos);
     } catch (error) {
         console.error('Error al cargar el perfil:', error);
         proyectosPublicados.innerHTML = '<p>No se pudo cargar el perfil.</p>';
@@ -157,9 +171,12 @@ async function cargarEstadoProyecto(proyecto) {
     }
 }
 
-async function mostrarProyectos(proyectos) {
+async function mostrarProyectos(proyectos, proyectosPublicos = []) {
     const proyectosPublicados = document.getElementById('proyectosPublicados');
     const proyectosNoPublicados = document.getElementById('proyectosNoPublicados');
+    const colaboradoresPorProyecto = new Map(
+        proyectosPublicos.map((proyecto) => [String(proyecto.id), proyecto.colaboradores || []])
+    );
     const proyectosConEstado = await Promise.all(proyectos.map(cargarEstadoProyecto));
 
     proyectosPublicados.innerHTML = '';
@@ -167,7 +184,10 @@ async function mostrarProyectos(proyectos) {
 
     for (const proyecto of proyectosConEstado) {
         if (estaPublicado(proyecto)) {
-            proyectosPublicados.innerHTML += crearProyectoPublicado(proyecto);
+            const colaboradores = proyecto.colaboradores
+                || colaboradoresPorProyecto.get(String(proyecto.id))
+                || [];
+            proyectosPublicados.innerHTML += crearProyectoPublicado({ ...proyecto, colaboradores });
         } else {
             proyectosNoPublicados.innerHTML += crearProyectoNoPublicado(proyecto);
         }
@@ -183,16 +203,56 @@ async function mostrarProyectos(proyectos) {
 }
 
 function crearProyectoPublicado(proyecto) {
+    const colaboradores = proyecto.colaboradores || [];
+    const perfiles = crearPerfilesApilados(colaboradores);
+    const urlMiniatura = convertirFotoEnUrl(proyecto.miniatura);
     return `
-        <a href="/Pestaña-proyecto.html?id=${proyecto.id}" class="proyecto">
-            <div class="imagen-proyecto">
-                <img src="${agregarVersionCache(convertirFotoEnUrl(proyecto.miniatura))}" alt="${proyecto.titulo}">
-            </div>
-            <div class="barra-negra">
-                <h3>${proyecto.titulo}</h3>
-            </div>
-        </a>
+        <section class="proyecto">
+            <a href="Pestaña-proyecto.html?id=${proyecto.id}" class="proyecto-link">
+                <section class="proyecto-miniatura" style="background-image: url('${urlMiniatura}')"></section>
+                <div class="informacion">
+                    <div class="perfilytitulo">
+                        <div class="perfiles-apilados" title="Por ${colaboradores.map((colaborador) => colaborador.alias).join(', ')}">
+                            ${perfiles}
+                        </div>
+                        <div class="titulo">
+                            <p class="tituloProyecto">${proyecto.titulo}</p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </section>
     `;
+}
+
+function crearPerfilesApilados(colaboradores) {
+    if (colaboradores.length === 0) {
+        return crearPerfilColaborador({});
+    }
+
+    return colaboradores.map((colaborador, indice) => {
+        return crearPerfilColaborador(colaborador, indice);
+    }).join('');
+}
+
+function crearPerfilColaborador(colaborador, indice = 0) {
+    const alias = colaborador.alias || 'Colaborador';
+    const rol = colaborador.rol || '';
+    return `
+        <div class="perfil perfil-apilado" style="z-index: ${20 - indice};">
+            <img src="/Assets/${obtenerAvatarPorRol(rol)}?v=${VERSION_AVATARES}" alt="Perfil de ${alias}" class="perfil-img" title="${alias} - ${rol || 'Sin rol'}">
+        </div>
+    `;
+}
+
+function obtenerAvatarPorRol(rol) {
+    const rolNormalizado = (rol || '').toLowerCase();
+    if (rolNormalizado.includes('front')) return 'frontendPfp.png';
+    if (rolNormalizado.includes('back')) return 'backendPfp.png';
+    if (rolNormalizado.includes('hardware')) return 'hardwarePfp.png';
+    if (rolNormalizado.includes('timi')) return 'timiPfp.png';
+    if (rolNormalizado.includes('full')) return 'fullstackPfp.png';
+    return 'perfil.svg';
 }
 
 function crearProyectoNoPublicado(proyecto) {

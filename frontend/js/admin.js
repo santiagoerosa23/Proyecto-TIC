@@ -84,6 +84,22 @@ async function cargarSolicitudes() {
 async function cargarComentarios() {
     const comentarios = await pedirApi('/admin/comentarios');
     const pendientes = comentarios.filter(comentario => !comentario.aprobado);
+    let proyectosPorId = new Map();
+    try {
+        const proyectosPublicos = await fetch(`${API_BASE_URL}/proyectos/publicos`, { cache: 'no-store' })
+            .then((respuesta) => {
+                if (!respuesta.ok) {
+                    throw new Error(`No se pudieron cargar los proyectos públicos (${respuesta.status}).`);
+                }
+                return respuesta.json();
+            });
+        proyectosPorId = new Map(
+            proyectosPublicos.map((proyecto) => [String(proyecto.id), proyecto.titulo || proyecto.nombre])
+        );
+    } catch (error) {
+        console.warn('No se pudieron cargar los nombres de proyectos para los comentarios:', error);
+    }
+
     cantidadComentarios.textContent = pendientes.length;
     listaComentarios.innerHTML = '';
 
@@ -93,10 +109,21 @@ async function cargarComentarios() {
     }
 
     for (const comentario of pendientes) {
+        const idProyecto = comentario.idProyecto;
+        const nombreProyecto = idProyecto === undefined || idProyecto === null
+            ? 'Proyecto sin identificar'
+            : proyectosPorId.get(String(idProyecto)) || `Proyecto #${idProyecto}`;
+        const aliasAnonimo = typeof comentario.usernameAnon === 'string' && comentario.usernameAnon.trim()
+            ? comentario.usernameAnon.trim()
+            : 'Anónimo';
+        const autorComentario = comentario.anonimo
+            ? `${aliasAnonimo} (anónimo)`
+            : aliasAnonimo === 'Anónimo' ? 'Usuario' : aliasAnonimo;
         listaComentarios.innerHTML += `
             <article class="item-admin">
-                <h3>${textoSeguro(comentario.nombre || 'Comentario')}</h3>
-                <p>${textoSeguro(comentario.contenido)}</p>
+                <p class="contenido-comentario">${textoSeguro(comentario.contenido)}</p>
+                <p class="proyecto-comentario">Proyecto: ${textoSeguro(nombreProyecto)}</p>
+                <p class="autor-comentario">Por: ${textoSeguro(autorComentario)}</p>
                 <div class="acciones-item">
                     <button class="boton-admin" data-comentario="${textoSeguro(comentario.id)}" data-accion="aprobar">✓</button>
                     <button class="boton-admin secundario" data-comentario="${textoSeguro(comentario.id)}" data-accion="borrar">×</button>
