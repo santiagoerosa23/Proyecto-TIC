@@ -56,20 +56,43 @@ function cerrarPopup() {
     camposPopup.innerHTML = '';
 }
 
+async function cargarUsuariosPorId(contexto) {
+    try {
+        const usuarios = await pedirApi('/admin/usuarios');
+        return new Map(
+            usuarios.map((usuario) => [
+                String(usuario.userId ?? usuario.id),
+                usuario.nombre
+            ])
+        );
+    } catch (error) {
+        console.warn(`No se pudieron cargar los nombres de las cuentas para ${contexto}:`, error);
+        return new Map();
+    }
+}
+
+function crearTextoIntegrantes(proyecto, usuariosPorId) {
+    const integrantes = [proyecto.integrantes, proyecto.colaboradores]
+        .find((lista) => Array.isArray(lista) && lista.length > 0) || [];
+    return integrantes.length
+        ? integrantes.map((integrante) => {
+            if (typeof integrante === 'string') return textoSeguro(integrante);
+            const idCuenta = integrante.userId ?? integrante.idUsuario ?? integrante.id;
+            const nombreCuenta = integrante.nombre
+                || integrante.username
+                || (idCuenta !== undefined ? usuariosPorId.get(String(idCuenta)) : '');
+            const nombre = nombreCuenta || 'Cuenta no identificada';
+            const rol = integrante.rol ? ` (${integrante.rol})` : '';
+            return `${textoSeguro(nombre)}${textoSeguro(rol)}`;
+        }).join(', ')
+        : 'Sin integrantes';
+}
+
 async function cargarSolicitudes() {
-    const [proyectos, usuarios] = await Promise.all([
+    const [proyectos, usuariosPorId] = await Promise.all([
         pedirApi('/admin/proyectos/pendientes'),
-        pedirApi('/admin/usuarios').catch((error) => {
-            console.warn('No se pudieron cargar los nombres de las cuentas para las solicitudes:', error);
-            return [];
-        })
+        cargarUsuariosPorId('las solicitudes')
     ]);
-    const usuariosPorId = new Map(
-        usuarios.map((usuario) => [
-            String(usuario.userId ?? usuario.id),
-            usuario.nombre
-        ])
-    );
     cantidadSolicitudes.textContent = proyectos.length;
     listaSolicitudes.innerHTML = '';
 
@@ -79,28 +102,13 @@ async function cargarSolicitudes() {
     }
 
     for (const proyecto of proyectos) {
-        const integrantes = [proyecto.integrantes, proyecto.colaboradores]
-            .find((lista) => Array.isArray(lista) && lista.length > 0) || [];
-        const textoIntegrantes = integrantes.length
-            ? integrantes.map((integrante) => {
-                if (typeof integrante === 'string') return textoSeguro(integrante);
-                const idCuenta = integrante.userId ?? integrante.idUsuario ?? integrante.id;
-                const nombreCuenta = integrante.nombre
-                    || integrante.username
-                    || (idCuenta !== undefined ? usuariosPorId.get(String(idCuenta)) : '');
-                const nombre = nombreCuenta || 'Cuenta no identificada';
-                const rol = integrante.rol ? ` (${integrante.rol})` : '';
-                return `${textoSeguro(nombre)}${textoSeguro(rol)}`;
-            }).join(', ')
-            : 'Sin integrantes';
         listaSolicitudes.innerHTML += `
             <article class="item-admin">
                 <h3>${textoSeguro(proyecto.nombre || proyecto.titulo || 'Proyecto')}</h3>
-                <p class="solicitud-integrantes">Integrantes: ${textoIntegrantes}</p>
+                <p class="solicitud-integrantes">Integrantes: ${crearTextoIntegrantes(proyecto, usuariosPorId)}</p>
                 <div class="acciones-item">
                     <button class="boton-admin" data-revisar="${textoSeguro(proyecto.id)}" data-decision="aprobar">✓</button>
                     <button class="boton-admin secundario" data-revisar="${textoSeguro(proyecto.id)}" data-decision="reprobar">×</button>
-                    <button class="boton-admin" data-publicar="${textoSeguro(proyecto.id)}">Aprobar y publicar</button>
                 </div>
                 <div class="acciones-previsualizacion">
                     <a class="boton-admin enlace-admin" href="/Pestaña-proyecto.html?id=${encodeURIComponent(String(proyecto.id))}&preview=admin" target="_blank" rel="noopener noreferrer">Previsualizar</a>
@@ -163,7 +171,10 @@ async function cargarComentarios() {
 }
 
 async function cargarAprobados() {
-    const proyectos = await pedirApi('/admin/proyectos/aprobados');
+    const [proyectos, usuariosPorId] = await Promise.all([
+        pedirApi('/admin/proyectos/aprobados'),
+        cargarUsuariosPorId('los proyectos aprobados')
+    ]);
     cantidadAprobados.textContent = proyectos.length;
     listaAprobados.innerHTML = '';
 
@@ -173,18 +184,15 @@ async function cargarAprobados() {
     }
 
     for (const proyecto of proyectos) {
-        const razonAprobacion = proyecto.revision?.razon
-            || proyecto.razon
-            || proyecto.comentario_admin
-            || proyecto.comentarioAdmin
-            || 'Sin razón registrada';
         listaAprobados.innerHTML += `
             <article class="item-admin">
                 <h3>${textoSeguro(proyecto.nombre || proyecto.titulo || 'Proyecto')}</h3>
-                <p>Razón de aprobación: ${textoSeguro(razonAprobacion)}</p>
-                <p>Está esperando publicación.</p>
+                <p class="solicitud-integrantes">Integrantes: ${crearTextoIntegrantes(proyecto, usuariosPorId)}</p>
                 <div class="acciones-item">
                     <button class="boton-admin" data-publicar="${textoSeguro(proyecto.id)}">Publicar</button>
+                </div>
+                <div class="acciones-previsualizacion">
+                    <a class="boton-admin enlace-admin" href="/Pestaña-proyecto.html?id=${encodeURIComponent(String(proyecto.id))}&preview=admin" target="_blank" rel="noopener noreferrer">Previsualizar</a>
                 </div>
             </article>
         `;
@@ -244,20 +252,22 @@ document.addEventListener('click', (evento) => {
         abrirPopup(
             decision === 'aprobar' ? 'Aprobar proyecto' : 'Reprobar proyecto',
             decision === 'aprobar'
-                ? 'Ingresá la razón de aprobación.'
+                ? '¿Confirmás que querés aprobar este proyecto?'
                 : 'Podés dejar una razón para el administrador.',
-            `<textarea name="razon" placeholder="Razón" ${decision === 'aprobar' ? 'required' : ''}></textarea>`,
+            decision === 'aprobar'
+                ? ''
+                : '<textarea name="razon" placeholder="Razón"></textarea>',
             async (datos) => {
-                const razon = datos.razon?.trim() || '';
-                if (decision === 'aprobar' && !razon) {
-                    throw new Error('Ingresá una razón de aprobación.');
+                const datosDecision = { decision };
+                if (decision === 'reprobar') {
+                    datosDecision.razon = datos.razon?.trim() || '';
                 }
                 await pedirApi(`/admin/proyectos/${botonRevision.dataset.revisar}/revision`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ decision, razon })
+                    body: JSON.stringify(datosDecision)
                 });
-                await cargarSolicitudes();
+                window.location.reload();
             }
         );
         return;
@@ -286,25 +296,15 @@ document.addEventListener('click', (evento) => {
         const idProyecto = Number(botonPublicar.dataset.publicar);
         abrirPopup(
             'Publicar proyecto',
-            'Ingresá la razón de aprobación. Después, el proyecto se publicará.',
-            '<textarea name="razon" placeholder="Razón de aprobación" required></textarea>',
-            async (datos) => {
-                const razon = datos.razon?.trim() || '';
-                if (!razon) {
-                    throw new Error('Ingresá una razón de aprobación.');
-                }
-                await pedirApi(`/admin/proyectos/${idProyecto}/revision`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ decision: 'aprobar', razon })
-                });
+            '¿Confirmás que querés publicar este proyecto?',
+            '',
+            async () => {
                 await pedirApi('/admin/proyectos/publicar', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ ids: [idProyecto] })
                 });
-                await cargarSolicitudes();
-                await cargarAprobados();
+                window.location.reload();
             }
         );
         return;

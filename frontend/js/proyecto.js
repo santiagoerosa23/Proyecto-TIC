@@ -125,7 +125,10 @@ async function cargarVistaPreviaAdmin() {
 
 function mostrarProyecto(proyecto) {
   titulo.textContent = proyecto.titulo;
-  contenidoProyecto.innerHTML = proyecto.contenidoHtml;
+  const caja = document.createElement('div');
+  caja.className = 'contenido-publicado';
+  caja.innerHTML = proyecto.contenidoHtml || '';
+  contenidoProyecto.replaceChildren(caja);
 
   const colabs = proyecto.colaboradores ? proyecto.colaboradores : [];
   colaboradores.innerHTML = '';
