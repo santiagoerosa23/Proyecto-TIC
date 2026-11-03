@@ -257,18 +257,19 @@ function obtenerAvatarPorRol(rol) {
 
 function crearProyectoNoPublicado(proyecto) {
     const estado = (proyecto.estado || '').toLowerCase();
-    const esBorrador = estado.includes('borrador') || estado.includes('creado');
-    let textoEstado = 'EN REVISIÓN';
+    const revisionEnCurso = proyecto.revision?.revisando;
+    let textoEstado = 'PRIVADO';
 
-    if (estado.includes('borrador') || estado.includes('creado')) {
-        textoEstado = 'BORRADOR';
-    } else if (estado.includes('reprob') || estado.includes('rechaz')) {
+    if (estado.includes('reprob') || estado.includes('rechaz')) {
         textoEstado = 'REPROBADO';
     } else if (estado.includes('aprob')) {
         textoEstado = 'APROBADO';
+    } else if (revisionEnCurso === true || (revisionEnCurso !== false
+        && (estado.includes('revis') || estado.includes('pendient')))) {
+        textoEstado = 'EN REVISIÓN';
     }
 
-    const mensajeAdmin = !esBorrador && !estado.includes('aprob')
+    const mensajeAdmin = textoEstado !== 'PRIVADO' && textoEstado !== 'APROBADO'
         ? (proyecto.comentario_admin || proyecto.comentarioAdmin || '')
         : '';
 
@@ -282,28 +283,11 @@ function crearProyectoNoPublicado(proyecto) {
                 <div class="estado-no-publicado estado-${textoEstado.toLowerCase().replaceAll(' ', '-')}">
                     ${textoEstado}
                 </div>
-                <p>${textoDelEstado(textoEstado)}</p>
                 ${mensajeAdmin ? `<p class="mensaje-admin-proyecto">${mensajeAdmin}</p>` : ''}
             </div>
             <div class="flecha-no-publicado">↗</div>
         </a>
     `;
-}
-
-function textoDelEstado(estado) {
-    if (estado === 'BORRADOR') {
-        return 'Diseñá tu página y, cuando creas que la tenés lista, enviála a revisión.';
-    }
-
-    if (estado === 'REPROBADO') {
-        return 'Revisá los cambios indicados por el administrador y volvé a enviarlo.';
-    }
-
-    if (estado === 'APROBADO') {
-        return 'Este proyecto fue aprobado y está listo para publicarse.';
-    }
-
-    return 'Los profesores están revisando tu proyecto, esperá la devolución.';
 }
 
 cargarPerfil();

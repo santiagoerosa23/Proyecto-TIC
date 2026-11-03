@@ -1,4 +1,5 @@
 let idProyecto = new URLSearchParams(window.location.search).get('id');
+const esVistaPreviaAdmin = new URLSearchParams(window.location.search).get('preview') === 'admin';
 const VERSION_AVATARES = '2';
 const token = localStorage.getItem('token')
 
@@ -24,33 +25,103 @@ if (token) {
 
 }
 
+if (esVistaPreviaAdmin) {
+  document.querySelector('.caja-comentarios').hidden = true;
+  cargarVistaPreviaAdmin();
+} else {
+  fetch(`${API_BASE_URL}/proyectos/${idProyecto}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log('Proyecto cargado:', data);
+      if (data.error) {
+        window.location.href = '404.html';
+        return;
+      }
+      mostrarProyecto(data);
+      cargarDisenioPublicado();
+    })
+    .catch(error => {
+      console.error('Error al cargar el proyecto:', error);
+      titulo.textContent = 'No se pudo cargar el proyecto';
+    });
 
-fetch(`${API_BASE_URL}/proyectos/${idProyecto}`)
-  .then(response => response.json())
-  .then(data => {
-    console.log('Proyecto cargado:', data);
-    if (data.error) {
-      window.location.href = '404.html';
-      return;
+  fetch(`${API_BASE_URL}/proyectos/${idProyecto}/comentarios`)
+    .then(response => response.json())
+    .then(data => {
+      console.log('Comentarios cargados:', data);
+      mostrarComentarios(data);
+    })
+    .catch(error => {
+      console.error('Error al cargar los comentarios:', error);
+    });
+}
+
+async function cargarVistaPreviaAdmin() {
+  try {
+    if (!token) {
+      throw new Error('Iniciá sesión con una cuenta de administrador para ver la previsualización.');
     }
-    mostrarProyecto(data);
-    cargarDisenioPublicado();
-  })
-  .catch(error => {
-    console.error('Error al cargar el proyecto:', error);
-    titulo.textContent = 'No se pudo cargar el proyecto';
-  });
+    if (!idProyecto) {
+      throw new Error('No se indicó qué proyecto previsualizar.');
+    }
 
+    const respuestaPerfil = await fetch(`${API_BASE_URL}/perfil/yo`, {
+      cache: 'no-store',
+      headers: { Authorization: token }
+    });
+    if (!respuestaPerfil.ok) {
+      throw new Error('No se pudo verificar la cuenta de administrador.');
+    }
 
-fetch(`${API_BASE_URL}/proyectos/${idProyecto}/comentarios`)
-  .then(response => response.json())
-  .then(data => {
-    console.log('Comentarios cargados:', data);
-    mostrarComentarios(data);
-  })
-  .catch(error => {
-    console.error('Error al cargar los comentarios:', error);
-  });
+    const perfil = await respuestaPerfil.json();
+    if (perfil.admin !== true) {
+      throw new Error('Solo los administradores pueden previsualizar proyectos pendientes.');
+    }
+
+    const respuestaSolicitudes = await fetch(`${API_BASE_URL}/admin/proyectos/pendientes`, {
+      cache: 'no-store',
+      headers: { Authorization: token }
+    });
+    if (!respuestaSolicitudes.ok) {
+      throw new Error('No se pudieron cargar las solicitudes pendientes.');
+    }
+
+    const solicitudes = await respuestaSolicitudes.json();
+    const proyecto = solicitudes.find((item) => String(item.id) === String(idProyecto));
+    if (!proyecto) {
+      throw new Error('Este proyecto ya no está entre las solicitudes pendientes.');
+    }
+
+    mostrarProyecto({
+      ...proyecto,
+      titulo: proyecto.titulo || proyecto.nombre || 'Proyecto sin título',
+      colaboradores: proyecto.colaboradores || proyecto.integrantes || [],
+      contenidoHtml: ''
+    });
+
+    const respuestaArchivo = await fetch(`${API_BASE_URL}/proyectos/${encodeURIComponent(idProyecto)}/archivo`, {
+      cache: 'no-store',
+      headers: { Authorization: token }
+    });
+    if (!respuestaArchivo.ok) {
+      throw new Error('No se pudo acceder al diseño del proyecto para la previsualización.');
+    }
+
+    const documento = extraerContenidoArchivo(await respuestaArchivo.text());
+    const caja = document.createElement('div');
+    caja.className = 'contenido-publicado';
+    for (const datos of documento.elementos || []) {
+      const elemento = crearElementoPublicado(datos);
+      if (elemento) caja.appendChild(elemento);
+    }
+
+    contenidoProyecto.replaceChildren(caja);
+  } catch (error) {
+    console.error('Error al cargar la previsualización del proyecto:', error);
+    titulo.textContent = 'No se pudo cargar la previsualización';
+    contenidoProyecto.textContent = error.message;
+  }
+}
 
 function mostrarProyecto(proyecto) {
   titulo.textContent = proyecto.titulo;

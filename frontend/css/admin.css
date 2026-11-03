@@ -132,6 +132,11 @@ body {
     white-space: nowrap;
 }
 
+.item-admin .solicitud-integrantes {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
 .item-admin .proyecto-comentario {
     margin: 0 0 .25rem;
     font-size: .7rem;
@@ -152,9 +157,16 @@ body {
 
 .acciones-item {
     display: flex;
+    flex-wrap: wrap;
     justify-content: flex-end;
     gap: .35rem;
     margin-top: .5rem;
+}
+
+.acciones-previsualizacion {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: .4rem;
 }
 
 .boton-admin {
@@ -170,6 +182,16 @@ body {
 
 .boton-admin:hover {
     filter: brightness(1.15);
+}
+
+.boton-admin.enlace-admin {
+    display: inline-flex;
+    align-items: center;
+    padding: .3rem .6rem;
+    border: 1px solid #74658f;
+    background: transparent;
+    color: #c9bfdc;
+    text-decoration: none;
 }
 
 .boton-admin.secundario {
