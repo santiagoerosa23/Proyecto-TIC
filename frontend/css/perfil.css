@@ -72,13 +72,16 @@ body {
 .chip-admin {
     display: inline-flex;
     align-items: center;
-    padding: .25rem .55rem;
+    padding: .7rem;
     border-radius: 999rem;
     background-color: #BF0F8C;
     color: #FFFFFF;
-    font-size: .65rem;
+    font-size: .9rem;
     font-weight: bold;
     letter-spacing: .04em;
+    height: 2rem;
+    width: 9.5rem;
+    margin-left: 1rem;
 }
 
 .descripcion {
@@ -302,11 +305,11 @@ footer {
     position: relative;
     display: flex;
     align-items: center;
-    min-height: 3.625rem;
+    min-height: 3.5rem;
     overflow: hidden;
     color: white;
     background-color: #050509;
-    border-radius: .4375rem;
+    border-radius: .4rem;
     text-decoration: none;
 }
 

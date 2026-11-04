@@ -996,7 +996,7 @@ async function ejecutarAccionPendiente() {
     } else if (accionPendiente === "miniatura") {
         const archivo = document.getElementById("archivoMiniatura").files[0];
         if (!archivo) {
-            alert("Seleccioná una miniatura.");
+            //alert("Seleccioná una miniatura.");
             return;
         }
 
@@ -1013,7 +1013,6 @@ async function ejecutarAccionPendiente() {
         }
 
         miniaturaProyecto = archivo.name;
-        alert("Miniatura guardada.");
     }
 }
 
