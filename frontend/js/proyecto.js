@@ -131,13 +131,28 @@ function mostrarProyecto(proyecto) {
   contenidoProyecto.replaceChildren(caja);
 
   const colabs = proyecto.colaboradores ? proyecto.colaboradores : [];
-  colaboradores.innerHTML = '';
-  colabs.forEach(colab => {
-    colaboradores.innerHTML += `
-    <div class="perfil">
-      <img src="/Assets/${obtenerAvatarPorRol(colab.rol)}?v=${VERSION_AVATARES}" alt="Perfil de ${colab.alias}" class="perfil-img" title="${colab.rol}: ${colab.alias}">
-    </div>
-    `;
+  colaboradores.replaceChildren();
+  colabs.forEach((colab) => {
+    const alias = colab.alias || 'Colaborador';
+    const rol = colab.rol || 'Sin rol';
+    const perfil = document.createElement('div');
+    perfil.className = 'colaborador-rol';
+    perfil.setAttribute('aria-label', `${rol}: ${alias}`);
+
+    const avatar = document.createElement('div');
+    avatar.className = 'perfil';
+    const imagen = document.createElement('img');
+    imagen.src = `/Assets/${obtenerAvatarPorRol(rol)}?v=${VERSION_AVATARES}`;
+    imagen.alt = `Perfil de ${alias}`;
+    imagen.className = 'perfil-img';
+    avatar.appendChild(imagen);
+
+    const etiquetaAlias = document.createElement('span');
+    etiquetaAlias.className = 'alias-rol';
+    etiquetaAlias.textContent = alias;
+
+    perfil.append(avatar, etiquetaAlias);
+    colaboradores.appendChild(perfil);
   });
 }
 
@@ -269,7 +284,7 @@ function crearElementoPublicado(datos) {
 
 function mostrarComentarios(lista) {
   if (lista.length === 0) {
-    listaComentarios.innerHTML = '<p class="texto">Todavía no hay comentarios aprobados.</p>';
+    listaComentarios.innerHTML = '<p class="texto">Todavía no hay comentarios.</p>';
     return;
   }
   listaComentarios.innerHTML = '';

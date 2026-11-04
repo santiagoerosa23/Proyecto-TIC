@@ -122,19 +122,26 @@ async function cargarComentarios() {
     const comentarios = await pedirApi('/admin/comentarios');
     const pendientes = comentarios.filter(comentario => !comentario.aprobado);
     let proyectosPorId = new Map();
+    let mailsPorId = new Map();
     try {
-        const proyectosPublicos = await fetch(`${API_BASE_URL}/proyectos/publicos`, { cache: 'no-store' })
-            .then((respuesta) => {
-                if (!respuesta.ok) {
-                    throw new Error(`No se pudieron cargar los proyectos públicos (${respuesta.status}).`);
-                }
-                return respuesta.json();
-            });
-        proyectosPorId = new Map(
-            proyectosPublicos.map((proyecto) => [String(proyecto.id), proyecto.titulo || proyecto.nombre])
-        );
+        const respuesta = await fetch(`${API_BASE_URL}/proyectos/publicos`, { cache: 'no-store' });
+        if (!respuesta.ok) {
+            throw new Error(`No se pudieron cargar los proyectos públicos (${respuesta.status}).`);
+        }
+        const proyectosPublicos = await respuesta.json();
+        proyectosPorId = new Map(proyectosPublicos.map((proyecto) => [
+            String(proyecto.id),
+            proyecto.titulo || proyecto.nombre
+        ]));
     } catch (error) {
         console.warn('No se pudieron cargar los nombres de proyectos para los comentarios:', error);
+    }
+
+    try {
+        const mails = await pedirApi('/admin/mails');
+        mailsPorId = new Map(mails.map((mail) => [String(mail.id), mail.mail]));
+    } catch (error) {
+        console.warn('No se pudieron cargar los mails para los comentarios:', error);
     }
 
     cantidadComentarios.textContent = pendientes.length;
@@ -153,8 +160,11 @@ async function cargarComentarios() {
         const aliasAnonimo = typeof comentario.usernameAnon === 'string' && comentario.usernameAnon.trim()
             ? comentario.usernameAnon.trim()
             : 'Anónimo';
+        const mailAnonimo = comentario.mail
+            || mailsPorId.get(String(comentario.userId))
+            || '';
         const autorComentario = comentario.anonimo
-            ? `${aliasAnonimo} (anónimo)`
+            ? mailAnonimo ? `${aliasAnonimo} (${mailAnonimo})` : aliasAnonimo
             : aliasAnonimo === 'Anónimo' ? 'Usuario' : aliasAnonimo;
         listaComentarios.innerHTML += `
             <article class="item-admin">
